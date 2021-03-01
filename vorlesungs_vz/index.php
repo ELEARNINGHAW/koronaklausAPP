@@ -7,8 +7,6 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Pragma: no-cache");
 header("Cache-Control: post-check=0, pre-check=0", false);
 
-setTxt(); echo $_SESSION[ 'txt' ][ 'head' ];
-
 #deb($_SESSION);
 
 require_once( "../inc/db.class.php" );
@@ -16,12 +14,17 @@ $db                     = new DB();
 $_SESSION[ 'type' ]     = 'EMIL';
 #include ("checkreferer.php");  ## TODO CHECKER!!
 
+
+
 if ( isset( $_GET[ 'un' ] ) )  # Nutzerdaten von moodle übernehmen
 {
   $_SESSION[ 'user' ] = decodeUserData( $_GET );
   $u = $db -> getDozentByUserID( $_SESSION[ 'user' ][ 'userID' ] );
   $_SESSION[ 'user' ][ 'abk' ] = $u[ 'abk' ];
+  $db -> setKoordinator(  $_SESSION[ 'user' ] );
 }
+
+
 
 if(  $_SESSION[ 'type' ] == 'EMIL' )
 {
@@ -31,7 +34,7 @@ if(  $_SESSION[ 'type' ] == 'EMIL' )
     $_SESSION[ 'user' ][ 'abk' ] = $_GET [ 'abk' ];
     $_SESSION[ 'GET'  ] = $_GET;
  
-    $db -> updateDozent( $_SESSION[ 'user' ] );
+    $db -> updateDozent_abk( $_SESSION[ 'user' ] );
 
     #$_SESSION[ 'user' ] = $db -> getDozentByKurzel( $_SESSION[ 'GET' ]  [ 'abk' ] );
     unset($_GET [ 'abk' ]);
@@ -67,6 +70,7 @@ if(  $_SESSION[ 'type' ] == 'STALONE' )
   unset ($_SESSION['GET']);
 }
 
+setTxt(); echo $_SESSION[ 'txt' ][ 'head' ];
 
 if ($_SESSION['user']['showContent'] == true )
 {
@@ -113,8 +117,8 @@ function checkRequiredValues()
   */
     $_SESSION[ 'user' ][ 'showContent' ] = true;
  
-    if (empty(!$_GET))
-    header("Location:".$_SERVER[ 'SCRIPT_NAME' ]."");
+    if ( empty( !$_GET ) )
+    header("Location:".$_SERVER[ 'SCRIPT_NAME' ]."" );
   }
 }
 
@@ -188,6 +192,5 @@ $_SESSION[ 'txt' ][ 'head' ] = "<html>
 <link rel=\"stylesheet\" type=\"text/css\" href=\"lib/style.css\" />
 <title>Koronaklaus</title>
 </head><body>";
-
 
 }

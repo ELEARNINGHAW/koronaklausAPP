@@ -37,7 +37,7 @@ if (isset($_SESSION["r"]))
 	$lists			 = $DB->getAllLists();									//- Assoc Array mit allen Professoren, Studiengänen, Veranstaltungen
 
 	$vl_verzeichnis 	 = $DB->getVorlesungsVerzeichnis( );						// -- Struktur und Werte der DB ausgeben ----------
-  deb($vl_verzeichnis);
+ # deb($vl_verzeichnis);
   $html  		 = "" ;
 	$html 			.= "<h1>Vorlesungs VZ</h1>";
 	$html 			.= "\n\r<form name='vlvz' action='#'>";

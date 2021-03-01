@@ -326,10 +326,32 @@ function getAllDozent()
     }
     return $ret;
   }
-
+  
+  
+  function setKoordinator(  $name )
+  {
+    /*
+    $name[ 'lastname'  ] = trim ( $name[ 0 ] ); # lastname
+    $name[ 'firstname' ] = trim ( $name[ 1 ] ); # firstname
+    $name[ 'abk'       ] = trim ( $name[ 1 ]  ); # abk
+    $name[ 'new'       ] = trim ( $new );
+    */
+   # deb( $name, 1 );
+    #if ( $name[ 'abk' ] != '' AND   $name[ 'lastname' ] != '' )
+    {
+      $sql_1 = "INSERT INTO `dozenten` (`ID`, `userID`, `abk`, `lastname`, `firstname`, `email`) VALUES ( NULL , '". $name[ 'userID' ] . "' , '". $name[ 'abk' ] . "' , '". $name[ 'lastname' ] . "' , '". $name[ 'firstname' ] . "' , '". $name[ 'email' ] ."')";
+    #  deb($sql_1,1); die();
+      #  $sql_2 = "INSERT INTO `dozenten` ( `abk`) VALUES ( '". $name[ 'abk' ] . "')";
+        $result_1 = mysqli_query($this->conn, $sql_1);
+    }
+  }
+ 
+  
+  
+  
 function updateDozent($user)
 {
- 
+
   if( ( isset($_SESSION[ 'user' ][ 'email'   ]) AND $_SESSION[ 'user' ][ 'email'  ]) != '' )
   {
     $sql_1 = "UPDATE `dozenten`
@@ -337,7 +359,7 @@ function updateDozent($user)
          WHERE `dozenten` . `abk`   = '". $user['abk']  ."'";
      $result_1 = mysqli_query(  $this->conn, $sql_1  );
   }
-  
+ 
   if( ( isset($_SESSION[ 'user' ][ 'userID'  ]) AND $_SESSION[ 'user' ][ 'userID' ]) != '' )
   {
     $sql_2 = "UPDATE `dozenten`
@@ -345,16 +367,19 @@ function updateDozent($user)
          WHERE `dozenten` . `abk`   = '". $user['abk']  ."'";
     $result_2 = mysqli_query(  $this->conn, $sql_2  );
   }
- # deb($user);
+ 
+  # deb($user);
 }
-/*
-function update1Dozent($user, $usr)
+
+function updateDozent_abk($user)
 {
-  $sql_1 = "UPDATE `dozenten` SET `userID` = '". $usr['uusername'] ."', `email` = '". $usr['uemail'] ."' WHERE `dozenten` . `abk` = '". $user['abk']  ."'";
+  $sql_1 = "UPDATE `dozenten`
+
+           SET `dozenten` .  `abk`   = '". $user[ 'abk'   ] ."'
+         WHERE `dozenten` .  `email` = '". $user[ 'email' ] ."'";
   $result_1 = mysqli_query(  $this->conn, $sql_1  );
-  return ($usr['uusername'] );
 }
-*/
+/**/
 
 
 function update2Dozent($user, $usr)
@@ -909,7 +934,7 @@ function setdozent( $id, $val )
     {
       $abk      =  " `dozabk`   = '" . $name[ 'abk'       ]  . "'";
       $lastname =  " `lastname` = '". $name[ 'lastname' ] ."'";
-      if ($name[ 'firstname' ] != '' )
+      if ( $name[ 'firstname' ] != '' )
       {
         $firstname =  ", `firstname` = '". $name[ 'firstname' ] ."'";
       }

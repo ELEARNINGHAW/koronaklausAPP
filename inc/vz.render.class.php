@@ -277,7 +277,7 @@ class Render
     $tab .= "
 <div style=\"position:fixed ; top:50px; right:5px;\">
 
-<table width=\"295\" cellpadding=\"2\" cellspacing=\"0\" style=\"cursor:pointer;\">
+<table width=\"295\" cellpadding=\"2\" cellspacing=\"0\" class=\"roompicker\">
 
 <tr><td>              EI </td><td> Raum      </td><td>                         Pers </td><td>                                    CL </td><td>                          LW </td><td>                      FL </td><td>                      EI   </td></tr>
 <tr><td rowspan=\"9\">  UL </td><td> S4.07     </td><td id=\"S407\"  >               21 </td><td id=\"C08\">                           21 </td><td ID=\"grun1\"   rowspan=\"3\"> 62 </td><td ID=\"ULS\" rowspan=\"4\"> 84  </td><td ID=\"UL\" rowspan=\"9\"> 212  </td></tr>

@@ -26,7 +26,7 @@ table.tablesorter thead tr .headerSortDown {
 
 tr
 {
-   height:50px;
+   height:30px;
    table-layout: fixed;
 }
 
@@ -48,6 +48,20 @@ td, th
   padding: 2px;
   margin:0px;
 }
+
+.roompicker
+{
+cursor:pointer;
+}
+
+
+
+
+.roompicker th
+{
+    height:30px;
+}
+
 
 
 .c0  { width: 75px ; }

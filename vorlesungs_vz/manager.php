@@ -27,13 +27,13 @@ foreach ($allProf as $prof)
  
   }
   else{
-    deb(   "################"  );
+  #  deb(   "################"  );
   # deb(   $prof   );
   #  deb(    $vorl   );
     $vorl[0]['uusername'] = '###'.$prof;
     $vorl[0]['ulastname'] = $prof;
   }
-   deb(    $vorl[0] );
+  # deb(    $vorl[0] );
   $db->setProf($vorl[0]);
 
 }
