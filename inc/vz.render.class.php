@@ -275,7 +275,7 @@ class Render
     $tab .="</form>\r\n";
 
     $tab .= "
-<div style=\"position:fixed ; top:50px; right:5px;\">
+<div style=\"position:fixed ; top:0px; right:5px;\">
 
 <table width=\"295\" cellpadding=\"2\" cellspacing=\"0\" class=\"roompicker\">
 
