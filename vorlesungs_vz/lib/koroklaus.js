@@ -3,7 +3,7 @@ var curSlot = "";
 
 
 function updIt0( rID, state = null, save = true , color = 0  )
-{ // console.log('rID: ' + rID + ' state: ' + state );
+{  console.log('rID: ' + rID + ' state: ' + state );
   if (state == null) {   R[rID].state = ++R[rID].state % 2;  }
   else               {   R[rID].state = state;  }
 
@@ -111,7 +111,7 @@ function setIt( x, STATE , save = false , color = 0 )
       for ( j = 0; j < 3; j++ ) { for ( i = 0; i < 1000000; i++ ); };
       $.ajax({  type: "get",  url: "ajax.php?action=changeRaum&id=" + curKL + "&val=" + anz });
 
-      $( "#S" + curKL ).val( getPers( $( "#KL" + curKL ).val( ) ) );
+      $( "#SX" + curKL ).val( getPers( $( "#KL" + curKL ).val( ) ) );
       updateRaumListe();
     }
 
@@ -150,7 +150,7 @@ function updateAnote( kID, val )
 
 function ID2name(kID)
 {
-  $('#S' + kID ).val(getPers($('#KL' + kID ).val()));
+  $('#SX' + kID ).val(getPers($('#KL' + kID ).val()));
   str2    = '';
   rIDList = $( '#KL' + kID ).val();
 
@@ -165,7 +165,7 @@ function ID2name(kID)
 function deactivateKL(klausID)
 {
   $('#sav'+ klausID ).removeClass( "grey3" );
-  $('#S'  + klausID ).removeClass( "ram1"  );
+  $('#SX'  + klausID ).removeClass( "ram1"  );
 }
 
 function setCurKL( kl, sl )
@@ -175,7 +175,7 @@ function setCurKL( kl, sl )
   for ( const [ key, value ] of Object.entries( SLO ) )  { value.KL.forEach( deactivateKL ) ; }
 
   $( '#sav' + kl + '' ).addClass( "grey3" )                                             // Aktive Klausurzeile markieren
-  $( '#S'   + kl + '' ).addClass( "ram1"  )
+  $( '#SX'   + kl + '' ).addClass( "ram1"  )
 
   setCurSlot(  sl, kl );
 

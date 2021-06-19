@@ -461,7 +461,7 @@ function getAnzStudisInVeranstaltung( $veranstaltungID )
     else             { $whereclausel = '';                   }
     $sql_1 = "SELECT `vl_verzeichnis`.ID as ID, `lehrveranstaltungen`.`name` as LVA, dozabk,`dozenten`.`lastname` as dozname, LVAabk, semSG, date , time, WEEKDAY(`date`) as WD, DAYOFYEAR(`date`) as DOY, DAYNAME(`date`) as DN, HOUR(`time`) as H, anzstudi1 , anzstudi2, bemerkung, raum,  save, studr, checked   FROM `vl_verzeichnis`,`dozenten`,  `lehrveranstaltungen` WHERE `lehrveranstaltungen`.`abk` = `vl_verzeichnis`.`LVAabk` AND `dozenten`.`abk` =  `vl_verzeichnis`.`dozabk` " . $whereclausel ." ORDER BY date ASC, H ASC, dozname DESC ";
 
-    $result_1 =  mysqli_query (  $this->conn, $sql_1  );
+    $result_1 =  mysqli_query (  $this -> conn, $sql_1  );
     
     if ( $result_1 )
     {
@@ -472,7 +472,7 @@ function getAnzStudisInVeranstaltung( $veranstaltungID )
         if ($row[ 'H'   ] <= 12 ) { $row[ 'H'   ] = '1' ;}
         else                      { $row[ 'H'   ] = '2' ;}
         
-        $extKlausurplan[$row['date']][$row['H']][$row['ID']] = $row;
+        $extKlausurplan[ $row[ 'date' ] ][ $row[ 'H' ] ][ $row[ 'ID' ] ] = $row;
       }
     }
     return $extKlausurplan;

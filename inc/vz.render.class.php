@@ -135,7 +135,7 @@ class Render
   }
  
   
-  function renderExtKlausurListe( $vorlesungsliste ,  $changeable = false,  $db )
+  function renderExtKlausurListe( $vorlesungsliste ,    $db, $changeable = false )
   {
     $i = 0;
     $tab   = null;
@@ -209,20 +209,19 @@ class Render
         #####  $JSisObserver .= "let observer".$i."  = new IntersectionObserver( ISOhandler, options ); observer".$i.".observe(document.getElementById( \"SL".$slotName."\"))\r\n";
         ##########################
           $tabH  = "<div   id=\"".$SLID."\" class='slot'><div class='headline widget'>
-                    <input class=\"LVA\"  id=\"".$SLOKID."\"        style='width:150px; height: 40px;'  type=\"button\" value=\"\"    />\r\n";
-          $tabH .= "<input class=\"LVA\"  id=\"button".$SLOKID."\"  style='width:200px; height: 40px;'  type=\"button\" value=\"" . $WT . " " . $SLdate . "\"     onclick=\"setCurSlot( '".$SLID."' ); \"  /> </div>\r\n";
+                    <input class=\"LVA\"  id=\"".$SLOKID."\"        style='width:175px; height: 40px;'  type=\"button\" value=\"\"    />\r\n";
+          $tabH .= "<input class=\"LVA\"  id=\"button".$SLOKID."\"  style='width:250px; height: 40px;'  type=\"button\" value=\"" . $WT . " " . $SLdate . "\"     onclick=\"setCurSlot( '".$SLID."' ); \"  /> </div>\r\n";
 
           $tabH .= "<table  class=\"belegTabelle\" style=\"width: 100%\">\r\n";
           $tabH .= "<tr class=\"t1\">";
-          if ($changeable) { $tabH .= "<td  class=\"b1_0 , header\">Zeit                                   </td>\r\n "; }
-          if ($changeable) { $tabH .= "<td  class=\"b1_1 , header\">Lehrveranstaltung / Dozierende / SemSG </td>\r\n "; }
-          if ($changeable) { $tabH .= "<td  class=\"b1_2 , header\">Studis Anz                             </td>\r\n "; }
-          if ($changeable) { $tabH .= "<td  class=\"b1_3 , header\">Bemerkung                              </td>\r\n "; }
-          if ($changeable) { $tabH .= "<td  class=\"b1_4 , header\">                                       </td>\r\n "; }
-          if ($changeable) { $tabH .= "<td  class=\"b1_5 , header\">Raum                                   </td>\r\n "; }
-          if ($changeable) { $tabH .= "<td  class=\"b1_6 , header\">IST                                    </td>\r\n "; }
-          if ($changeable) { $tabH .= "<td  class=\"b1_7 , header\">SOLL                                   </td>\r\n "; }
-
+          if ($changeable) { $tabH .= "<td  class=\"b1_0  header\">Zeit                                   </td>\r\n "; }
+          if ($changeable) { $tabH .= "<td  class=\"b1_1  header\">Lehrveranstaltung / Dozierende / SemSG </td>\r\n "; }
+          if ($changeable) { $tabH .= "<td  class=\"b1_2  header\">Studis Anz                             </td>\r\n "; }
+          if ($changeable) { $tabH .= "<td  class=\"b1_3  header\">Bemerkung                              </td>\r\n "; }
+          if ($changeable) { $tabH .= "<td  class=\"b1_4  header\">                                       </td>\r\n "; }
+          if ($changeable) { $tabH .= "<td  class=\"b1_5  header\">Raum                                   </td>\r\n "; }
+          if ($changeable) { $tabH .= "<td  class=\"b1_6  header\">IST                                    </td>\r\n "; }
+          if ($changeable) { $tabH .= "<td  class=\"b1_7  header\">SOLL                                   </td>\r\n "; }
           $tabH .= "</tr>\r\n \r\n";
           $tab .= $tabH;
           foreach ( $vor as $kl )
@@ -237,12 +236,12 @@ class Render
             $tab .= "<tr id=\"row_" .$kl[ 'ID'   ]."\">\r\n";
             $tab .= "<td class = 'b1_0'  $bg1><div class=\"ui-widget\"><input  $ed  class=\"LVA\"  id=\"time"      .$kl[ 'ID'        ]. "\"   type=\"text\"   value=\"" .$kl[ 'time'       ] . "\"  step=\"1800\"  min=\"6:00\" max=\"0:00\"     /></div></td>\r\n";
             $tab .= "<td class = 'b1_1' >     <div class=\"ui-widget\"                               ><input  $ed  class=\"LVA\"  id=\"LVA"            .$kl[ 'dozname'   ] . " / "      .$kl[ 'ID' ]. "\"   type=\"text\"   value=\"ID:".$kl[ 'ID' ]." /  "  .$kl[ 'dozname'   ] . " / " .$kl[ 'LVA'        ] .  " / " .$kl[ 'semSG'  ] . "\"  list=\"LVA\"                                                                         /></div></td>\r\n";
-            $tab .= "<td class = 'b1_2' >     <div class=\"ui-widget\"                               ><input       class=\"LVA\"  id=\"anzstudi"       .$kl[ 'ID' ]. "_1\" type=\"text\" value=\"" .$kl[ 'anzstudi1'  ] . " / " .$kl[ 'anzstudi2'  ] .  "\"  min=\"0\" max=\"200\"                                                               /></div></td>\r\n";
+            $tab .= "<td class = 'b1_2' >     <div class=\"ui-widget\"                               ><input       class=\"LVB\"  id=\"anzstudi"       .$kl[ 'ID' ]. "_1\" type=\"text\" value=\"" .$kl[ 'anzstudi1'  ] . " / " .$kl[ 'anzstudi2'  ] .  "\"  min=\"0\" max=\"200\"                                                               /></div></td>\r\n";
             $tab .= "<td class = 'b1_3' >     <div class=\"ui-widget\"                               ><textarea    class=\"LVA ta2\"  id=\"bemerkung"  .$kl[ 'ID' ]. "\"   name=\"bemerkung"         .$kl[ 'ID'         ] . "\" wrap=\"on\"   rows=\"3\"   cols=\"15\"  >" .$kl[ 'bemerkung'      ] . "</textarea></div></td>\r\n";
-            $tab .= "<td class = 'b1_4' >     <div class=\"ui-widget\" style='display: none;'        ><textarea    class=\"LVA ta1\"  id=\"KL"         .$kl[ 'ID' ]. "\"   name=\"KL".$kl[ 'ID' ]."\"  rows=\"3\" cols=\"10\"  wrap=\"on\" >" .$kl[ 'raum'  ] . "</textarea></div></td>\r\n";
-            $tab .= "<td class = 'b1_5' >     <div class=\"ui-widget\"                               ><textarea    class=\"LVA ta2\"  id=\"sav"        .$kl[ 'ID' ]. "\"   name=\"sav".$kl[ 'ID' ]."\"  rows=\"3\" cols=\"10\"  wrap=\"on\" >" .$kl[ 'save'  ] . "</textarea></div></td>\r\n";
-            $tab .= "<td class = 'b1_6' >     <div class=\"ui-widget\"                               ><input       class=\"LVA\"  id=\"S"              .$kl[ 'ID' ]. "\"   type=\"text\" value=\"" .$kl[ 'studr'  ] . "\"  min=\"0\" max=\"200\"                                                               /></div></td>\r\n";
-            $tab .= "<td class = 'b1_7'  id=\"b" .$kl[ 'ID' ]. "\"   ><div class=\"ui-widget\"       ><input       class=\"LVA\"  id=\"button"    .$kl[ 'ID' ]. "\"   style='width:100%; height: 60px;'    type=\"button\" value=\"".$kl[ 'anzstudi1'  ] ."\"     onclick=\"setCurKL( ".$kl[ 'ID' ].", '".$SLID."' ); \"  /></div></td>\r\n";
+            $tab .= "<td class = 'b1_4' >     <div class=\"ui-widget\" style='display: none;'        ><textarea    class=\"LVA ta1\"  id=\"KL"         .$kl[ 'ID' ]. "\"   name=\"KL".$kl[ 'ID' ]."\"  rows=\"3\" cols=\"6\"  wrap=\"on\" >" .$kl[ 'raum'  ] . "</textarea></div></td>\r\n";
+            $tab .= "<td class = 'b1_5' >     <div class=\"ui-widget\"                               ><textarea    class=\"LVA ta2\"  id=\"sav"        .$kl[ 'ID' ]. "\"   name=\"sav".$kl[ 'ID' ]."\"  rows=\"3\" cols=\"6\"  wrap=\"on\" >" .$kl[ 'save'  ] . "</textarea></div></td>\r\n";
+            $tab .= "<td class = 'b1_6' >     <div class=\"ui-widget\"                               ><input       class=\"LVB\"  id=\"SX"              .$kl[ 'ID' ]. "\"   type=\"text\" value=\"" .$kl[ 'studr'  ] . "\"  min=\"0\" max=\"200\"                                                               /></div></td>\r\n";
+            $tab .= "<td class = 'b1_7'  id=\"b" .$kl[ 'ID' ]. "\"   ><div class=\"ui-widget\"       ><input       class=\"LVB\"  id=\"button"    .$kl[ 'ID' ]. "\"   style='width:100%; height: 60px;'    type=\"button\" value=\"".$kl[ 'anzstudi1'  ] ."\"     onclick=\"setCurKL( ".$kl[ 'ID' ].", '".$SLID."' ); \"  /></div></td>\r\n";
             $tab .= "</tr>\r\n";
   
             $ajax1 .= '$("#bemerkung' .$kl[ "ID" ].'" ).on("change",function() { $("#bemerkung' .$kl[ "ID" ].'" ).toggle( "fade" ); $("#bemerkung' .$kl[ "ID" ].'" ).toggle( "fade" ); $.ajax({ type: "post", data: { val : this.value }, url: "ajax.php?action=changeanote&id=' .$kl[ 'ID' ]. '&val=" + this.value } ); } );'."\r\n";
@@ -276,40 +275,233 @@ class Render
 
     $tab .= "
 <div style=\"position:fixed ; top:0px; right:5px;\">
-
 <table width=\"295\" cellpadding=\"2\" cellspacing=\"0\" class=\"roompicker\">
+  <tr>
+    <td class='pickTD' width=\"34\"> EI </td>
+    <td class='pickTD' width=\"82\"> Raum </td>
+    <td class='pickTD' width=\"32\"> Pers </td>
+    <td class='pickTD' width=\"23\"> CL </td>
+    <td class='pickTD' width=\"27\"> LW </td>
+    <td class='pickTD' width=\"32\"> FL </td>
+    <td class='pickTD' width=\"35\"> EI </td>
+  </tr>
+  <tr>
+    <td class='pickTD' rowspan=\"15\"> UL </td>
+    <td class='pickTD' class='pickTD'> S4.07 </td>
+    <td class='pickTD' id=\"S407\"  > 21 </td>
+    <td class='pickTD' id=\"C08\"> 21 </td>
+    <td class='pickTD' id=\"grun1\"   rowspan=\"5\"> 80 </td>
+    <td class='pickTD' id=\"ULS\" rowspan=\"6\"> 102 </td>
+    <td class='pickTD' id=\"UL\" rowspan=\"15\"> 301</td>
+  </tr>
+  <tr>
+    <td class='pickTD' height=\"20\"> S4.05-06 </td>
+    <td class='pickTD' id=\"S40506\" class=\"grey1\"> 19 </td>
+    <td class='pickTD' id=\"C07\" class=\"grey1\" > 19 </td>
+  </tr>
+  <tr>
+    <td class='pickTD'> S3.08 </td>
+    <td class='pickTD' id=\"S308\"  > 22 </td>
+    <td class='pickTD' id=\"C06\"> 22 </td>
+  </tr>
+  <tr>
+    <td class='pickTD'> S2.09 </td>
+    <td class='pickTD' id=\"S209\"  > 9 </td>
+    <td class='pickTD' id=\"C21\"> 9 </td>
+  </tr>
+  <tr>
+    <td class='pickTD'> S2.30 </td>
+    <td class='pickTD' id=\"S230\"> 9 </td>
+    <td class='pickTD' id=\"C20\"> 9 </td>
+  </tr>
+  <tr>
+    <td class='pickTD' height=\"25\"> S4.04 </td>
+    <td class='pickTD' id=\"S404\"   class=\"grey1\"> 22 </td>
+    <td class='pickTD' id=\"C05\" class=\"grey1\"> 22 </td>
+    <td class='pickTD' id=\"lila\"    > 22 </td>
+  </tr>
+  <tr>
+    <td class='pickTD'> N4.10-11 </td>
+    <td class='pickTD' id=\"N41011\"> 21 </td>
+    <td class='pickTD' id=\"C12\"      rowspan=\"2\"> 38 </td>
+    <td class='pickTD' id=\"rot1\"     rowspan=\"7\"> 85</td>
+    <td class='pickTD' id=\"ULN\" rowspan=\"9\"> 199</td>
+  </tr>
 
-<tr><td>              EI </td><td> Raum      </td><td>                         Pers </td><td>                                    CL </td><td>                          LW </td><td>                      FL </td><td>                      EI   </td></tr>
-<tr><td rowspan=\"9\">  UL </td><td> S4.07     </td><td id=\"S407\"  >               21 </td><td id=\"C08\">                           21 </td><td ID=\"grun1\"   rowspan=\"3\"> 62 </td><td ID=\"ULS\" rowspan=\"4\"> 84  </td><td ID=\"UL\" rowspan=\"9\"> 212  </td></tr>
-<tr>                          <td> S4.05-06  </td><td id=\"S40506\" class=\"grey1\"> 19 </td><td id=\"C07\" class=\"grey1\" >            19 </td>                                                                                                            </tr>
-<tr>                          <td> S3.08     </td><td id=\"S308\"  >               22 </td><td id=\"C06\">                           22 </td>                                                                                                            </tr>
-<tr>                          <td> S4.04     </td><td id=\"S404\"   class=\"grey1\"> 22 </td><td id=\"C05\" class=\"grey1\">             22 </td><td ID=\"lila\"    >            22 </td>                                                                      </tr>
-<tr>                          <td> N4.10-11  </td><td id=\"N41011\">               21 </td><td id=\"C12\"               rowspan=\"2\"> 38 </td><td ID=\"rot1\"     rowspan=\"4\"> 54 </td><td ID=\"ULN\" rowspan=\"5\"> 128 </td>                                  </tr>
-<tr>                          <td> N4.12     </td><td id=\"N412\"  >               17 </td>                                                                                                                                                            </tr>
-<tr>                          <td class='bg3'>(L) N2.27 </td><td id=\"N227\"   class=\"grey1\">  7 </td><td id=\"C18\" class=\"grey1\" rowspan=\"2\"> 16 </td>                                                                                                            </tr>
-<tr>                          <td class='bg3'>(L) N2.25 </td><td id=\"N225\"   class=\"grey1\">  9 </td>                                                                                                                                                            </tr>
-<tr>                          <td> Foyer<br>ges.</td><td id=\"FoyG\"  >               74 </td><td id=\"C16\">                           74 </td><td ID=\"blau\"    >            74 </td>                                                                      </tr>
-<tr><td rowspan=\"12\"> HO </td><td> S4.02      </td><td id=\"S402\"   class=\"grey1\">  9 </td><td id=\"C02\" class=\"grey1\" rowspan=\"2\"> 30 </td><td ID=\"grun2\"   rowspan=\"4\"> 60 </td><td ID=\"HOS\" rowspan=\"9\"> 115 </td><td ID=\"HO\" rowspan=\"12\"> 157 </td></tr>
-<tr>                          <td> S4.01     </td><td id=\"S401\"   class=\"grey1\"> 21 </td>                                                                                                                                                            </tr>
-<tr>                          <td> S3.02     </td><td id=\"S302\"  >                9 </td><td id=\"C01\"               rowspan=\"2\"> 30 </td>                                                                                                            </tr>
-<tr>                          <td> S3.01     </td><td id=\"S301\"  >               21 </td>                                                                                                                                                            </tr>
-<tr>                          <td> S4.03     </td><td id=\"S403\"   class=\"grey1\">  9 </td><td id=\"C04\" class=\"grey1\" rowspan=\"2\"> 18 </td><td ID=\"orange\"  rowspan=\"5\"> 55 </td>                                                                       </tr>
-<tr>                          <td> S3.03     </td><td id=\"S303\"   class=\"grey1\">  9 </td>                                                                                                                                                            </tr>
-<tr>                          <td> 1.09      </td><td id=\"109\"   >                9 </td><td id=\"C03\"               rowspan=\"3\"> 37 </td>                                                                                                            </tr>
-<tr>                          <td> 1.08      </td><td id=\"108\"   >                8 </td>                                                                                                                                                            </tr>
-<tr>                          <td> 1.07 a-b  </td><td id=\"107ab\" >               20 </td>                                                                                                                                                            </tr>
-<tr>                          <td class='bg3'>(MP) 1.25      </td><td id=\"125\"    class=\"grey1\">  4 </td><td id=\"C13\" class=\"grey1\">              4 </td><td ID=\"rot2\"     >             4 </td><td ID=\"HON\" rowspan=\"3\">  42 </td>                                   </tr>
-<tr>                          <td> N4.09     </td><td id=\"N409\"  >               10 </td><td id=\"C11\">                           10 </td><td ID=\"schwarz\" rowspan=\"2\"> 38 </td>                                                                      </tr>
-<tr>                          <td> Foyer<br>Ost </td><td id=\"FoyO\"   class=\"grey1\"> 28 </td><td id=\"C14\" class=\"grey1\">             28 </td>                                                                                                            </tr>
-<tr><td rowspan=\"9\">  HW </td><td> N4.08     </td><td id=\"N408\"  >                9 </td><td id=\"C10\"               rowspan=\"2\"> 18 </td><td ID=\"gelb\"    rowspan=\"2\"> 18 </td><td ID=\"HWN\" rowspan=\"9\"> 125 </td><td ID=\"HW\" rowspan=\"9\"> 125 </td></tr>
-<tr>                          <td> N4.07     </td><td id=\"N407\"  >                9 </td>                                                                                                                                                            </tr>
-<tr>                          <td> N5.17     </td><td id=\"N517\"   class=\"grey1\"> 22 </td><td id=\"C09\" class=\"grey1\" rowspan=\"2\"> 31 </td><td ID=\"pink\"    rowspan=\"6\"> 62 </td>                                                                      </tr>
-<tr>                          <td> N4.06     </td><td id=\"N406\"   class=\"grey1\">  9 </td>                                                                                                                                                            </tr>
-<tr>                          <td class='bg3'>(RZ) N3.10     </td><td id=\"N310\"  >                7 </td><td id=\"C17\"               rowspan=\"4\"> 31 </td>                                                                                                            </tr>
-<tr>                          <td class='bg3'>(RZ) N2.19     </td><td id=\"N219\"  >                8 </td>                                                                                                                                                            </tr>
-<tr>                          <td class='bg3'>(RZ) N2.18     </td><td id=\"N218\"  >                8 </td>                                                                                                                                                            </tr>
-<tr>                          <td class='bg3'>(RZ) N2.15     </td><td id=\"N215\"  >                8 </td>                                                                                                                                                            </tr>
-<tr>                          <td >Foyer<br>Wes </td><td id=\"FoyW\"   class=\"grey1\"> 45 </td><td id=\"C15\" class=\"grey1\">             45 </td><td ID=\"grau\"    >            45</td>                                                                       </tr>
+  <tr>
+    <td class='pickTD'> N4.12 </td>
+    <td class='pickTD' id=\"N412\"  > 17 </td>
+  </tr>
+
+  <tr>
+    <td class='pickTD' class='bg3'>(L) N2.27 </td>
+    <td class='pickTD' id=\"N227\"   class=\"grey1\"> 7 </td>
+    <td class='pickTD' id=\"C18\" class=\"grey1\" rowspan=\"2\"> 16 </td>
+  </tr>
+
+  <tr>
+    <td class='pickTD' class='bg3'>(L) N2.25 </td>
+    <td class='pickTD' id=\"N225\"   class=\"grey1\"> 9 </td>
+  </tr>
+
+  <tr>
+    <td class='pickTD' class='bg1'>N2.24</td>
+    <td class='pickTD' id=\"N224\"   class=\"grey0\"> 19 </td>
+    <td class='pickTD' id=\"C22\" class=\"grey0\"> 19 </td>
+  </tr>
+
+  <tr>
+    <td class='pickTD' class='bg1'>N2.30 </td>
+    <td class='pickTD' id=\"N230\" class=\"grey1\"> 6 </td>
+    <td class='pickTD' id=\"C23\" class=\"grey1\"> 6 </td>
+  </tr>
+
+  <tr>
+    <td class='pickTD' class='bg1'>N2.05 </td>
+    <td class='pickTD' id=\"N205\"   class=\"grey0\"> 6 </td>
+    <td class='pickTD' id=\"C24\" class=\"grey0\"> 6 </td>
+  </tr>
+
+  <tr>
+    <td class='pickTD'> 0.43 </td>
+    <td class='pickTD' id=\"043\" class=\"grey1\" > 40 </td>
+    <td class='pickTD' id=\"C25\" class=\"grey1\"> 40  </td>
+    <td class='pickTD' id=\"ohne\" > 40 </td>
+  </tr>
+
+
+  <tr>
+    <td class='pickTD'> Foyer ges.</td>
+    <td class='pickTD' id=\"FoyG\"  > 74 </td>
+    <td class='pickTD' id=\"C16\"> 74 </td>
+    <td class='pickTD' id=\"blau\"    > 74 </td>
+  </tr>
+
+  <tr>
+    <td class='pickTD' rowspan=\"13\"> HO </td>
+    <td class='pickTD'> S4.02 </td>
+    <td class='pickTD' id=\"S402\"   class=\"grey1\"> 9 </td>
+    <td class='pickTD' id=\"C02\" class=\"grey1\" rowspan=\"2\"> 30 </td>
+    <td class='pickTD' id=\"grun2\"   rowspan=\"4\"> 60 </td>
+    <td class='pickTD' id=\"HOS\" rowspan=\"9\"> 115 </td>
+    <td class='pickTD' id=\"HO\" rowspan=\"13\"> 187</td>
+  </tr>
+  <tr>
+    <td class='pickTD'> S4.01 </td>
+    <td class='pickTD' id=\"S401\"   class=\"grey1\"> 21 </td>
+  </tr>
+
+  <tr>
+    <td class='pickTD'> S3.02 </td>
+    <td class='pickTD' id=\"S302\"  > 9 </td>
+    <td class='pickTD' id=\"C01\"               rowspan=\"2\"> 30 </td>
+  </tr>
+
+  <tr>
+    <td class='pickTD'> S3.01 </td>
+    <td class='pickTD' id=\"S301\"  > 21 </td>
+  </tr>
+
+  <tr>
+    <td class='pickTD'> S4.03 </td>
+    <td class='pickTD' id=\"S403\"   class=\"grey1\"> 9 </td>
+    <td class='pickTD' id=\"C04\" class=\"grey1\" rowspan=\"2\"> 18 </td>
+    <td class='pickTD' id=\"orange\"  rowspan=\"5\"> 55 </td>
+  </tr>
+
+
+  <tr>
+    <td class='pickTD'> S3.03 </td>
+    <td class='pickTD' id=\"S303\"   class=\"grey1\"> 9 </td>
+  </tr>
+
+
+
+  <tr>
+    <td class='pickTD'> 1.09 </td>
+    <td class='pickTD' id=\"109\"   > 9 </td>
+    <td class='pickTD' id=\"C03\"               rowspan=\"3\"> 37 </td>
+  </tr>
+
+  <tr>
+    <td class='pickTD'> 1.08 </td>
+    <td class='pickTD' id=\"108\"   > 8 </td>
+  </tr>
+  <tr>
+    <td class='pickTD'> 1.07 a-b </td>
+    <td class='pickTD' id=\"107ab\" > 20 </td>
+  </tr>
+  <tr>
+    <td class='pickTD' class='bg3'>(MP) 1.25 </td>
+    <td class='pickTD' id=\"125\"    class=\"grey1\"> 4 </td>
+    <td class='pickTD' id=\"C13\" class=\"grey1\"> 4 </td>
+    <td class='pickTD' id=\"rot2\"     > 4 </td>
+    <td class='pickTD' id=\"HON\" rowspan=\"4\"> 72 </td>
+  </tr>
+  <tr>
+    <td class='pickTD'> N4.09 </td>
+    <td class='pickTD' id=\"N409\"  > 10 </td>
+    <td class='pickTD' id=\"C11\"> 10 </td>
+    <td class='pickTD' id=\"schwarz\" rowspan=\"3\"> 68 </td>
+  </tr>
+  <tr>
+    <td class='pickTD'> Foyer Ost </td>
+    <td class='pickTD' id=\"FoyO\"   class=\"grey1\"> 28 </td>
+    <td class='pickTD' id=\"C14\" class=\"grey1\"> 28 </td>
+  </tr>
+  
+   <tr>
+    <td class='pickTD'> 0.45 </td>
+    <td class='pickTD' id=\"045\"   class=\"grey1\"> 30 </td>
+    <td class='pickTD' id=\"C19\" class=\"grey1\"> 30 </td>
+  </tr>
+  
+  <tr>
+    <td class='pickTD' rowspan=\"9\"> HW </td>
+    <td class='pickTD'> N4.08 </td>
+    <td class='pickTD' id=\"N408\"  > 9 </td>
+    <td class='pickTD' id=\"C10\"               rowspan=\"2\"> 18 </td>
+    <td class='pickTD' id=\"gelb\"    rowspan=\"2\"> 18 </td>
+    <td class='pickTD' id=\"HWN\" rowspan=\"9\"> 125 </td>
+    <td class='pickTD' id=\"HW\" rowspan=\"9\"> 125 </td>
+  </tr>
+  <tr>
+    <td class='pickTD'> N4.07 </td>
+    <td class='pickTD' id=\"N407\"  > 9 </td>
+  </tr>
+  <tr>
+    <td class='pickTD'> N5.17 </td>
+    <td class='pickTD' id=\"N517\"   class=\"grey1\"> 22 </td>
+    <td class='pickTD' id=\"C09\" class=\"grey1\" rowspan=\"2\"> 31 </td>
+    <td class='pickTD' id=\"pink\"    rowspan=\"6\"> 62 </td>
+  </tr>
+  <tr>
+    <td class='pickTD'> N4.06 </td>
+    <td class='pickTD' id=\"N406\"   class=\"grey1\"> 9 </td>
+  </tr>
+  <tr>
+    <td class='pickTD' class='bg3'>(RZ) N3.10 </td>
+    <td class='pickTD' id=\"N310\"  > 7 </td>
+    <td class='pickTD' id=\"C17\"               rowspan=\"4\"> 31 </td>
+  </tr>
+  <tr>
+    <td class='pickTD' class='bg3'>(RZ) N2.19 </td>
+    <td class='pickTD' id=\"N219\"  > 8 </td>
+  </tr>
+  <tr>
+    <td class='pickTD' class='bg3'>(RZ) N2.18 </td>
+    <td class='pickTD' id=\"N218\"  > 8 </td>
+  </tr>
+  <tr>
+    <td class='pickTD' class='bg3'>(RZ) N2.15 </td>
+    <td class='pickTD' id=\"N215\"  > 8 </td>
+  </tr>
+  <tr>
+    <td class='pickTD' >Foyer W</td>
+    <td class='pickTD' id=\"FoyW\"   class=\"grey1\"> 45 </td>
+    <td class='pickTD' id=\"C15\" class=\"grey1\"> 45 </td>
+    <td class='pickTD' id=\"grau\"    > 45</td>
+  </tr>
 </table>
 </div>
 ";

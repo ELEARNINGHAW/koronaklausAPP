@@ -1,9 +1,7 @@
-
-let  statusBox = document.getElementById("statusBox");
+let  statusBox  = document.getElementById("statusBox" );
 let  statusText = document.getElementById("statusText");
 
 $("#bemerkung89").on("change",function() { updateAnote( 89, this.value )   } );
-
 
 let R = new Array();
 R[ "S407"  ] = new Object();
@@ -26,6 +24,20 @@ R[ "S308"  ][ 'name'  ] = "S3.08"	;
 R[ "S308"  ][ 'pers'  ] =  22  ;
 R[ "S308"  ][ 'state' ] =  0    ;
 R[ "S308"  ][ 'jq'    ] =  $( "#S308"   )  ;
+
+R[ "S209"  ] = new Object();
+R[ "S209"  ][ 'ID'    ] = "1028"	;
+R[ "S209"  ][ 'name'  ] = "S2.09"	;
+R[ "S209"  ][ 'pers'  ] =  9  ;
+R[ "S209"  ][ 'state' ] =  0    ;
+R[ "S209"  ][ 'jq'    ] =  $( "#S209"   )  ;
+
+R[ "S230"  ] = new Object();
+R[ "S230"  ][ 'ID'    ] = "1036"	;
+R[ "S230"  ][ 'name'  ] = "S2.30"	;
+R[ "S230"  ][ 'pers'  ] =  9  ;
+R[ "S230"  ][ 'state' ] =  0    ;
+R[ "S230"  ][ 'jq'    ] =  $( "#S230"   )  ;
 
 R[ "S404"  ] = new Object();
 R[ "S404"  ][ 'ID'    ] = "1026" ;
@@ -61,6 +73,41 @@ R[ "N225"  ][ 'name'  ] = "N2.25";
 R[ "N225"  ][ 'pers'  ] =  9  ;
 R[ "N225"  ][ 'state' ] =  0    ;
 R[ "N225"  ][ 'jq'    ] =  $( "#N225"   )    ;
+
+R[ "N224"  ] = new Object();
+R[ "N224"  ][ 'ID'    ] = "1034";
+R[ "N224"  ][ 'name'  ] = "N2.24";
+R[ "N224"  ][ 'pers'  ] =  19  ;
+R[ "N224"  ][ 'state' ] =  0    ;
+R[ "N224"  ][ 'jq'    ] =  $( "#N224"   )    ;
+
+R[ "N230"  ] = new Object();
+R[ "N230"  ][ 'ID'    ] = "1033";
+R[ "N230"  ][ 'name'  ] = "N2.30";
+R[ "N230"  ][ 'pers'  ] =  6  ;
+R[ "N230"  ][ 'state' ] =  0    ;
+R[ "N230"  ][ 'jq'    ] =  $( "#N230"   )    ;
+
+R[ "N205"  ] = new Object();
+R[ "N205"  ][ 'ID'    ] = "1032";
+R[ "N205"  ][ 'name'  ] = "N2.05";
+R[ "N205"  ][ 'pers'  ] =  6  ;
+R[ "N205"  ][ 'state' ] =  0    ;
+R[ "N205"  ][ 'jq'    ] =  $( "#N205"   )    ;
+
+R[ "043"  ] = new Object();
+R[ "043"  ][ 'ID'   ] = "1030";
+R[ "043"  ][ 'name' ] = "0.43";
+R[ "043"  ][ 'pers' ] =  40 ;
+R[ "043"  ][ 'jq'    ] =   $( "#043"   )   ;
+R[ "043"  ][ 'state' ] =  0    ;
+
+R[ "045"  ] = new Object();
+R[ "045"  ][ 'ID'   ] = "1031";
+R[ "045"  ][ 'name' ] = "0.45";
+R[ "045"  ][ 'pers' ] =  30 ;
+R[ "045"  ][ 'jq'    ] =   $( "#045"   )   ;
+R[ "045"  ][ 'state' ] =  0    ;
 
 R[ "FoyG"  ] = new Object();
 R[ "FoyG"  ][ 'ID'    ] = "1021";
@@ -216,7 +263,6 @@ R[ "FoyW"  ][ 'pers' ] = 45 ;
 R[ "FoyW"  ][ 'jq'    ] =    $( "#FoyW"   )    ;
 R[ "FoyW"  ][ 'state' ] =  0    ;
 
-
 let C = new Array();
 C[ "C08" ] = new Object();
 C[ "C08" ][ 'ID' ] =  "2017"    ;
@@ -326,10 +372,72 @@ C[ "C15" ][ 'state' ] =  0    ;
 C[ "C15" ][ "R"     ] =  new Array(  "FoyW"                               );
 C[ "C15" ][ 'jq'    ] =  $( "#C15"   )  ;
 
+C[ "C20" ] = new Object();
+C[ "C20" ][ 'ID' ] =  "2018"    ;
+C[ "C20" ][ 'state' ] =  0    ;
+C[ "C20" ][ "R"     ] =  new Array(  "S230"                               );
+C[ "C20" ][ 'jq'    ] =  $( "#C20"   )  ;
+
+
+C[ "C21" ] = new Object();
+C[ "C21" ][ 'ID' ] =  "2019"    ;
+C[ "C21" ][ 'state' ] =  0    ;
+C[ "C21" ][ "R"     ] =  new Array(  "S209"                               );
+C[ "C21" ][ 'jq'    ] =  $( "#C21"   )  ;
+
+
+C[ "C22" ] = new Object();
+C[ "C22" ][ 'ID' ] =  "2020"  ;
+C[ "C22" ][ 'state' ] =  0    ;
+C[ "C22" ][ "R"     ] =  new Array(  "N224"                               );
+C[ "C22" ][ 'jq'    ] =  $( "#C22"   )  ;
+
+
+C[ "C23" ] = new Object();
+C[ "C23" ][ 'ID' ] =  "2021"    ;
+C[ "C23" ][ 'state' ] =  0    ;
+C[ "C23" ][ "R"     ] =  new Array(  "N230"                               );
+C[ "C23" ][ 'jq'    ] =  $( "#C23"   )  ;
+
+
+C[ "C24" ] = new Object();
+C[ "C24" ][ 'ID' ] =  "2022"    ;
+C[ "C24" ][ 'state' ] =  0    ;
+C[ "C24" ][ "R"     ] =  new Array(  "N205"                               );
+C[ "C24" ][ 'jq'    ] =  $( "#C24"   )  ;
+
+
+
+C[ "C19" ] = new Object();
+C[ "C19" ][ 'ID' ] =  "2025"    ;
+C[ "C19" ][ 'state' ] =  0    ;
+C[ "C19" ][ "R"     ] =  new Array(  "045"                               );
+C[ "C19" ][ 'jq'    ] =  $( "#C19"   )  ;
+
+
+
+C[ "C25" ] = new Object();
+C[ "C25" ][ 'ID' ] =  "2024"    ;
+C[ "C25" ][ 'state' ] =  0    ;
+C[ "C25" ][ "R"     ] =  new Array(  "043"                               );
+C[ "C25" ][ 'jq'    ] =  $( "#C25"   )  ;
+
+
 
 let L = new Array();
+
+
+L[ "ohne"  ] = new Object();
+L[ "ohne"  ][ 'ID'    ] = "3012"  ;
+L[ "ohne"  ][ 'name'  ] = "ohne" ;
+L[ "ohne"  ][ 'state' ] =  0      ;
+L[ "ohne"  ][ 'C'     ] = new Array(  "C25"         );
+L[ "ohne"  ][ 'jq'    ] =  $( "#ohne"   );
+
+
+
 L[ "grun1"  ] = new Object();
-L[ "grun1"  ] [ 'C'    ] =  new Array( "C08" , "C07" , "C06" );
+L[ "grun1"  ] [ 'C'    ] =  new Array( "C08" , "C07" , "C06", "C20", "C21" );
 L[ "grun1"  ][ 'ID'    ] = "3011" ;
 L[ "grun1"  ][ 'name'  ] = "grun1" ;
 L[ "grun1"  ][ 'state' ] =  0 ;
@@ -346,7 +454,7 @@ L[ "rot1"  ] = new Object();
 L[ "rot1"  ][ 'ID'    ] = "3009"  ;
 L[ "rot1"  ][ 'name'  ] = "rot1"  ;
 L[ "rot1"  ][ 'state' ] =  0       ;
-L[ "rot1"  ][ 'C'     ] =  new Array(  "C12"  , "C18"       );
+L[ "rot1"  ][ 'C'     ] =  new Array(  "C12"  , "C18"   , "C22"   , "C23"   , "C24"       );
 L[ "rot1"  ][ 'jq'    ] =  $( "#rot1"   );
 
 L[ "blau"  ] = new Object();
@@ -377,11 +485,12 @@ L[ "rot2"  ][ 'state' ] =  0      ;
 L[ "rot2"  ][ 'C'     ] =  new Array(  "C13"                  );
 L[ "rot2"  ][ 'jq'    ] =  $( "#rot2"   );
 
+
 L[ "schwarz"  ] = new Object();
 L[ "schwarz"  ][ 'ID'    ] = "3004"  ;
 L[ "schwarz"  ][ 'name'  ] = "schwarz" ;
 L[ "schwarz"  ][ 'state' ] =  0      ;
-L[ "schwarz"  ][ 'C'     ] = new Array(  "C11"  , "C14"       );
+L[ "schwarz"  ][ 'C'     ] = new Array(  "C11"  , "C14" ,"C19"      );
 L[ "schwarz"  ][ 'jq'    ] =  $( "#schwarz"   );
 
 L[ "gelb"  ] = new Object();
@@ -420,7 +529,7 @@ F[ "ULN"  ][ 'ID'    ] = "4003"  ;
 F[ "ULN"  ][ 'name'  ] = "ULN" ;
 F[ "ULN"  ][ 'state' ] =  0      ;
 F[ "ULN"  ][ 'jq'    ] =  $( "#ULN"   );
-F[ "ULN" ][ "L" ]	=  new Array( "rot1"  ,  "blau"              );
+F[ "ULN" ][ "L" ]	=  new Array( "rot1"  ,  "blau"    ,"ohne"          );
 
 F[ "HOS"  ] = new Object();
 F[ "HOS"  ][ 'ID'    ] = "4002"  ;
@@ -470,11 +579,19 @@ E[ "HW" ][ "F" ] = new Array( "HWN"         );
 $( "#S407"   ).on( "click", function( event ) {  updIt0("S407"  ,null, true, 1); });
 $( "#S40506" ).on( "click", function( event ) {  updIt0("S40506",null, true, 1); });
 $( "#S308"   ).on( "click", function( event ) {  updIt0("S308"  ,null, true, 1); });
+$( "#S230"   ).on( "click", function( event ) {  updIt0("S230"  ,null, true, 1); });
 $( "#S404"   ).on( "click", function( event ) {  updIt0("S404"  ,null, true, 1); });
 $( "#N41011" ).on( "click", function( event ) {  updIt0("N41011",null, true, 1); });
 $( "#N412"   ).on( "click", function( event ) {  updIt0("N412"  ,null, true, 1); });
 $( "#N227"   ).on( "click", function( event ) {  updIt0("N227"  ,null, true, 1); });
 $( "#N225"   ).on( "click", function( event ) {  updIt0("N225"  ,null, true, 1); });
+
+$( "#N224"   ).on( "click", function( event ) {  updIt0("N224"  ,null, true, 1); });
+$( "#N230"   ).on( "click", function( event ) {  updIt0("N230"  ,null, true, 1); });
+$( "#N205"   ).on( "click", function( event ) {  updIt0("N205"  ,null, true, 1); });
+$( "#043"    ).on( "click", function( event ) {  updIt0("043"   ,null, true, 1); });
+$( "#045"    ).on( "click", function( event ) {  updIt0("045"   ,null, true, 1); });
+
 $( "#FoyG"   ).on( "click", function( event ) {  updIt0("FoyG"  ,null, true, 1); });
 $( "#S402"   ).on( "click", function( event ) {  updIt0("S402"  ,null, true, 1); });
 $( "#S401"   ).on( "click", function( event ) {  updIt0("S401"  ,null, true, 1); });
@@ -499,31 +616,43 @@ $( "#N215"   ).on( "click", function( event ) {  updIt0("N215"  ,null, true, 1);
 $( "#FoyW"   ).on( "click", function( event ) {  updIt0("FoyW"  ,null, true, 1); });
 
 
-$( "#C08" ).on( "click", function( event ) { updIt1("C08",null, true, 1,1);  });
-$( "#C07" ).on( "click", function( event ) { updIt1("C07",null, true, 1,1);  });
-$( "#C06" ).on( "click", function( event ) { updIt1("C06",null, true, 1,1);  });
-$( "#C05" ).on( "click", function( event ) { updIt1("C05",null, true, 1,1);  });
-$( "#C12" ).on( "click", function( event ) { updIt1("C12",null, true, 1,1);  });
-$( "#C18" ).on( "click", function( event ) { updIt1("C18",null, true, 1,1);  });
-$( "#C16" ).on( "click", function( event ) { updIt1("C16",null, true, 1,1);  });
-$( "#C02" ).on( "click", function( event ) { updIt1("C02",null, true, 1,1);  });
 $( "#C01" ).on( "click", function( event ) { updIt1("C01",null, true, 1,1);  });
-$( "#C04" ).on( "click", function( event ) { updIt1("C04",null, true, 1,1);  });
+$( "#C02" ).on( "click", function( event ) { updIt1("C02",null, true, 1,1);  });
 $( "#C03" ).on( "click", function( event ) { updIt1("C03",null, true, 1,1);  });
-$( "#C13" ).on( "click", function( event ) { updIt1("C13",null, true, 1,1);  });
-$( "#C11" ).on( "click", function( event ) { updIt1("C11",null, true, 1,1);  });
-$( "#C14" ).on( "click", function( event ) { updIt1("C14",null, true, 1,1);  });
-$( "#C10" ).on( "click", function( event ) { updIt1("C10",null, true, 1,1);  });
+$( "#C04" ).on( "click", function( event ) { updIt1("C04",null, true, 1,1);  });
+$( "#C05" ).on( "click", function( event ) { updIt1("C05",null, true, 1,1);  });
+$( "#C06" ).on( "click", function( event ) { updIt1("C06",null, true, 1,1);  });
+$( "#C07" ).on( "click", function( event ) { updIt1("C07",null, true, 1,1);  });
+$( "#C08" ).on( "click", function( event ) { updIt1("C08",null, true, 1,1);  });
 $( "#C09" ).on( "click", function( event ) { updIt1("C09",null, true, 1,1);  });
-$( "#C17" ).on( "click", function( event ) { updIt1("C17",null, true, 1,1);  });
+$( "#C10" ).on( "click", function( event ) { updIt1("C10",null, true, 1,1);  });
+$( "#C11" ).on( "click", function( event ) { updIt1("C11",null, true, 1,1);  });
+$( "#C12" ).on( "click", function( event ) { updIt1("C12",null, true, 1,1);  });
+$( "#C13" ).on( "click", function( event ) { updIt1("C13",null, true, 1,1);  });
+$( "#C14" ).on( "click", function( event ) { updIt1("C14",null, true, 1,1);  });
 $( "#C15" ).on( "click", function( event ) { updIt1("C15",null, true, 1,1);  });
+$( "#C16" ).on( "click", function( event ) { updIt1("C16",null, true, 1,1);  });
+$( "#C17" ).on( "click", function( event ) { updIt1("C17",null, true, 1,1);  });
+$( "#C18" ).on( "click", function( event ) { updIt1("C18",null, true, 1,1);  });
+$( "#C19" ).on( "click", function( event ) { updIt1("C19",null, true, 1,1);  });
+$( "#C20" ).on( "click", function( event ) { updIt1("C20",null, true, 1,1);  });
+$( "#C21" ).on( "click", function( event ) { updIt1("C21",null, true, 1,1);  });
+$( "#C22" ).on( "click", function( event ) { updIt1("C22",null, true, 1,1);  });
+$( "#C23" ).on( "click", function( event ) { updIt1("C23",null, true, 1,1);  });
+$( "#C24" ).on( "click", function( event ) { updIt1("C24",null, true, 1,1);  });
+$( "#C25" ).on( "click", function( event ) { updIt1("C25",null, true, 1,1);  });
 
+
+
+$( "#ohne"    ).on( "click", function( event ) { updIt2("ohne"   ,null, true, 1,1);  });
 $( "#grun1"   ).on( "click", function( event ) { updIt2("grun1"  ,null, true, 1,1);  });
 $( "#lila"    ).on( "click", function( event ) { updIt2("lila"   ,null, true, 1,1);  });
 $( "#blau"    ).on( "click", function( event ) { updIt2("blau"   ,null, true, 1,1);  });
 $( "#grun2"   ).on( "click", function( event ) { updIt2("grun2"  ,null, true, 1,1);  });
 $( "#orange"  ).on( "click", function( event ) { updIt2("orange" ,null, true, 1,1);  });
+
 $( "#rot1"    ).on( "click", function( event ) { updIt2("rot1"   ,null, true, 1,1);  });
+
 $( "#rot2"    ).on( "click", function( event ) { updIt2("rot2"   ,null, true, 1,1);  });
 $( "#schwarz" ).on( "click", function( event ) { updIt2("schwarz",null, true, 1,1);  });
 $( "#gelb"    ).on( "click", function( event ) { updIt2("gelb"   ,null, true, 1,1);  });

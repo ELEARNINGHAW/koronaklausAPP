@@ -109,6 +109,7 @@ echo "<!DOCTYPE html>
 	<body>
 ";
 if ( $_SESSION['user']['ro'] >= 3 )
+
 $tabledit->do_it();
 
 echo "
