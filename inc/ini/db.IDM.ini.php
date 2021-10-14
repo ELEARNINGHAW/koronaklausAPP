@@ -5,19 +5,19 @@
 	if ( $_SERVER[ 'SERVER_NAME' ] == $liveserver )
 	{   
 		# Werte auf Produktivserver einstellen!
-		$user 	= "IDM"; 			# Username für die MySQL-DB
-		$pass 	= "IDMbd"; 		    # Kennwort für die MySQL-DB
+		$user 	= "IDM"; 			# Username fï¿½r die MySQL-DB
+		$pass 	= "IDMbd"; 		    # Kennwort fï¿½r die MySQL-DB
 		$server = "localhost";      # Adresse/IP/Name des MySQL-Server
-		$dbase 	= "idm2"; 			# Name der standardmäßig verwendeten Datenbank
+		$dbase 	= "idm2"; 			# Name der standardmï¿½ï¿½ig verwendeten Datenbank
 	}
 
 	else 
 	{
 		# Werte auf Entwicklungsserver einstellen!
-		$user 	= "IDM"; 			# Username für die MySQL-DB
-		$pass 	= "IDMbd"; 		    # Kennwort für die MySQL-DB
+		$user 	= "IDM"; 			# Username fï¿½r die MySQL-DB
+		$pass 	= "IDMbd"; 		    # Kennwort fï¿½r die MySQL-DB
 		$server = "localhost";      # Adresse/IP/Name des MySQL-Server
-		$dbase 	= "idm2"; 			# Name der standardmäßig verwendeten Datenbank
+		$dbase 	= "idm2"; 			# Name der standardmï¿½ï¿½ig verwendeten Datenbank
 	}
 	
 	?>

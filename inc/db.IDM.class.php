@@ -6,13 +6,13 @@ var $conn;
  
 function __construct()
 {
-    require("ini/db.IDM.ini.php");
+  require("ini/db.IDM.ini.php");
 	$this->conn  = mysqli_connect( $server, $user, $pass );
-	 
+	
 	if( $this->conn )
 	{   
 		if (!mysqli_select_db(  $this->conn, $dbase )            ) 		echo "<br>ERROR: DB Select<br>";
-        if (!mysqli_query($this->conn ,  "set names 'utf8'"    ) ) 		echo "<br>ERROR: DB UTF8<br>";
+    if (!mysqli_query($this->conn ,  "set names 'utf8'"    ) ) 		echo "<br>ERROR: DB UTF8<br>";
 	}
 	else
 	{

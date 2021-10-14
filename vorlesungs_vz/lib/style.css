@@ -25,7 +25,7 @@ table.tablesorter thead tr .headerSortDown {
 
 tr
 {
-   height:30px;
+   height:0px;
    table-layout: fixed;
 }
 
@@ -42,7 +42,7 @@ td, th
   color: #000000;
   text-align:center;
   font-size: 11pt;
-  border: 3px solid #DDDDDD;
+  border: 2px solid #DDDDDD;
   padding: 2px;
   margin:0px;
 }
@@ -54,7 +54,7 @@ cursor:pointer;
 
 .roompicker th
 {
-    height:30px;
+    height:20px;
 }
 
 .c0  { width: 50px ; }
@@ -98,11 +98,8 @@ input.LVB
 }
 
 
-
 xi { border:#281751 1pt solid}
 xi { font-size:10pt; color:#281751; font-family:verdana, arial, helvetica }
-
-
 
 .veranstaltungsmatrix
 {
@@ -119,10 +116,9 @@ xi { font-size:10pt; color:#281751; font-family:verdana, arial, helvetica }
 
 .pickTD
 {
-
-    padding: 0px;
-    font-size:10pt;
-
+  padding: 0px;
+  font-size:10pt;
+  border: 2px solid #DDDDDD;
 }
 
 
@@ -619,15 +615,15 @@ h1
 
 
 /*.ram0 {border: solid 3px #000000;   border-radius: 11px;} /* schwarz */
-.ram0 {border: solid 3px #404040;   border-radius: 11px;} /* grau */
-.ram1 {border: solid 3px #e8c607;   border-radius: 11px;} /* gelb */
+.ram0 {border: solid 2px #404040;   border-radius: 11px;} /* grau */
+.ram1 {border: solid 2px #e8c607;   border-radius: 11px;} /* gelb */
 /*.ram1 {border: solid 3px #d82bff;   border-radius: 11px;} /* lila */
-.ram2 {border: solid 3px #ff3217;   border-radius: 11px;} /* rot  */
-.ram3 {border: solid 3px #195ff7;   border-radius: 11px;} /* blau  */
+.ram2 {border: solid 2px #ff3217;   border-radius: 11px;} /* rot  */
+.ram3 {border: solid 2px #195ff7;   border-radius: 11px;} /* blau  */
 
 
-.rot4 {border: solid 3px #fc9803;   border-radius: 11px;}
-.rot5 {border: solid 3px #1ab86b;   border-radius: 11px;}
+.rot4 {border: solid 2px #fc9803;   border-radius: 11px;}
+.rot5 {border: solid 2px #1ab86b;   border-radius: 11px;}
 
 #grun1   { background: #92d050;                }
 #lila    { background: #7030a0; color:#ffffff; }
