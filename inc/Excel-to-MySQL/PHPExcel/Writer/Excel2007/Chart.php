@@ -1183,7 +1183,7 @@ class PHPExcel_Writer_Excel2007_Chart extends PHPExcel_Writer_Excel2007_WriterPa
                     $objWriter->startElement('c:cat');
                 }
 
-                $this->writePlotSeriesValues($plotSeriesCategory, $objWriter, $groupType, 'str', $pSheet);
+                $this->writePlotSeriesValues($plotSeriesCategory, $objWriter, $groupType, $pSheet, 'str');
                 $objWriter->endElement();
             }
 
@@ -1197,7 +1197,7 @@ class PHPExcel_Writer_Excel2007_Chart extends PHPExcel_Writer_Excel2007_WriterPa
                     $objWriter->startElement('c:val');
                 }
 
-                $this->writePlotSeriesValues($plotSeriesValues, $objWriter, $groupType, 'num', $pSheet);
+                $this->writePlotSeriesValues($plotSeriesValues, $objWriter, $groupType, $pSheet, 'num');
                 $objWriter->endElement();
             }
 
@@ -1252,12 +1252,12 @@ class PHPExcel_Writer_Excel2007_Chart extends PHPExcel_Writer_Excel2007_WriterPa
      * @param  PHPExcel_Chart_DataSeriesValues $plotSeriesValues
      * @param  PHPExcel_Shared_XMLWriter $objWriter XML Writer
      * @param  string $groupType Type of plot for dataseries
-     * @param  string $dataType Datatype of series values
      * @param  PHPExcel_Worksheet $pSheet
+     * @param  string $dataType Datatype of series values
      *
      * @throws  PHPExcel_Writer_Exception
      */
-    private function writePlotSeriesValues($plotSeriesValues, $objWriter, $groupType, $dataType = 'str', PHPExcel_Worksheet $pSheet)
+    private function writePlotSeriesValues($plotSeriesValues, $objWriter, $groupType, PHPExcel_Worksheet $pSheet, $dataType = 'str')
     {
         if (is_null($plotSeriesValues)) {
             return;

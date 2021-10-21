@@ -325,7 +325,7 @@ class Render
     <td class='pickTD' id=\"N41011\"> 100 </td>
     <td class='pickTD' id=\"C12\"      rowspan=\"2\"> 200 </td>
     <td class='pickTD' id=\"rot1\"     rowspan=\"5\"> 454</td>
-    <td class='pickTD' id=\"ULN\"       rowspan=\"7\"> 889</td>
+    <td class='pickTD' id=\"ULN\"       rowspan=\"7\"> 789</td>
   </tr>
 
   <tr>
@@ -459,8 +459,8 @@ class Render
     <td class='pickTD' id=\"N408\"  > 50 </td>
     <td class='pickTD' id=\"C10\"               rowspan=\"2\"> 100 </td>
     <td class='pickTD' id=\"gelb\"    rowspan=\"2\"> 100 </td>
-    <td class='pickTD' id=\"HWN\" rowspan=\"9\"> 354 </td>
-    <td class='pickTD' id=\"HW\" rowspan=\"9\"> 354 </td>
+    <td class='pickTD' id=\"HWN\" rowspan=\"9\"> 314 </td>
+    <td class='pickTD' id=\"HW\" rowspan=\"9\"> 314 </td>
   </tr>
   <tr>
     <td class='pickTD'> N4.07 </td>
@@ -470,7 +470,7 @@ class Render
     <td class='pickTD'> N5.17 </td>
     <td class='pickTD' id=\"N517\"   class=\"grey1\"> 100 </td>
     <td class='pickTD' id=\"C09\" class=\"grey1\" rowspan=\"2\"> 150 </td>
-    <td class='pickTD' id=\"pink\"    rowspan=\"6\"> 181 </td>
+    <td class='pickTD' id=\"pink\"    rowspan=\"6\"> 214 </td>
   </tr>
   <tr>
     <td class='pickTD'> N4.06 </td>
@@ -478,20 +478,20 @@ class Render
   </tr>
   <tr>
     <td class='pickTD' class='bg3'>(RZ) N3.10 </td>
-    <td class='pickTD' id=\"N310\"  > 7 </td>
-    <td class='pickTD' id=\"C17\"               rowspan=\"4\"> 31 </td>
+    <td class='pickTD' id=\"N310\"  > 16 </td>
+    <td class='pickTD' id=\"C17\"               rowspan=\"4\"> 64 </td>
   </tr>
   <tr>
     <td class='pickTD' class='bg3'>(RZ) N2.19 </td>
-    <td class='pickTD' id=\"N219\"  > 8 </td>
+    <td class='pickTD' id=\"N219\"  > 16 </td>
   </tr>
   <tr>
     <td class='pickTD' class='bg3'>(RZ) N2.18 </td>
-    <td class='pickTD' id=\"N218\"  > 8 </td>
+    <td class='pickTD' id=\"N218\"  > 16 </td>
   </tr>
   <tr>
     <td class='pickTD' class='bg3'>(RZ) N2.15 </td>
-    <td class='pickTD' id=\"N215\"  > 8 </td>
+    <td class='pickTD' id=\"N215\"  > 16 </td>
   </tr>
   <tr>
     <td class='pickTD' >Foyer W</td>

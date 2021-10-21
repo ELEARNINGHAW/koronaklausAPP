@@ -3484,7 +3484,7 @@
 						data2.iFilter = '' + ( tsf.parseFilter( c, iFilter[ indx ], data ) || '' );
 						query = ( '(' + ( tsf.parseFilter( c, data2.filter, data ) || '' ) + ')' )
 							// replace wild cards since /(a*)/i will match anything
-							.replace( tsfRegex.wild01, '\\S{1}' ).replace( tsfRegex.wild0More, '\\S*' );
+							.replace( tsfRegex.wild01, '\\S[1]' ).replace( tsfRegex.wild0More, '\\S*' );
 						try {
 							// use try/catch just in case RegExp is invalid
 							regex = new RegExp( data.isMatch ? query : '^' + query + '$', c.widgetOptions.filter_ignoreCase ? 'i' : '' );
@@ -3640,7 +3640,7 @@
 					// parsing the filter may not work properly when using wildcards =/
 					try {
 						return new RegExp(
-							query.replace( tsfRegex.wild01, '\\S{1}' ).replace( tsfRegex.wild0More, '\\S*' ),
+							query.replace( tsfRegex.wild01, '\\S[1]' ).replace( tsfRegex.wild0More, '\\S*' ),
 							c.widgetOptions.filter_ignoreCase ? 'i' : ''
 						)
 						.test( data.exact );

@@ -231,28 +231,28 @@ R[ "N406"  ][ 'state' ] =  0    ;
 R[ "N310"  ] = new Object();
 R[ "N310"  ][ 'ID'   ] = "1004";
 R[ "N310"  ][ 'name' ] = "N3.10" ;
-R[ "N310"  ][ 'pers' ] =  7 ;
+R[ "N310"  ][ 'pers' ] =  16 ;
 R[ "N310"  ][ 'jq'    ] =    $( "#N310"   )   ;
 R[ "N310"  ][ 'state' ] =  0    ;
 
 R[ "N219"  ] = new Object();
 R[ "N219"  ][ 'ID'   ] = "1003"	 ;
 R[ "N219"  ][ 'name' ] = "N2.19"	;
-R[ "N219"  ][ 'pers' ] =  8  ;
+R[ "N219"  ][ 'pers' ] =  16  ;
 R[ "N219"  ][ 'jq'    ] =    $( "#N219"   )   ;
 R[ "N219"  ][ 'state' ] =  0    ;
 
 R[ "N218"  ] = new Object();
 R[ "N218"  ][ 'ID'   ] = "1002";
 R[ "N218"  ][ 'name' ] = "N2.18";
-R[ "N218"  ][ 'pers' ] =  8  ;
+R[ "N218"  ][ 'pers' ] =  16  ;
 R[ "N218"  ][ 'jq'    ] =   $( "#N218"   )    ;
 R[ "N218"  ][ 'state' ] =  0    ;
 
 R[ "N215"  ] = new Object();
 R[ "N215"  ][ 'ID'   ] = "1001";
 R[ "N215"  ][ 'name' ] = "N2.15";
-R[ "N215"  ][ 'pers' ] =  8  ;
+R[ "N215"  ][ 'pers' ] =  16  ;
 R[ "N215"  ][ 'jq'    ] =      $( "#N215"   )  ;
 R[ "N215"  ][ 'state' ] =  0    ;
 
@@ -454,7 +454,7 @@ L[ "rot1"  ] = new Object();
 L[ "rot1"  ][ 'ID'    ] = "3009"  ;
 L[ "rot1"  ][ 'name'  ] = "rot1"  ;
 L[ "rot1"  ][ 'state' ] =  0       ;
-L[ "rot1"  ][ 'C'     ] =  new Array(  "C12"  , "C18"   , "C22"   , "C23"   , "C24"       );
+L[ "rot1"  ][ 'C'     ] =  new Array(  "C12"  , "C22"  ,  "C23"   , "C24"  );
 L[ "rot1"  ][ 'jq'    ] =  $( "#rot1"   );
 
 L[ "blau"  ] = new Object();
