@@ -1,9 +1,8 @@
  <?php
     require_once( "../inc/db.class.php" );
-#   require_once( "../inc/db.IDM.class.php" );
- 
- # $dbIDM                  = new DBIDM();
-  $db                     = new DB();
+# require_once( "../inc/db.IDM.class.php" );
+# $dbIDM                  = new DBIDM();
+$db                     = new DB();
 
  $action = $_GET['action'];
 #

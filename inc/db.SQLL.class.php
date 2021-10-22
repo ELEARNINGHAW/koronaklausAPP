@@ -11,13 +11,10 @@ class SQLL_DB
   function __construct( $conf = null )
   {
     {
-     # deb($_SERVER['PHP_SELF']);
       $this->db = new SQLite3( '/home/koronaklaus/ER_anfrage.sqlite.s3db' ) ;
-      #$this->db = new SQLite3( '../ER_anfrage.sqlite.s3db' ) ;
-      #$this->db = new SQLite3( 'ER_anfrage.sqlite.s3db' ) ;
       if ( $this->db )
       {
-        # die( "<b>Verbindung zur Datenbank </b>" ) ;
+         #die( "<b>Verbindung zur Datenbank </b>" ) ;
          $this->log = fopen( "/home/ELSE/ER-anfrage.log" , "a" ) ;
       } else
       {

@@ -26,7 +26,7 @@ R[ "S308"  ][ 'state' ] =  0    ;
 R[ "S308"  ][ 'jq'    ] =  $( "#S308"   )  ;
 
 R[ "S209"  ] = new Object();
-R[ "S209"  ][ 'ID'    ] = "1028"	;
+R[ "S209"  ][ 'ID'    ] = "1035"	;
 R[ "S209"  ][ 'name'  ] = "S2.09"	;
 R[ "S209"  ][ 'pers'  ] =  54 ;
 R[ "S209"  ][ 'state' ] =  0    ;
@@ -580,6 +580,7 @@ $( "#S407"   ).on( "click", function( event ) {  updIt0("S407"  ,null, true, 1);
 $( "#S40506" ).on( "click", function( event ) {  updIt0("S40506",null, true, 1); });
 $( "#S308"   ).on( "click", function( event ) {  updIt0("S308"  ,null, true, 1); });
 $( "#S230"   ).on( "click", function( event ) {  updIt0("S230"  ,null, true, 1); });
+$( "#S209"   ).on( "click", function( event ) {  updIt0("S209"  ,null, true, 1); });
 $( "#S404"   ).on( "click", function( event ) {  updIt0("S404"  ,null, true, 1); });
 $( "#N41011" ).on( "click", function( event ) {  updIt0("N41011",null, true, 1); });
 $( "#N412"   ).on( "click", function( event ) {  updIt0("N412"  ,null, true, 1); });

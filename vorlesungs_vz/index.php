@@ -1,72 +1,67 @@
 <?php
 session_start();
-#$_SESSION = null;
+
 header("Expires: ".gmdate("D, d M Y H:i:s")." GMT");
 header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Pragma: no-cache");
 header("Cache-Control: post-check=0, pre-check=0", false);
 
-#deb($_SESSION);
-
 require_once( "../inc/db.class.php" );
 $db                     = new DB();
 $_SESSION[ 'type' ]     = 'EMIL';
-#include ("checkreferer.php");  ## TODO CHECKER!!
-
-
 
 if ( isset( $_GET[ 'un' ] ) )  # Nutzerdaten von moodle übernehmen
-{
-  $_SESSION[ 'user' ] = decodeUserData( $_GET );
+{ $_SESSION[ 'user' ] = decodeUserData( $_GET );
   $u = $db -> getDozentByUserID( $_SESSION[ 'user' ][ 'userID' ] );
-  $_SESSION[ 'user' ][ 'abk' ] = $u[ 'abk' ];
-  $db -> setKoordinator(  $_SESSION[ 'user' ] );
+ 
+  if (isset ($u))
+  { $_SESSION['user']['abk'] = $u['abk'];
+    $db->setKoordinator($_SESSION['user']);
+  }
 }
 
-
-
 if(  $_SESSION[ 'type' ] == 'EMIL' )
-{
-  $_SESSION[ 'user' ][ 'showContent' ] = false;
+{ $_SESSION[ 'user' ][ 'showContent' ] = false;
   if ( isset( $_GET [ 'abk' ] ) ) # Aufruf von Kürzel Eingabemaske
-  {
+  { $u = $db -> getDozentByUserID( $_SESSION[ 'user' ][ 'userID' ] );
+    
     $_SESSION[ 'user' ][ 'abk' ] = $_GET [ 'abk' ];
     $_SESSION[ 'GET'  ] = $_GET;
+  
+    if (!isset ( $u ) )
+    { $db->setKoordinator($_SESSION['user']);
+    }
+    else
+    {  $db -> updateDozent_abk( $_SESSION[ 'user' ] );
+    }
  
-    $db -> updateDozent_abk( $_SESSION[ 'user' ] );
-
-    #$_SESSION[ 'user' ] = $db -> getDozentByKurzel( $_SESSION[ 'GET' ]  [ 'abk' ] );
     unset($_GET [ 'abk' ]);
   }
   checkRequiredValues();
 }
 
-
 if(  $_SESSION[ 'type' ] == 'STALONE' )
-{
-  $_SESSION[ 'GET' ] = $_GET;
+{ $_SESSION[ 'GET'  ] = $_GET;
   $_SESSION[ 'user' ][ 'showContent' ] = false;
   
   if ( isset( $_SESSION[ 'GET' ][ 'abk' ] ) ) # Aufruf von Kürzel Eingabemaske
-  {
-    $_SESSION[ 'user' ] = $db -> getDozentByKurzel( $_SESSION[ 'GET' ] [ 'abk' ] );
-    checkRequiredValues();
-    unset($_SESSION['GET']['abk']);
+  { $_SESSION[ 'user' ] = $db -> getDozentByKurzel( $_SESSION[ 'GET' ] [ 'abk' ] );
   }
 
-  else if (isset($_SESSION['GET']['email']) OR isset($_SESSION['GET']['userID']) ) # Aufruf mit email und/oder userID
-  {
-    $db -> updateDozent($_SESSION['user']);
+  else if ( isset( $_SESSION[ 'GET' ][ 'email' ] ) OR isset( $_SESSION[ 'GET' ][ 'userID' ] ) ) # Aufruf mit email und/oder userID
+  { $db -> updateDozent($_SESSION['user']);
     $_SESSION['user']  = $db -> getDozentByKurzel( $_SESSION[ 'user' ] [ 'abk' ] );
-    checkRequiredValues();
-    unset($_SESSION['GET']['email']);
-    unset($_SESSION['GET']['userID']);
   }
+
   else
   {
-    checkRequiredValues();
   }
+
+  checkRequiredValues();
+  unset($_SESSION['GET']['email']);
+  unset($_SESSION['GET']['userID']);
+  unset($_SESSION['GET']['abk']);
   unset ($_SESSION['GET']);
 }
 
@@ -88,35 +83,18 @@ if ($_SESSION['user']['showContent'] == true )
 function checkRequiredValues()
 {
   $_SESSION['user']['showContent'] = false;
-  if ( !isset($_SESSION[ 'user' ][ 'abk' ]) OR ( $_SESSION[ 'user' ][ 'abk' ] == '' ) )  ## User bei KK noch nicht bekannt
-  {
-    setTxt(); echo $_SESSION[ 'txt' ][ 'infotxt1' ];
+  if ( !isset($_SESSION[ 'user' ][ 'abk' ]) OR ( $_SESSION[ 'user' ][ 'abk' ] == '' ) )           ## User ABK bei KK noch nicht bekannt
+  {  setTxt(); echo $_SESSION[ 'txt' ][ 'infotxt1' ];
   }
   
-  else if ( !isset($_SESSION[ 'user' ][ 'email'  ]) OR ( $_SESSION[ 'user' ][ 'email'  ]  == '')
+  else if ( !isset($_SESSION[ 'user' ][ 'email'  ]) OR ( $_SESSION[ 'user' ][ 'email'  ]  == '')  ## User Email oder ID bei KK noch nicht bekannt
          OR !isset($_SESSION[ 'user' ][ 'userID' ]) OR ( $_SESSION[ 'user' ][ 'userID' ]  == '')
-          )  ## User bei KK noch nicht bekannt
-  {
-    setTxt(); echo $_SESSION[ 'txt' ][ 'infotxt3' ];
+          )
+  { setTxt(); echo $_SESSION[ 'txt' ][ 'infotxt3' ];
   }
 
   else
-  {  /*
-    if
-    (     $_SESSION[ 'user' ][ 'userID' ]  == 'aaa860'
-      OR  $_SESSION[ 'user' ][ 'userID' ]  == 'aas199'
-      OR  $_SESSION[ 'user' ][ 'userID' ]  == 'abh419'
-    )
-    {
-      $_SESSION['user']['ro'] = 2;  ## Koordinator, Admin
-    }
-    else
-    {
-     #$_SESSION['user']['ro'] = 3;  ## Teilnehmer, Dozierende
-    }
-  */
-    $_SESSION[ 'user' ][ 'showContent' ] = true;
- 
+  { $_SESSION[ 'user' ][ 'showContent' ] = true;
     if ( empty( !$_GET ) )
     header("Location:".$_SERVER[ 'SCRIPT_NAME' ]."" );
   }
@@ -146,18 +124,8 @@ function decodeUserData($user_enc)
 }
 
 function b64de($val)
-{
-  return base64_decode ( rawurldecode( $val ) );
+{ return base64_decode ( rawurldecode( $val ) );
 }
-
-
-  function deb($var)
-  {
-    echo "<pre>";
-    print_r($var);
-    echo "</pre>";
-  }
-
 
 function setTxt()
 {
@@ -170,16 +138,16 @@ Bitte geben Sie Ihr Namenskürzel ein:
 $_SESSION['txt']['infotxt2']
  = '<main><div class="row"><div class="column"><div class="box"><div class="header2">
 <h2 style="text-align: center">Hallo  ' . $_SESSION["user"]['firstname'] . '  ' . $_SESSION["user"]['lastname'] . '</h2></div><p style="margin-left:20%;">
-Ihr eingegebenes Kürzel wird nicht erkannt nicht, bitte geben Sie erneut Ihr Namenskürzel ein:
+Ihr eingegebenes Kürzel wird nicht erkannt, bitte geben Sie erneut Ihr Namenskürzel ein:
 <div style="margin-left:40%;"><form id="abk" action ="' . $_SERVER['PHP_SELF'] . '"><input  id="abk" name="abk" type="text"></form></p></div></div></div></main></div>';
   
 $_SESSION['txt']['infotxt3']
     = '<main><div class="row"><div class="column"><div class="box"><div class="header2">
 <h2 style="text-align: center">Hallo  ' . $_SESSION["user"]['firstname'] . '  ' . $_SESSION["user"]['lastname'] . '</h2></div>
-<div style="margin-left:20%;">Ihr Nutzerdaten sind noch unvollständig, bitte geben Sie diese ein ein:</div>
+<div style="margin-left:20%;">Ihr Nutzerdaten sind noch unvollständig, bitte geben Sie diese ein:</div>
 <div style="margin-left:20%;"><form id="abk" action ="' . $_SERVER['PHP_SELF'] . '">
 <br><label>Ihre HAW-Emailadresse:  </label><input  style="left:400px; width: 500px;" id="email" name="email" type="text" value="' . $_SESSION['user']['email'] . '">
-<br><br><label>Ihre HAW-Kennung (aaa123):  </label><input  style="left:400px;" id="userID" name="userID" type="text" value="' . $_SESSION['user']['userID'] . '">
+<br><br><label>Ihre HAW-Kennung (z.B. aaa123):  </label><input  style="left:400px;" id="userID" name="userID" type="text" value="' . $_SESSION['user']['userID'] . '">
 <br><br><input   id="OK" name="OK" type="submit">
 
 </form></p></div></div></div></main></div>';
@@ -193,4 +161,12 @@ $_SESSION[ 'txt' ][ 'head' ] = "<html>
 <title>Koronaklaus</title>
 </head><body>";
 
+}
+
+function deb($var, $die = false )
+{
+  echo "<pre>";
+  print_r($var);
+  echo "</pre>";
+  if ($die) {die();}
 }

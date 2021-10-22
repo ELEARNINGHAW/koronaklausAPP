@@ -5,330 +5,16 @@ var $db;
 var $dbIDM;
 
 function __construct($db, $dbIDM = null)
-{   #  deb( $db->getKohortStatus( 2, true ),1); die();
-    $this->db   = $db;  
-    $this->dbIDM = $dbIDM;  
-
+{ $this->db   = $db;
+  $this->dbIDM = $dbIDM;
 }
 
 function b64de($val)
-{
-  return base64_decode ( rawurldecode( $val ) );
+{  return base64_decode ( rawurldecode( $val ) );
 }
-
-
-/*
-function getVeranstaltungenAuswahl($belegliste, $veranstaltungen, $select , $id , $IDMuser, $phase = '' )
-{   
-  $spacer = " -- ";
-  $linie = "---------------";
-  $list  = "";
-  $list_tmp = "";
-  $sel2  = 'selected="selected"';
-  $list .= "\n\r<select name='veranstaltung$id' size='1' onchange='update(\"veranstaltungID\",this.form.veranstaltung$id.options[this.form.veranstaltung$id.selectedIndex].value, $id)'>";
-  
-  if( $select == "-1" )                                                                             // Liste mit ALLEN Veranstaltungen wird erzeugt
-  {
-    if( sizeof( $veranstaltungen ) > 0 )
-    foreach( $veranstaltungen as $va )
-    {
-      $kursSchonGewaehlt = false;
-      
-      if( sizeof( $belegliste ) > 0 )
-      foreach ( $belegliste as $bl )                                                                // Ermittelt ob die Veranstaltungsgruppe schon gewählt wurde // Dann werden diese Elemente  nicht mehr in die Liste aufgenommen  //
-      { 
-        if( $va[ 'veranstaltung' ][ 'ID' ]  == $bl[ 'veranstaltung' ][ 'veranstaltung' ][ 'ID' ]  )   
-        {  
-          $kursSchonGewaehlt = true;
-        }
-      }
-      
-      if( !$kursSchonGewaehlt  )
-      { 
-        if( $IDMuser[ 'semester' ] == 1  && !$_SESSION['intern'])                                                           // Wenn Erstsemester
-        {    
-         // dann nur Veranstaltungen aus dem 1. Semseter und dem Studiengang des Studenten  
-          if($va[ 'semester' ] == 1 )
-          {
-          if( strcmp ( $va['studiengang']['abk'] , $IDMuser['stg'] ) ) 
-          { $sel = '';
-            $list_tmp .="\n\r<option value=\"". $va[ 'ID' ]."\" $sel>".$va[ 'veranstaltung' ]['abk'] ." -> ". $va[ 'studiengang' ]['abk']  .''. $IDMuser['stg']." / ". $va[ 'professor' ]['abk']. " </option>";
-          }
-          }
-        }
-       
-        else   if( $phase == 2  )                                                                     // Wenn Phase 2
-        {                                                                                           // dann nur Veranstaltungen aus dem 1. Semseter 
-          if($va[ 'semester' ] == 1 ) 
-          {   
-            $sel = '';
-            $list_tmp .="\n\r<option value=\"". $va[ 'ID' ]."\" $sel>".$va[ 'veranstaltung' ]['abk'] ." -> ". $va[ 'studiengang' ]['abk']  ." / ". $va[ 'professor' ]['abk']. " </option>";
-          }
-        }
-
-        else
-        {  
-          $sel = '';
-          $list_tmp .="\n\r<option value=\"". $va[ 'ID' ]."\" $sel>".$va[ 'veranstaltung' ]['abk'] ." -> ". $va[ 'studiengang' ]['abk']  ." / ". $va[ 'professor' ]['abk']. " </option>";
-        }
-      }
-    }
-  }
-    
-  else                                                                                              // Liste mit  Veranstaltungen der gleichen Vorlesungstruppe (zB Mat1)  wird erzeugt
-  { $dis = '';
-    if ( $phase > 1) 
-      { $dis = 'disabled="disabled"'; }
-    
-    if( sizeof($veranstaltungen ) > 0 )
-    foreach( $veranstaltungen as $va )
-    {  
-   
-      if( $va[ 'ID' ] == $select  )
-      { 
-        $sel  = 'selected="selected"';
-        $sel2 = '';
-      }
-      else
-      {
-        $sel = '';
-      }
-      
-      if ( $va['veranstaltung' ][ 'ID' ] == $veranstaltungen[$select]['veranstaltung']['ID'] )
-      {      
-        if( $IDMuser[ 'semester' ] == 1 )                                                          // Wenn Erstsemester
-        {      
-         if( strcmp ( $va['studiengang']['abk'] , $IDMuser['stg'] ) ) 
-         {
-           // $sel  = 'selected="selected"';
-         }
-        }
-        else
-        {  
-            //$sel = '';
-        }        
-            $list_tmp .="\n\r<option value=\"". $va[ 'ID' ]."\"  $dis  $sel>" .$va[ 'veranstaltung' ]['abk'] ." ->  ". $va[ 'studiengang' ]['abk']  ." / ". $va[ 'professor' ]['abk']. " </option>";
-        }
-    }
-  }
-
-  $list .= "\n\r<option value=\"-1\" $dis $sel2>".$linie ."</option>";
-  $list .= $list_tmp;
-  $list .= "\n\r</select>";
-  
-  return $list;
-}
-*/
-/*
-function getVeranstaltungen($belegliste, $veranstaltungen, $select , $id , $IDMuser)
-{
-  $list_tmp = "";
-  $list_tmp2 = "";
-  $spacer = " -- ";
-  $linie = "---------------";
-  $list  = "";
-  if( $select =="-1" )                                                                              // Liste mit ALLEN Veranstaltungen wird erzeugt
-  {  
-    if( sizeof( $veranstaltungen ) > 0 )
-    foreach( $veranstaltungen as $va )
-    {
-      $kursSchonGewaehlt = false;
-      if( sizeof( $belegliste ) >0 )
-      foreach ( $belegliste as $bl )                                                                // Ermittelt ob die Veranstaltungsgruppe schon gewählt wurde // Dann wird diese Elemente  nicht mehr in die Liste aufgenommen  //
-      { 
-        if( $va[ 'veranstaltung' ][ 'ID' ]  == $bl[ 'veranstaltung' ][ 'veranstaltung' ][ 'ID' ]  )   
-        {  
-          $kursSchonGewaehlt = true;
-        }
-      }
-      
-      if( !$kursSchonGewaehlt  )
-      {   
-        if( $IDMuser[ 'semester' ] == 1  )                                                            // Wenn Erstsemester
-        {                                                                                           // dann nur Veranstaltungen aus dem 1. Semseter und dem Studiengang des Studenten  
-          if($va[ 'semester' ] == 1 )
-          if( strcmp ( $va['studiengang']['abk'] , $IDMuser['stg'] )  )           
-          {
-            $sel = '';
-            $list_tmp .="\n\r<option value=\"". $va[ 'ID' ]."\" $sel>".$va[ 'veranstaltung' ]['abk'] ." -> ( ". $va[ 'studiengang' ]['abk']  ." / ". $va[ 'professor' ]['abk']. " )</option>";
-          }
-        }
-        else
-        { 
-          $sel = '';
-          $list_tmp .="\n\r<option value=\"". $va[ 'ID' ]."\" $sel>".$va[ 'veranstaltung' ]['abk'] ." -> ( ". $va[ 'studiengang' ]['abk']  ." / ". $va[ 'professor' ]['abk']. " )</option>";
-        }
-      }
-    }
-  }
-    
-  else                                                                                              // Liste mit  Veranstaltungen der gleichen Vorlesungstruppe (zB Mat1)  wird erzeugt
-  {
-    if(sizeof($veranstaltungen)>0)
-    foreach($veranstaltungen as $va)
-    {
-      if( $va[ 'ID' ] == $select  )
-      {
-        $sel  = 'selected="selected"';
-        $sel2 = '';
-      }
-      else
-      {
-        $sel = '';
-      }
-      
-      if ( $va[ 'ID' ] == $select  && $va['veranstaltung' ][ 'ID' ] == $veranstaltungen[$select]['veranstaltung']['ID'] )
-      {      
-            $list_tmp2 .="\n\r". $va[ 'veranstaltung' ]['abk'] ." -> ( ". $va[ 'studiengang' ]['abk']  ." / ". $va[ 'professor' ]['abk'].")<br>" ;
-      }
-    }
-  }
-
-  $list .= "\n\r<span >";
-  $list .= $list_tmp2;
-  $list .= "\n\r</span >";
-  
-  return $list;
-}
-*/
-
-/*
-function removeElement( $veranstaltung, $select )                                                   // Entfernt ausgwähltes Element aus dem Array
-{
-    for ( $i = 0; $i < sizeof( $veranstaltung );  $i++ )
-  {   
-    if ( $veranstaltung[ $i ][ 'ID' ] == $select )
-    {  
-      unset( $veranstaltung[ $i ] );
-    }
-  }
-   return   $veranstaltung;
-}
-*/
-
-/*
-function  getBeleglistenAuswahl( $belegliste, $vl_verzeichnis, $IDMuser, $phase = 0 )
-{
-    $contentA = "";
-    if ( $phase == 2 )                                                                                 // Belegungszeitraum 2 ( nur noch Veranstaltungen des 1. Semester ) hat begonnen 
-    {
-        $contentA .= "<div style='width:100%; color:#FFFFFF; background-color:#880000; padding:0px; text-align:center;'>Belegung nur für Studierende des <br/>1. Semesters möglich.</div>";
-    }
-    
-    if ( $phase == 3 )                                                                                 // Belegungszeitraum 2 ( nur noch Veranstaltungen des 1. Semester ) hat begonnen 
-    {
-        $contentA .= "<div style='width:100%; color:#FFFFFF; background-color:#880000; padding:0px; text-align:center;'>Nachmeldephase <br/>Für Veranstaltungen des 1.+2.+3. Semesters.</div>";
-    }
-
-    if ( $phase > 0 )                                                                                // Normaler Belegungszeitraum  ( alle Veranstaltungen wählbar )  
-    {    
-        $contentA .= "<strong>Ihre Wunschbelegung</strong><br /><hr />";
-        
-        if( isset($belegliste) AND sizeof( $belegliste ) > 0 )
-        foreach( $belegliste as $bl )
-        {  
-            if ( $phase > 3 && $bl[ 'status' ] != "B"  )  // Phasen > 3 keine Aktionen mehr möglich
-            {}
-            else                                          // Phasen < 4
-            {   
-              $bid       = $bl[ 'ID' ];
-              $select    = $bl[ 'veranstaltungID' ];
-
-              if ( $bl[ 'status' ] == "B" ) { $style = "beleggeBucht"; }    
-              else                          { $style = "belegWunsch";  }    
-
-              $contentA .= "<div class=\"".$style."\">";
-              $contentA .= $this->getVeranstaltungenAuswahl( $belegliste, $vl_verzeichnis, $select, $bid,  $IDMuser, $phase );
-
-              if ( $phase > 3)
-              {}
-              else
-              { $contentA .= "<input class=\"delItem\" src=\"pix/m.png\"  id=\"delItem\"  onclick=\"update('delete',false,$bid); return false;\"  alt=\"DELETE\" title=\"DELETE\"  type=\"image\">\n\r";
-              }
-              $contentA .= " ".$bl[ 'status' ]."</div>";
-              $contentA .= "\n\r<hr />";
-             # $veranstaltungen = $this->removeElement( $veranstaltungen, $select );
-            }
-        }
-        $contentA .= "</div>";
-    }
-    else
-    {
-      $contentA .= "<div style='width:100%; color:#FFFFFF; background-color:#880000; padding:0px; text-align:center;'>z.Zt keine Belegung möglich</div>";
-    }
-    
-  return $contentA;
-}
-
-*/
-
-
-/*
-function  getBelegliste( $belegliste, $vl_verzeichnis, $IDMuser )
-{
-  $contentA = "<strong>Ihre Belegung</strong><br /><hr />";
-  if( sizeof($belegliste) > 0 )
-  foreach( $belegliste as $bl )
-  { 
-    $bid     = $bl[ 'ID' ];
-    $select  = $bl[ 'veranstaltungID' ];
-
-    if( $bl[ 'status' ] == "B" )
-    {
-      $style = "beleggeBucht";
-    }    
-    else
-    {
-      $style = "beleggeBucht";
-    }    
-
-    $contentA .= "<div class=\"".$style."\">";
-       $contentA .= $this->getVeranstaltungen( $belegliste, $vl_verzeichnis, $select, $bid,  $IDMuser );
-    $contentA .= "</div>";
-    $contentA .= "\n\r<hr />";
-  }
-  $contentA .= "</div>";
-  return $contentA;
-}
-*/
-
-/*
-
-function  getVorlesungsAuswahl( $belegliste, $vl_verzeichnis, $IDMuser )
-{
-  if( sizeof( $belegliste ) > 0 )
-  foreach( $belegliste as $bl )
-  { 
-    $bid   = $bl[ 'ID' ];
-    $select = $bl[ 'veranstaltungID' ];
-
-    if( $bl['status'] == "B")
-    {
-      $style = "beleggeBucht";
-    }    
-    else
-    {
-      $style = "belegWunsch";
-    }    
-
-    $contentA  = "<div class=\"".$style."\">";
-    $contentA .= $this->getVeranstaltungenAuswahl( $belegliste, $vl_verzeichnis, $select, $bid,  $IDMuser );
-
-    $contentA .= "<input class=\"delItem\" src=\"pix/m.png\"  id=\"delItem\"  onclick=\"update('delete',false,$bid); return false;\"  alt=\"DELETE\" title=\"DELETE\"  type=\"image\">\n\r";
-    $contentA .= "</div>";
-    $contentA .= "\n\r<hr />";
-      $veranstaltungen = $this->removeElement( $veranstaltungen, $select );
-  }
-  $contentA .= "</div>";
-  return $contentA;
-}
-
-*/
-
 
 function getParamForm( $IDMuser )
-{
-  $form  = "";
+{ $form  = "";
   $form .=  "<form  method=\"post\"      name=\"param\" action=\"".$_SERVER[ 'PHP_SELF' ]."\" >\n";
   $form .=  "<input name=\"a\"           type=\"hidden\" value=\"update\" />\n";
   $form .=  "<input name=\"col\"         type=\"hidden\" />\n";
@@ -384,47 +70,36 @@ function getstudiverwaltunghtmlhead()
 
 
 function getAddNewEntryButton( $phase = 1 )
-{
-  if ( $phase >= 1 && $phase <= 3  )
-  {
-    return "\n\r<a  href=\"#\" class=\"addItem\" id=\"addItem\"  onclick=\"update('neuerBeleglistenEintrag',false,false); return false;\"  alt=\"ADD\" title=\"ADD\"  type=\"image\">Neuer Eintrag <img  border=\"0\" src=\"pix/p.png\"></a>\n\r";
+{ if ( $phase >= 1 && $phase <= 3  )
+  { return "\n\r<a  href=\"#\" class=\"addItem\" id=\"addItem\"  onclick=\"update('neuerBeleglistenEintrag',false,false); return false;\"  alt=\"ADD\" title=\"ADD\"  type=\"image\">Neuer Eintrag <img  border=\"0\" src=\"pix/p.png\"></a>\n\r";
   }
 }
 
 function getFilterID()
-{
-    if    ( isset( $_POST[ 'filterID' ] ) )                    { $veranstaltungsFilterID = $_POST[ 'filterID' ]; } 
+{   if    ( isset( $_POST[ 'filterID' ] ) )                    { $veranstaltungsFilterID = $_POST[ 'filterID' ]; }
     elseif( isset( $_GET[ 'F'         ] ) )                    { $veranstaltungsFilterID = $_GET[ 'F' ];         } 
     elseif( isset( $_POST[ 'filterID' ] )  || (isset ( $_POST[ 'F' ]) ) ) {} 
-	else { $veranstaltungsFilterID =  -1;                  } 
+    else { $veranstaltungsFilterID =  -1;                  }
     return $veranstaltungsFilterID ;
 }
 
 function getHeliosAuswahl()
-{
-    $filterListe = null;
-
-   // print_r($_POST);
-    
-    if ( isset ($_POST[ 'SUB' ] ))                                              /* Ermittelt die angeklickten Felder für den HELIOS Export und erstellt die entsprechende Filterliste */  
-    {    foreach ( $_POST as $P )
-        {    if( $P != "-SELECTED-" )
-            {    $filterListe[] =  $P ;
-            }
-        } 
-    }
-
-    
-    return $filterListe;
+{ $filterListe = null;
   
+  if ( isset ($_POST[ 'SUB' ] ))                                              /* Ermittelt die angeklickten Felder für den HELIOS Export und erstellt die entsprechende Filterliste */
+  {  foreach ( $_POST as $P )
+     {  if( $P != "-SELECTED-" )
+        { $filterListe[] =  $P ; }
+     }
+  }
+  return $filterListe;
 }
 
 
 function isChangeable()
-{
-    if( $_SESSION['user']["ro"] >= 2 ) { $changeable    = true; }
-    else                      { $changeable    = false; }
-    return $changeable;
+{ if( $_SESSION['user']["ro"] >= 2 ) { $changeable    = true; }
+  else                      { $changeable    = false; }
+  return $changeable;
 }
 
 
@@ -453,10 +128,8 @@ $pwERROR      = false;
 $pwOld        = 0;
 
 if ( isset($_SESSION[ 'intern' ]) AND $_SESSION[ 'intern' ] != 'true' )                                                              // -- Beschränkung nur bei Studiansicht
-{ 
-  foreach ( $phasewechsel as $pw  )
-  {
-    if ( $pw > $pwOld ) { $pwOld = $pw; } else { $pwERROR = true; echo "ERROR: Phasenwechsel"; }
+{ foreach ( $phasewechsel as $pw  )
+  { if ( $pw > $pwOld ) { $pwOld = $pw; } else { $pwERROR = true; echo "ERROR: Phasenwechsel"; }
   }
   
   if ( time() > $phasewechsel[1] )  {  $phase = 1; }   
@@ -465,12 +138,10 @@ if ( isset($_SESSION[ 'intern' ]) AND $_SESSION[ 'intern' ] != 'true' )         
   if ( time() > $phasewechsel[4] )  {  $phase = 4; }                         
 }
 else                                                                                                // -- Keine Beschränkung bei Koordinatorenansicht 
-{                                                                                                  
-  $phase =  1;                                                             
+{ $phase =  1;
 }
 
 return $phase;
-
 }
 
 function deb($var)
@@ -481,7 +152,6 @@ function deb($var)
 
 function getInput()
 {
-  
 $IDMuser[ 'mail'        ] = "";
 $IDMuser[ 'vorname'     ] = "";
 $IDMuser[ 'nachname'    ] = "";
@@ -506,9 +176,8 @@ if($_POST)                                                                      
 /*-------------------------------------------------------------------------------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------*/
- #deb("---------------------------");
- # deb($_SESSION ,1);
-  if( $_SESSION['GET'] )                                                                                         /*  Initiale Parameterübergabe über  Moodle */
+ 
+if( $_SESSION['GET'] )                                                                                         /*  Initiale Parameterübergabe über  Moodle */
 {
   if ( isset(  $_SESSION['GET'][ 'm'   ] )) { $IDMuser[ 'mail'        ] =  rawurldecode( base64_decode( $_GET[ 'm'  ] ) ); } else { echo "<br>ERROR: no 'mail'       "; }
   if ( isset(  $_SESSION['GET'][ 'fn'  ] )) { $IDMuser[ 'vorname'     ] =  rawurldecode( base64_decode( $_GET[ 'fn' ] ) ); } else { echo "<br>ERROR: no 'vorname'    "; }
@@ -538,52 +207,5 @@ if ($_GET[ 'sv' ])
 return $IDMuser;
 }
 
-/*
----- DATENSTRUKTUREN  -----
------------------------------------------
-$_POST
------------------------------------------
-Array
-(
-    [a] => update
-    [col] => studiengangID
-    [val] => 5
-    [id] => undefined
-    [checksum] => 
-    [semester] => 2
-    [studiengang] => 5
-    [akennung] => 1234567
-    [mail] => 
-    [vorname] => 
-    [nachname] => 
-)
-
------------------------------------------
-$PARAM
------------------------------------------
-Array
-(
-    [action] => update
-    [column] => studiengangID
-    [value] => 5
-    [ID] => undefined
-    [sum] => 
-)
-
------------------------------------------
-$IDMuser
------------------------------------------
-Array
-(
-    [ID] => 1
-    [akennung] => 1234567
-    [vorname] => Studi
-    [nachname] => Student
-    [studiengang] => 1
-    [semester] => 2
-    [mail] => studi.student@haw-hamburg.de
-)
-
-*/
 }
 ?>

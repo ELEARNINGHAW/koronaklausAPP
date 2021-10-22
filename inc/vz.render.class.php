@@ -22,23 +22,23 @@ class Render
     $tab .= "\n\r<form  method='post'  name='beleglisteGesamt' action='".$_SERVER['PHP_SELF']."' >";
     $tab .= "<table  class=\"belegTabelle\">\r\n";
     $tab .= "<thead><tr> ";
-    if( $changeable ) { $tab .= "<th class=\"c0 header\">ID                </th>\r\n ";}
-    if( $changeable ) { $tab .= "<th class=\"c1 header\">Dozierende        </th>\r\n ";}
-    if( $changeable ) { $tab .= "<th class=\"c2 header\">LVA </th>\r\n ";}
-    if( $changeable ) { $tab .= "<th class=\"c3 header\">Sem               </th>\r\n ";}
-    if( $changeable ) { $tab .= "<th class=\"c4 header\">SG                </th>\r\n ";}
-    if( $changeable ) { $tab .= "<th class=\"c5 header\">Datum             </th>\r\n ";}
-    if( $changeable ) { $tab .= "<th class=\"c6 header\">Zeit              </th>\r\n ";}
-    if( $changeable ) { $tab .= "<th class=\"c7 header\">Studi [1]       </th>\r\n ";}
-    if( $ed=='' )     { $tab .= "<th class=\"c8 header\">Studi [2]     </th>\r\n ";}
-    if( $changeable ) { $tab .= "<th class=\"c9 header\">Bemerkung         </th>\r\n ";}
+    if( $changeable ) { $tab .= "<th class=\"c0 header\">ID           </th>\r\n ";}
+    if( $changeable ) { $tab .= "<th class=\"c1 header\">Dozierende   </th>\r\n ";}
+    if( $changeable ) { $tab .= "<th class=\"c2 header\">LVA          </th>\r\n ";}
+    if( $changeable ) { $tab .= "<th class=\"c3 header\">Sem          </th>\r\n ";}
+    if( $changeable ) { $tab .= "<th class=\"c4 header\">SG           </th>\r\n ";}
+    if( $changeable ) { $tab .= "<th class=\"c5 header\">Datum        </th>\r\n ";}
+    if( $changeable ) { $tab .= "<th class=\"c6 header\">Zeit         </th>\r\n ";}
+    if( $changeable ) { $tab .= "<th class=\"c7 header\">Studi [1]    </th>\r\n ";}
+    if( $ed=='' )     { $tab .= "<th class=\"c8 header\">Studi [2]    </th>\r\n ";}
+    if( $changeable ) { $tab .= "<th class=\"c9 header\">Bemerkung    </th>\r\n ";}
     if( $ed == ''   ) { $tab .= "<th class=\"c10\"><a title='Neuer Klausrendatensatz hinzufügen' style='background-color: #0F0F0F' href=\"".$_SERVER['PHP_SELF']."?action=addone&go=1\" ><img  id=\"addone\" src=\"../vorlesungs_vz/img/p.gif\"></a></th>\r\n ";}
     else              { $tab .= "<th class=\"c10\"></th>\r\n "; }
     $tab .= "</tr></thead> \r\n \r\n";
     
     if($vorlesungsliste)
     {
-      $tab .= "<tbody style='  position: absolute;'>\r\n";
+      $tab .= "<tbody>\r\n";
       
       foreach($vorlesungsliste as $vll )
       {
@@ -73,9 +73,9 @@ class Render
           $tab .= "<td class='c4' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'SG' ]         . "</span><input  $ed  class=\"SG\"      id=\"SG"       .$tabX[ 'ID' ]. "\"   type=\"text\"   value=\"" .$tabX[ 'SG'         ] . "\" list=\"SG\"            maxlength=\"5\"  required size=\"1\" pattern=\"[A-Z]{1,1}\"   /></div></td>\r\n";
           $tab .= "<td class='c5' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'date' ]       . "</span><input  $ed  class=\"date\"    id=\"date"     .$tabX[ 'ID' ]. "\"   type=\"date\"   value=\"" .$tabX[ 'date'       ] . "\"                /></div></td>\r\n";
           $tab .= "<td class='c6' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'time' ]       . "</span><input  $ed  class=\"time\"    id=\"time"     .$tabX[ 'ID' ]. "\"   type=\"time\"   value=\"" .$tabX[ 'time'       ] . "\"  step=\"1800\"  min=\"6:00\" max=\"0:00\"                                            /></div></td>\r\n";
-          $tab .= "<td class='c7' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'anzStudis1' ] . "</span><input       class=\"aSt1\"    id=\"anzStdIn" .$tabX[ 'ID' ]. "_1\" type=\"number\" value=\"" .$tabX[ 'anzStudis1' ] . "\"  min=\"0\" max=\"200\"                                                               /></div></td>\r\n";
+          $tab .= "<td class='c7' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'anzStudis1' ] . "</span><input       class=\"aSt2\"    id=\"anzStdIn" .$tabX[ 'ID' ]. "_1\" type=\"number\" value=\"" .$tabX[ 'anzStudis1' ] . "\"  min=\"0\" max=\"200\"                                                               /></div></td>\r\n";
           if($ed=='')    $tab .= "<td class='c8'  ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'anzStudis2' ] . "</span><input       class=\"aSt2\"    id=\"anzStdIn" .$tabX[ 'ID' ]. "_2\" type=\"number\" value=\"" .$tabX[ 'anzStudis2' ] . "\"  min=\"0\" max=\"200\"                                                               /></div></td>\r\n";
-          $tab .= "<td class='c9'  ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'anote' ]      . "</span><textarea   wrap=\"hard\"  class=\"anote ta3\"   id=\"anote"    .$tabX[ 'ID' ]. "\"   name=\"anote" .$tabX[ 'ID' ]. "\"  rows=\"".(floor(strlen($tabX[ 'anote'   ]) / 60 )) ."\" cols=\"15\"  wrap=\"on\" style='height:55px' >" .$tabX[ 'anote'   ] . "</textarea></div></td>\r\n";
+          $tab .= "<td class='c9'  ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'anote' ]      . "</span><textarea   wrap=\"hard\"  class=\"anote ta3\"   id=\"anote"    .$tabX[ 'ID' ]. "\"   name=\"anote" .$tabX[ 'ID' ]. "\"  rows=\"".(floor(strlen($tabX[ 'anote'   ]) / 60 )) ."\" cols=\"15\"  wrap=\"on\" style='height:55px; width:100%; ' >" .$tabX[ 'anote'   ] . "</textarea></div></td>\r\n";
           if ($ed !='' ) $tab .= "<td class='c10' > <div class=\"ui-widget\"></td>\r\n";
           else           $tab .= "<td class='c10' > <div class=\"ui-widget\"><img  class=\"center\" title='Diesen Klausrendatensatz löschen'    id=\"kill_" .$tabX[ 'ID' ]. "\" src='../vorlesungs_vz/img/m.png'></div></td>\r\n";
           
@@ -134,7 +134,7 @@ class Render
     #  return '<div style="display:inline-block; float:left; overflow: auto; height: 100%;   ">'.$tab.'</div>';
   }
   
-  
+
   function renderExtKlausurListe( $vorlesungsliste ,    $db, $changeable = false )
   {
     $i = 0;

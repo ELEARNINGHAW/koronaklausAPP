@@ -7,8 +7,9 @@ require_once( "../db.class.php" );
 
 require_once( "../db.SQLL.class.php" );
 
-$dbL                    = new SQLL_DB();
-$db                     = new DB($dbL);
+#$dbL                    = new SQLL_DB();
+#$db                     = new DB($dbL);
+$db                     = new DB();
 $output = '';
 
 if(isset($_POST["import"]))
