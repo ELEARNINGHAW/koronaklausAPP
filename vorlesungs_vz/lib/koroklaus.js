@@ -109,6 +109,7 @@ function setIt( x, STATE , save = false , color = 0 )
 
       anz =  $( "#KL" + curKL ).val( );
       for ( j = 0; j < 3; j++ ) { for ( i = 0; i < 1000000; i++ ); };
+      //alert("ajax.php?action=changeRaum&id=" + curKL + "&val=" + anz0);
       $.ajax({  type: "get",  url: "ajax.php?action=changeRaum&id=" + curKL + "&val=" + anz });
 
       $( "#SX" + curKL ).val( getPers( $( "#KL" + curKL ).val( ) ) );

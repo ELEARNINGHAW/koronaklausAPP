@@ -3,10 +3,10 @@
 
 class DB
 { var $conn;
-  var $dbL;
+  #var $dbL;
 
-	function __construct( $dbL = null )
-	{ if ($dbL) { $this -> dbL = $dbL;  }
+	function __construct(  )
+	{ #if ($dbL) { $this -> dbL = $dbL;  }
   
     require( "ini/db.ini.php" );
     $this -> conn  = mysqli_connect( $server, $user, $pass );
@@ -146,53 +146,50 @@ function getAllDozent()
   return $dozent;
 }
   
-  function getDozentByUserID( $userID )
-  { $ret = null;
-    $sql_1    = "SELECT * FROM `dozenten` WHERE `userID` = '" . $userID ."'";
-    $result_1 = mysqli_query (  $this -> conn, $sql_1  );
-    if ( $result_1 )  { $ret = mysqli_fetch_array( $result_1, MYSQLI_ASSOC );  }
-    return $ret;
-  }
-  
-  function getDozentByKurzel( $abk )
-  {
-    $sql_1 = "SELECT * FROM `dozenten` WHERE `abk` = '" . $abk ."'";
-    $result_1 = mysqli_query (  $this->conn, $sql_1  );
-  
-    if ( $result_1 )  { $ret = mysqli_fetch_array( $result_1, MYSQLI_ASSOC );  }
-   
-    return $ret;
-  }
-  
-  function getDozentByKennung( $kennung )
-  {
-    $sql_1 = "SELECT * FROM `dozenten` WHERE `userID` = '" . $kennung ."'";
-    $result_1 = mysqli_query (  $this->conn, $sql_1  );
+function getDozentByUserID( $userID )
+{ $ret = null;
+  $sql_1    = "SELECT * FROM `dozenten` WHERE `userID` = '" . $userID ."'";
+  $result_1 = mysqli_query (  $this -> conn, $sql_1  );
+  if ( $result_1 )  { $ret = mysqli_fetch_array( $result_1, MYSQLI_ASSOC );  }
+  return $ret;
+}
+
+function getDozentByKurzel( $abk )
+{
+  $sql_1 = "SELECT * FROM `dozenten` WHERE `abk` = '" . $abk ."'";
+  $result_1 = mysqli_query (  $this->conn, $sql_1  );
+
+  if ( $result_1 )  { $ret = mysqli_fetch_array( $result_1, MYSQLI_ASSOC );  }
  
-    if ( $result_1 )  {  $ret = mysqli_fetch_array( $result_1, MYSQLI_ASSOC );   }
-    return $ret;
-  }
-  
-  
-  function setKoordinator(  $name )
+  return $ret;
+}
+
+function getDozentByKennung( $kennung )
+{
+  $sql_1 = "SELECT * FROM `dozenten` WHERE `userID` = '" . $kennung ."'";
+  $result_1 = mysqli_query (  $this->conn, $sql_1  );
+
+  if ( $result_1 )  {  $ret = mysqli_fetch_array( $result_1, MYSQLI_ASSOC );   }
+  return $ret;
+}
+
+
+function setKoordinator(  $name )
+{
+  $name[ 'lastname'  ] = trim ( $name[ 'lastname'  ] ); # lastname
+  $name[ 'firstname' ] = trim ( $name[ 'firstname' ] ); # firstname
+  $name[ 'abk'       ] = trim ( $name[ 'abk'       ] ); # abk
+
+  #if ( $name[ 'abk' ] != '' AND   $name[ 'lastname' ] != '' )
   {
-    $name[ 'lastname'  ] = trim ( $name[ 'lastname'  ] ); # lastname
-    $name[ 'firstname' ] = trim ( $name[ 'firstname' ] ); # firstname
-    $name[ 'abk'       ] = trim ( $name[ 'abk'       ] ); # abk
-  
-    #if ( $name[ 'abk' ] != '' AND   $name[ 'lastname' ] != '' )
-    {
-      $sql_1 = "INSERT INTO `dozenten` (`ID`, `userID`, `abk`, `lastname`, `firstname`, `email`) VALUES ( NULL , '". $name[ 'userID' ] . "' , '". $name[ 'abk' ] . "' , '". $name[ 'lastname' ] . "' , '". $name[ 'firstname' ] . "' , '". $name[ 'email' ] ."')";
-      $result_1 = mysqli_query($this->conn, $sql_1);
-    }
+    $sql_1 = "INSERT INTO `dozenten` (`ID`, `userID`, `abk`, `lastname`, `firstname`, `email`) VALUES ( NULL , '". $name[ 'userID' ] . "' , '". $name[ 'abk' ] . "' , '". $name[ 'lastname' ] . "' , '". $name[ 'firstname' ] . "' , '". $name[ 'email' ] ."')";
+    $result_1 = mysqli_query($this->conn, $sql_1);
   }
- 
-  
-  
+}
+
   
 function updateDozent($user)
 {
-
   if( ( isset($_SESSION[ 'user' ][ 'email'   ]) AND $_SESSION[ 'user' ][ 'email'  ]) != '' )
   {
     $sql_1 = "UPDATE `dozenten`
@@ -227,40 +224,33 @@ function update2Dozent($user, $usr)
   return ($usr['uusername'] );
 }
   
-  function getLehrveranstaltung()
-  {
-    $sql_1 = "SELECT * FROM `lehrveranstaltungen` ";
-    $result_1 = mysqli_query (  $this->conn, $sql_1  );
-    $LVA = null;
-    
-    if ( $result_1 )
-    {
-      while ( $row = mysqli_fetch_array( $result_1, MYSQLI_ASSOC ) )
-      {
-        $LVA[ $row[ 'abk' ] ] = $row;
-      }
-    }
-    return $LVA;
-  }
+function getLehrveranstaltung()
+{ $sql_1 = "SELECT * FROM `lehrveranstaltungen` ";
+  $result_1 = mysqli_query (  $this->conn, $sql_1  );
+  $LVA = null;
   
-  function getStudiengaenge()
-  {
-    $sql_1 = "SELECT * FROM `studiengaenge` ";
-    $result_1 = mysqli_query (  $this->conn, $sql_1  );
-    $SG = null;
-    if ( $result_1 )
-    {
-      while ( $row = mysqli_fetch_array( $result_1, MYSQLI_ASSOC ) )
-      {
-        $SG[ $row[ 'abk' ] ] = $row;
-      }
+  if ( $result_1 )
+  { while ( $row = mysqli_fetch_array( $result_1, MYSQLI_ASSOC ) )
+    { $LVA[ $row[ 'abk' ] ] = $row;
     }
-    return $SG;
   }
+  return $LVA;
+}
+
+function getStudiengaenge()
+{ $sql_1 = "SELECT * FROM `studiengaenge` ";
+  $result_1 = mysqli_query (  $this->conn, $sql_1  );
+  $SG = null;
+  if ( $result_1 )
+  { while ( $row = mysqli_fetch_array( $result_1, MYSQLI_ASSOC ) )
+    { $SG[ $row[ 'abk' ] ] = $row;
+    }
+  }
+  return $SG;
+}
   
-  function getNumberOfStudisInVeranst($veranstID)
-{
-  $sql    = "SELECT COUNT(*) as anzStudis FROM mdl_haw_wunschbelegliste WHERE `veranstaltungID` =".$veranstID;
+function getNumberOfStudisInVeranst($veranstID)
+{ $sql    = "SELECT COUNT(*) as anzStudis FROM mdl_haw_wunschbelegliste WHERE `veranstaltungID` =".$veranstID;
   $result = mysqli_query( $this->conn, $sql );
   if ( $result )
 	$row = mysqli_fetch_array( $result, MYSQLI_ASSOC ); 
@@ -269,78 +259,67 @@ function update2Dozent($user, $usr)
 }
 
 function getAnzStudisInVeranstaltung( $veranstaltungID )
-{
-	$tmp[] = "";
+{ $tmp[] = "";
 	$ret = 0;
 	$sql_1 = "SELECT `veranstaltungID` FROM `mdl_haw_wunschbelegliste` WHERE `veranstaltungID` = ". $veranstaltungID;
 	$result_1 = mysqli_query (  $this->conn, $sql_1  );
 
 	if ( $result_1 )
-	{	
-		while ( $row = mysqli_fetch_array( $result_1, MYSQLI_ASSOC ) )
-		{	
-			$ret++;
-            $tmp[] = "";
+	{ while ( $row = mysqli_fetch_array( $result_1, MYSQLI_ASSOC ) )
+		{ $ret++;
+      $tmp[] = "";
 		}
 	}
 	return $ret;	
 }
   
-  function getExtKlausurplan( $ID )
-  {	$extKlausurplan = null;
-    if ( $ID != 0 )  { $whereclausel = 'AND `ID` = $ID';   }
-    else             { $whereclausel = '';                   }
-    $sql_1 = "SELECT `vl_verzeichnis`.ID as ID, `lehrveranstaltungen`.`name` as LVA, dozabk,`dozenten`.`lastname` as dozname, LVAabk, semSG, date , time, WEEKDAY(`date`) as WD, DAYOFYEAR(`date`) as DOY, DAYNAME(`date`) as DN, HOUR(`time`) as H, anzstudi1 , anzstudi2, bemerkung, raum,  save, studr, checked   FROM `vl_verzeichnis`,`dozenten`,  `lehrveranstaltungen` WHERE `lehrveranstaltungen`.`abk` = `vl_verzeichnis`.`LVAabk` AND `dozenten`.`abk` =  `vl_verzeichnis`.`dozabk` " . $whereclausel ." ORDER BY date ASC, H ASC, dozname DESC ";
+function getExtKlausurplan( $ID )
+{	$extKlausurplan = null;
+  if ( $ID != 0 )  { $whereclausel = 'AND `ID` = $ID';   }
+  else             { $whereclausel = '';                   }
+  $sql_1 = "SELECT `vl_verzeichnis`.ID as ID, `lehrveranstaltungen`.`name` as LVA, dozabk,`dozenten`.`lastname` as dozname, LVAabk, semSG, date , time, WEEKDAY(`date`) as WD, DAYOFYEAR(`date`) as DOY, DAYNAME(`date`) as DN, HOUR(`time`) as H, anzstudi1 , anzstudi2, bemerkung, raum,  save, studr, checked   FROM `vl_verzeichnis`,`dozenten`,  `lehrveranstaltungen` WHERE `lehrveranstaltungen`.`abk` = `vl_verzeichnis`.`LVAabk` AND `dozenten`.`abk` =  `vl_verzeichnis`.`dozabk` " . $whereclausel ." ORDER BY date ASC, H ASC, dozname DESC ";
 
-    $result_1 =  mysqli_query (  $this -> conn, $sql_1  );
-    
-    if ( $result_1 )
+  $result_1 =  mysqli_query (  $this -> conn, $sql_1  );
+  
+  if ( $result_1 )
+  {
+    while ( $row = mysqli_fetch_array( $result_1, MYSQLI_ASSOC ) )
     {
-      while ( $row = mysqli_fetch_array( $result_1, MYSQLI_ASSOC ) )
-      {
-        if ($row[ 'DOY' ] == '' ) { $row[ 'DOY' ] = '0' ;}
-        if ($row[ 'H'   ] == '' ) { $row[ 'H'   ] = '0' ;}
-        if ($row[ 'H'   ] <= 12 ) { $row[ 'H'   ] = '1' ;}
-        else                      { $row[ 'H'   ] = '2' ;}
-        
-        $extKlausurplan[ $row[ 'date' ] ][ $row[ 'H' ] ][ $row[ 'ID' ] ] = $row;
-      }
+      if ($row[ 'DOY' ] == '' ) { $row[ 'DOY' ] = '0' ;}
+      if ($row[ 'H'   ] == '' ) { $row[ 'H'   ] = '0' ;}
+      if ($row[ 'H'   ] <= 12 ) { $row[ 'H'   ] = '1' ;}
+      else                      { $row[ 'H'   ] = '2' ;}
+      
+      $extKlausurplan[ $row[ 'date' ] ][ $row[ 'H' ] ][ $row[ 'ID' ] ] = $row;
     }
-    return $extKlausurplan;
   }
-
-
-
-
+  return $extKlausurplan;
+}
 
 function getVorlesung( $ID = 0 )
-{	                   $whereclausel = '';
-	if ( $ID != 0 )  { $whereclausel = 'WHERE `ID` = $ID';   }
-
-	$sql_1 = "SELECT * FROM `vl_verzeichnis` ". $whereclausel ." ORDER BY `dozabk`";
+{ if ( $ID != 0 )  { $whereclausel = 'WHERE `ID` = $ID'; }
+  else             {  $whereclausel = '';                }
+	
+  $sql_1 = "SELECT * FROM `vl_verzeichnis` ". $whereclausel ." ORDER BY `dozabk`";
 	$result_1 = mysqli_query (  $this->conn, $sql_1  );
 
 	if ( $result_1 )
-	{	
-		while ( $row = mysqli_fetch_array( $result_1, MYSQLI_ASSOC ) )
-		{	
-		  $tmp[ 'ID'             ] = $row[ 'ID'      ];
-			$tmp[ 'doz'            ] = $this -> getProfessor( $row[ 'dozabk' ] );               # $row[ 'dozabk' ];
+	{	while ( $row = mysqli_fetch_array( $result_1, MYSQLI_ASSOC ) )
+		{ $tmp[ 'ID'             ] = $row[ 'ID'      ];
+			$tmp[ 'doz'            ] = $this -> getProfessor(     $row[ 'dozabk' ] );               # $row[ 'dozabk' ];
 			$tmp[ 'LVA'            ] = $this -> getVeranstaltung( $row[ 'LVAabk' ] );       # $row[ 'LVAabk' ];                            # $this->getStudiengang( $row[ 'studiengangID' ] );
-      $tmp[ 'date'           ] = $row[ 'date' ] ;
-      $tmp[ 'time'           ] = $row[ 'time' ] ;
+      $tmp[ 'date'           ] = $row[ 'date'     ] ;
+      $tmp[ 'time'           ] = $row[ 'time'     ] ;
       $tmp[ 'SG'             ] = $row[ 'SG'       ];
       $tmp[ 'sem'            ] = $row[ 'sem'      ];
       $tmp[ 'anzStudis'      ][ 1 ] = $row[ 'anzstudi1' ];                    # $this->getStudiengang( $row[ 'studiengangID' ] );
       $tmp[ 'anzStudis'      ][ 2 ] = $row[ 'anzstudi2' ];                    # $this->getStudiengang( $row[ 'studiengangID' ] );
-      $tmp[ 'anote'          ] = $row[ 'bemerkung'     ];
+      $tmp[ 'anote'          ] = $row[ 'bemerkung'      ];
       
       $tmpusr = explode(',', $row[ 'dozabk' ] );  foreach ($tmpusr as $tu)   { $tmpu[] = trim($tu); } ;  ## Alle User, besonders Listen von Usern, werden in Array konvertiert
   
-  
-      if ( in_array( $_SESSION['user']['abk'], $tmpu) OR ( $_SESSION['user']['ro'] >= 3 ) )   ## Nur eigene Datensätze werden in die Liste aufgenommen
-      {
-        $vorlesungsListe[$row['ID']] = $tmp;
+      if ( in_array( $_SESSION[ 'user' ][ 'abk' ], $tmpu) OR ( $_SESSION[ 'user' ][ 'ro' ] >= 3 ) )   ## Nur eigene Datensätze werden in die Liste aufgenommen
+      { $vorlesungsListe[ $row[ 'ID' ] ]  = $tmp;
       }
 			unset( $tmp );
       unset($tmpu);
@@ -581,8 +560,6 @@ function setWishState( $id, $state )
      VALUES ( '". $val['kid'] . "' , '" . $val['dozabk'] . "' , '" . $val['LVAabk'] . "'  , '" . $val['semSG'] . "'" .$VAL_sem . $VAL_SG ." , " . $val['date'] . " , '" . $val['time'] . "', '" . $val['bemerkung'] . "', '" . $val['anz1'] . "' );";
  
      $result_1 = mysqli_query($this->conn, $sql_1);
-   
-
   }
   
 function importRow_doz($val)
@@ -591,9 +568,9 @@ function importRow_doz($val)
   $result_1 = mysqli_query(  $this->conn, $sql_1  );
 
   ## ---- import userdata ----
-  if ($usr = $this->dbL->getUserData( $val['doz'] ))
+  #if ($usr = $this->dbL->getUserData( $val['doz'] ))
   {
-    $this->update2Dozent($val, $usr);
+    #$this->update2Dozent($val, $usr);
   }
   ## ---- import userdata ----
 }
@@ -604,7 +581,6 @@ function importRow_LVA($val)
   $sql_1 = "INSERT INTO `lehrveranstaltungen` (`abk`, `name`)   VALUES ( '". $val['LVAabk'] ."' , '". $val['LVA'] ."' );";
   $result_1 = mysqli_query(  $this->conn, $sql_1  );
 }
-
   
   
   function deleteRow( $id, $val )
@@ -613,18 +589,21 @@ function importRow_LVA($val)
   $result_1 = mysqli_query(  $this->conn, $sql_1  );
 }
 
-
-
-
-
-
 function addBlankRow()
 {
   $sql_1 = "INSERT INTO `vl_verzeichnis` (`ID`, `dozabk`, `LVAabk`, `date`, `SG`, `sem`, `anzstudi1`, `anzstudi2`) VALUES (NULL, '', '', '0000-00-00', '', '', '0', '0');  ";
   $result_1 = mysqli_query(  $this->conn, $sql_1  );
 }
+  
 
-function setAnzStudi1( $id, $val )
+function changeDozent( $id, $val )
+{ $doz = explode( '/', $val);
+  $sql_1 = "UPDATE `vl_verzeichnis` SET `dozabk` = '".$doz[1]."' WHERE `vl_verzeichnis`.`ID` = ".$id;
+  $result_1 = mysqli_query(  $this->conn, $sql_1  );
+}
+  
+  
+  function setAnzStudi1( $id, $val )
 {
   $sql_1 = "UPDATE `vl_verzeichnis` SET `anzstudi1` = '".$val."' WHERE `vl_verzeichnis`.`ID` = ".$id;
   $result_1 = mysqli_query(  $this->conn, $sql_1  );
@@ -680,7 +659,6 @@ function setAnzStudi1( $id, $val )
   {
     #$val = $this->conn -> real_escape_string($val);
     $sql_1 = "UPDATE `vl_verzeichnis` SET `raum` = '".$val."' WHERE `vl_verzeichnis`.`ID` = \"".$id."\"";
-#  print_r($sql_1);
     $result_1 = mysqli_query(  $this->conn, $sql_1  );
   }
   
@@ -693,7 +671,6 @@ function setAnzStudi1( $id, $val )
     if( !$TSexist )  ##  Bisher noch kein Eintrag für diesen Timeslot vorhanden. Eintrag wird gemacht.
     {
       $sql_2 = "INSERT INTO `timeslots` (`ID`, `timeslot`, `checked`) VALUES (NULL, '" .$id. "', '" .$val. "')";
-  #     print_r($sql_2);
       $result_2 = mysqli_query(  $this->conn, $sql_2  );
     }
     
@@ -701,9 +678,7 @@ function setAnzStudi1( $id, $val )
     {
     $sql_3 = "UPDATE `timeslots` SET `checked` = '".$val."' WHERE `timeslot`  = \"".$id."\"";
     $result_3 = mysqli_query($this->conn, $sql_3);
-  #  print_r($sql_3);
     }
-    # $this->getChecked( $id );
   }
   
   
@@ -732,7 +707,7 @@ function setAnzStudi1( $id, $val )
 
 
   
-/*
+ 
 
 function setdozent( $id, $val )
   { 
@@ -743,14 +718,12 @@ function setdozent( $id, $val )
   
     $tmp  = explode( ':', $val );
 	
-	if (strcmp( trim($tmp[0]), 'NEW')  == 0   )
-	{  
-      $new       = 'NEW';
+	  if (strcmp( trim($tmp[0]), 'NEW')  == 0   )
+	  { $new  = 'NEW';
       $tmp  = explode( '/', $tmp[ 1 ] );
     }
     else
-    { 
-      $tmp  = explode( '/', $tmp[ 0 ] );
+    { $tmp  = explode( '/', $tmp[ 0 ] );
     }
 	
     $name = explode( ',', $tmp[ 0 ] );
@@ -761,8 +734,7 @@ function setdozent( $id, $val )
     $name[ 'new'       ] = trim ( $new );
  
     if ( $name[ 'abk' ] != '' AND   $name[ 'lastname' ] != '' )
-    {
-      $abk      =  " `dozabk`   = '" . $name[ 'abk'       ]  . "'";
+    { $abk      =  " `dozabk`   = '" . $name[ 'abk'       ]  . "'";
       $lastname =  " `lastname` = '". $name[ 'lastname' ] ."'";
       if ( $name[ 'firstname' ] != '' )
       {
@@ -770,8 +742,7 @@ function setdozent( $id, $val )
       }
  
 	if (strcmp( $name['new'],  'NEW')  == 0   )    
-    {
-      $sql_2 = "INSERT INTO `dozenten` ( `abk`) VALUES ( '". $name[ 'abk' ] ."')";
+    { $sql_2 = "INSERT INTO `dozenten` ( `abk`) VALUES ( '". $name[ 'abk' ] ."')";
       $result_2 = mysqli_query($this->conn, $sql_2);
       $sql_3 = "UPDATE `dozenten` SET " .$lastname. $firstname ."  WHERE `dozenten`.`abk` = '".$name[ 'abk'       ] ."'";
       $result_3 = mysqli_query($this->conn, $sql_3);
@@ -782,8 +753,7 @@ function setdozent( $id, $val )
 	  $result_1 = mysqli_query( $this -> conn, $sql_1 );
     }
   }
-  */
-/*
+ 
   function setLVA( $id, $val )
   {
     $abk       = '';
@@ -818,7 +788,7 @@ function setdozent( $id, $val )
       $result_1 = mysqli_query( $this -> conn, $sql_1 );
     }
   }
-*/
+ 
   
  /*
   

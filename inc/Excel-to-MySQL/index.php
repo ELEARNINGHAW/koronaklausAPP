@@ -12,19 +12,18 @@ require_once( "../db.SQLL.class.php" );
 $db                     = new DB();
 $output = '';
 
-if(isset($_POST["import"]))
+if( isset( $_POST[ "import" ] ) )
 {
   $import_counter = 0;	
-  $fn = explode(".", $_FILES["excel"]["name"]);
-  $extension = $fn[1]; // For getting Extension of selected file
+  $fn = explode(".", $_FILES[ "excel" ][ "name" ] );
+  $extension = $fn[ 1 ]; // For getting Extension of selected file
 
-  $allowed_extension = array("xls", "xlsx", "csv"); //allowed extension
+  $allowed_extension = array( "xls", "xlsx", "csv" ); //allowed extension
 
-  if(in_array($extension, $allowed_extension)) //check selected file extension is present in allowed extension array
-  {
-    $file_tmp_name = $_FILES["excel"]["tmp_name"]; // getting temporary source of excel file
+  if( in_array( $extension, $allowed_extension ) ) //check selected file extension is present in allowed extension array
+  {  $file_tmp_name = $_FILES[ "excel" ][ "tmp_name" ]; // getting temporary source of excel file
 
-  include("PHPExcel/IOFactory.php"); // Add PHPExcel Library in this code
+  include( "PHPExcel/IOFactory.php" ); // Add PHPExcel Library in this code
   $objPHPExcel = PHPExcel_IOFactory::load($file_tmp_name); // create object of PHPExcel library by using load() method and in load method define path of selected file
 
   $output .= "<label class='text-success'>Data Added: </label><br /><table class='table table-bordered'>";
@@ -53,7 +52,7 @@ if(isset($_POST["import"]))
 	  $db->importRow_doz($vlvz);
       $db->importRow_LVA($vlvz);		
 	  
-	  $output .= '<td>' .$vlvz[ 'kid'     ] . '</td>';
+	  $output .= '<td>' .$vlvz[ 'kid'    ] . '</td>';
       $output .= '<td>' .$vlvz[ 'dozabk' ] . '</td>';
       $output .= '<td>' .$vlvz[ 'doz'    ] . '</td>';
       $output .= '<td>' .$vlvz[ 'LVAabk' ] . '</td>';

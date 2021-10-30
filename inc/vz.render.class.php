@@ -5,7 +5,7 @@ class Render
   var $CO = array('0' => '#F08080', '1' => '#fffede', '2' => '#adab61', '8' => '#F08080', '9' => '#E9967A', '10' => '#FA8072', '11' => '#FFA07A', '12' => '#884588', '13' => '#FFA500', '14' => '#FFD700', '15' => '#B8860B', '16' => '#DAA520', '17' => '#EEE8AA', '18' => '#BDB76B', '19' => '#F0E68C', '20' => '#808000', '21' => '#FFFF00' );
   
   function renderKlausurListe( $vorlesungsliste , $I , $changeable = false )
-  {
+  { #deb($vorlesungsliste,1);
     $tab   = null;
     $tabX  = null;
     $tabXX = null;
@@ -44,7 +44,10 @@ class Render
       {
         #if( $vll[ 'ID' ] < 20  AND $vll[ 'ID' ] > 18  )
         {
-          $vll = $this -> formatDozLVA( $vll );
+         # $vll = $this -> formatDozLVA( $vll );
+          $tabX= $this -> formatDozLVA( $vll );
+        #  deb($vll,1);
+        /*
           $tabX[ 'ID'         ]   = $vll[ 'ID'      ];
           $tabX[ 'dozname'    ]   = $vll[ 'dozname' ];
           $tabX[ 'LVA'        ]   = $vll[ 'LVA'     ];
@@ -55,6 +58,7 @@ class Render
           $tabX[ 'anzStudis1' ]   = $vll[ 'anzStudis' ][ '1' ];
           $tabX[ 'anzStudis2' ]   = $vll[ 'anzStudis' ][ '2' ];;
           $tabX[ 'anote'      ]   = $vll[ 'anote'    ];
+         */
           $tabXX[]                = $tabX;
           unset($tabX);
         }
@@ -64,20 +68,21 @@ class Render
       {
         $i=0;
         foreach( $tabXX as $tabX )
-        { $i++;
+        { $i++; # deb($tabX,1);
           $tab .= "<tr class='t1'   id=\"row_"  .$tabX[ 'ID' ]. "\">";
           $tab .= "<td class='c0 center'>" .$tabX[ 'ID' ]. "</td>\r\n";
-          $tab .= "<td class='c1' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'dozname' ]    . "</span><input  $ed  class=\"dozname\" id=\"dozname"  .$tabX[ 'ID' ]. "\"   type=\"text\"   value=\"" .$tabX[ 'dozname'    ] . "\" list=\"doznames\"                                                                    ></div></td>\r\n";
-          $tab .= "<td class='c2' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'LVA' ]        . "</span><input  $ed  class=\"LVA\"     id=\"LVA"      .$tabX[ 'ID' ]. "\"   type=\"text\"   value=\"" .$tabX[ 'LVA'        ] . "\" list=\"LVA\"                                                                         /></div></td>\r\n";
-          $tab .= "<td class='c3' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'sem' ]        . "</span><input  $ed  class=\"sem\"     id=\"sem"      .$tabX[ 'ID' ]. "\"   type=\"number\" value=\"" .$tabX[ 'sem'        ] . "\"  min=\"0\"  max=\"20\" maxlength=\"2\" required size=\"10\"                          /></div></td>\r\n";
-          $tab .= "<td class='c4' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'SG' ]         . "</span><input  $ed  class=\"SG\"      id=\"SG"       .$tabX[ 'ID' ]. "\"   type=\"text\"   value=\"" .$tabX[ 'SG'         ] . "\" list=\"SG\"            maxlength=\"5\"  required size=\"1\" pattern=\"[A-Z]{1,1}\"   /></div></td>\r\n";
-          $tab .= "<td class='c5' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'date' ]       . "</span><input  $ed  class=\"date\"    id=\"date"     .$tabX[ 'ID' ]. "\"   type=\"date\"   value=\"" .$tabX[ 'date'       ] . "\"                /></div></td>\r\n";
-          $tab .= "<td class='c6' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'time' ]       . "</span><input  $ed  class=\"time\"    id=\"time"     .$tabX[ 'ID' ]. "\"   type=\"time\"   value=\"" .$tabX[ 'time'       ] . "\"  step=\"1800\"  min=\"6:00\" max=\"0:00\"                                            /></div></td>\r\n";
-          $tab .= "<td class='c7' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'anzStudis1' ] . "</span><input       class=\"aSt2\"    id=\"anzStdIn" .$tabX[ 'ID' ]. "_1\" type=\"number\" value=\"" .$tabX[ 'anzStudis1' ] . "\"  min=\"0\" max=\"200\"                                                               /></div></td>\r\n";
-          if($ed=='')    $tab .= "<td class='c8'  ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'anzStudis2' ] . "</span><input       class=\"aSt2\"    id=\"anzStdIn" .$tabX[ 'ID' ]. "_2\" type=\"number\" value=\"" .$tabX[ 'anzStudis2' ] . "\"  min=\"0\" max=\"200\"                                                               /></div></td>\r\n";
-          $tab .= "<td class='c9'  ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'anote' ]      . "</span><textarea   wrap=\"hard\"  class=\"anote ta3\"   id=\"anote"    .$tabX[ 'ID' ]. "\"   name=\"anote" .$tabX[ 'ID' ]. "\"  rows=\"".(floor(strlen($tabX[ 'anote'   ]) / 60 )) ."\" cols=\"15\"  wrap=\"on\" style='height:55px; width:100%; ' >" .$tabX[ 'anote'   ] . "</textarea></div></td>\r\n";
+          $tab .= "<td class='c1' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'dozname'                          ] . "</span><input  $ed  class=\"dozname\"                   id=\"dozname"  .$tabX[ 'ID' ]. "\"   type=\"text\"   value=\"" .$tabX[ 'dozname'   ]        . "\" list=\"doznames\"                                                                    ></div></td>\r\n";
+          $tab .= "<td class='c2' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'LVA'                              ] . "</span><input  $ed  class=\"LVA\"                       id=\"LVA"      .$tabX[ 'ID' ]. "\"   type=\"text\"   value=\"" .$tabX[ 'LVA'       ]        . "\" list=\"LVA\"                                                                         /></div></td>\r\n";
+          $tab .= "<td class='c3' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'sem'                              ] . "</span><input  $ed  class=\"sem\"                       id=\"sem"      .$tabX[ 'ID' ]. "\"   type=\"number\" value=\"" .$tabX[ 'sem'       ]        . "\" min=\"0\"  max=\"20\" maxlength=\"2\" required size=\"10\"                           /></div></td>\r\n";
+          $tab .= "<td class='c4' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'SG'                               ] . "</span><input  $ed  class=\"SG\"                        id=\"SG"       .$tabX[ 'ID' ]. "\"   type=\"text\"   value=\"" .$tabX[ 'SG'        ]        . "\" list=\"SG\"            maxlength=\"5\"  required size=\"1\" pattern=\"[A-Z]{1,1}\"   /></div></td>\r\n";
+          $tab .= "<td class='c5' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'date'                             ] . "</span><input  $ed  class=\"date\"                      id=\"date"     .$tabX[ 'ID' ]. "\"   type=\"date\"   value=\"" .$tabX[ 'date'      ]        . "\" /></div></td>\r\n";
+          $tab .= "<td class='c6' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'time'                             ] . "</span><input  $ed  class=\"time\"                      id=\"time"     .$tabX[ 'ID' ]. "\"   type=\"time\"   value=\"" .$tabX[ 'time'      ]        . "\"  step=\"1800\"  min=\"6:00\" max=\"0:00\"                                            /></div></td>\r\n";
+          $tab .= "<td class='c7' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'anzStudis'                 ][ '1' ] . "</span><input       class=\"aSt2\"                      id=\"anzStdIn" .$tabX[ 'ID' ]. "_1\" type=\"number\" value=\"" .$tabX[ 'anzStudis' ][ '1' ] . "\"  min=\"0\" max=\"200\"                                                               /></div></td>\r\n";
+          if($ed=='')    $tab .= "<td class='c8'  ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'anzStudis' ][ '2' ] . "</span><input       class=\"aSt2\"                      id=\"anzStdIn" .$tabX[ 'ID' ]. "_2\" type=\"number\" value=\"" .$tabX[ 'anzStudis' ][ '2' ] . "\"  min=\"0\" max=\"200\"                                                               /></div></td>\r\n";
+          $tab .= "<td class='c9'  ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'anote'                           ] . "</span><textarea    wrap=\"hard\"  class=\"anote ta3\"  id=\"anote"    .$tabX[ 'ID' ]. "\"   name=\"anote" .$tabX[ 'ID' ]. "\"  rows=\"".(floor(strlen($tabX[ 'anote'   ]) / 60 )) ."\" cols=\"15\"  wrap=\"on\" style='height:55px; width:100%; ' >" .$tabX[ 'anote'   ] . "</textarea></div></td>\r\n";
           if ($ed !='' ) $tab .= "<td class='c10' > <div class=\"ui-widget\"></td>\r\n";
           else           $tab .= "<td class='c10' > <div class=\"ui-widget\"><img  class=\"center\" title='Diesen Klausrendatensatz löschen'    id=\"kill_" .$tabX[ 'ID' ]. "\" src='../vorlesungs_vz/img/m.png'></div></td>\r\n";
+   #    deb($tabX);
           
           $tab .= "</tr>\r\n";
           $tmpA .=  '$("#dozname'  .$tabX[ "ID" ].'"  ).on("change",function() { $("#dozname'  .$tabX[ "ID" ].  '" ).css("background-color", "#c2ffc2"); $.ajax({ type: "post", url: "ajax.php?action=changedozn&id='   .$tabX[ "ID" ].'&val="  + this.value } ); } );'."\r\n";

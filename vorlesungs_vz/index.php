@@ -15,9 +15,9 @@ if ( isset( $_GET[ 'un' ] ) )  # Nutzerdaten von moodle übernehmen
 { $_SESSION[ 'user' ] = decodeUserData( $_GET );
   $u = $db -> getDozentByUserID( $_SESSION[ 'user' ][ 'userID' ] );
  
-  if (isset ($u))
-  { $_SESSION['user']['abk'] = $u['abk'];
-    $db->setKoordinator($_SESSION['user']);
+  if ( isset ( $u ) )
+  { $_SESSION[ 'user' ][ 'abk' ] = $u[ 'abk' ];
+    $db->setKoordinator( $_SESSION[ 'user' ] );
   }
 }
 
@@ -54,10 +54,6 @@ if(  $_SESSION[ 'type' ] == 'STALONE' )
     $_SESSION['user']  = $db -> getDozentByKurzel( $_SESSION[ 'user' ] [ 'abk' ] );
   }
 
-  else
-  {
-  }
-
   checkRequiredValues();
   unset($_SESSION['GET']['email']);
   unset($_SESSION['GET']['userID']);
@@ -70,13 +66,13 @@ setTxt(); echo $_SESSION[ 'txt' ][ 'head' ];
 if ($_SESSION['user']['showContent'] == true )
 {
 	$con = '';
-	if ($_SESSION['user']['ro'] >= 3) $con .=  '<a class="reiter2" href="belegliste.php?go=1"                     target="content"  title="Klausurenübersicht" 	>Klausurenübersicht</a>';
-  if ($_SESSION['user']['ro'] >= 3) $con .=  '<a class="reiter2" href="belegliste.php?go=2"                     target="content"  title="Klausuren Sortiert"  >Klausuren Sortiert</a>';
-	if ($_SESSION['user']['ro'] >= 3) $con .=  '<a class="reiter2" href="basistables/mdl_haw_veranstaltungen.php" target="content"  title="Veranstaltungen"	    >DB: Veranstaltungen</a>';
-	if ($_SESSION['user']['ro'] >= 3) $con .=  '<a class="reiter2" href="basistables/mdl_haw_studiengaenge.php"   target="content"  title="Studiengaenge"	      >DB: Studiengänge</a>';
-	if ($_SESSION['user']['ro'] >= 3) $con .=  '<a class="reiter2" href="basistables/mdl_haw_professoren.php"     target="content"  title="Professoren" 		    >DB: Lehrende</a>';
-	if ($_SESSION['user']['ro'] >= 3) $con .=  '<a class="reiter2" href="../inc/Excel-to-MySQL/"	                target="content"  title="EXCEL IM/EXPORT"     >EXCEL IM/EXPORT</a>';
-  if ($_SESSION['user']['ro'] >= 2) $con .=  '<br><iframe style="position: absolute; top:24px; border: none"  name="content" src="belegliste.php?go=1"></iframe>';
+	if ($_SESSION['user']['ro'] >= 3) $con .= '<a class="reiter2" href="belegliste.php?go=1"                     target="content"  title="Klausurenübersicht" 	>Klausurenübersicht</a>';
+  if ($_SESSION['user']['ro'] >= 3) $con .= '<a class="reiter2" href="belegliste.php?go=2"                     target="content"  title="Klausuren Sortiert"  >Klausuren Sortiert</a>';
+	if ($_SESSION['user']['ro'] >= 3) $con .= '<a class="reiter2" href="basistables/mdl_haw_veranstaltungen.php" target="content"  title="Veranstaltungen"	    >DB: Veranstaltungen</a>';
+	if ($_SESSION['user']['ro'] >= 3) $con .= '<a class="reiter2" href="basistables/mdl_haw_studiengaenge.php"   target="content"  title="Studiengaenge"	      >DB: Studiengänge</a>';
+	if ($_SESSION['user']['ro'] >= 3) $con .= '<a class="reiter2" href="basistables/mdl_haw_professoren.php"     target="content"  title="Professoren" 		    >DB: Lehrende</a>';
+	if ($_SESSION['user']['ro'] >= 3) $con .= '<a class="reiter2" href="../inc/Excel-to-MySQL/"	                target="content"  title="EXCEL IM/EXPORT"     >EXCEL IM/EXPORT</a>';
+  if ($_SESSION['user']['ro'] >= 2) $con .= '<br><iframe style="position: absolute; top:24px; border: none"  name="content" src="belegliste.php?go=1"></iframe>';
   echo $con;
 }
 
@@ -146,20 +142,20 @@ $_SESSION['txt']['infotxt3']
 <h2 style="text-align: center">Hallo  ' . $_SESSION["user"]['firstname'] . '  ' . $_SESSION["user"]['lastname'] . '</h2></div>
 <div style="margin-left:20%;">Ihr Nutzerdaten sind noch unvollständig, bitte geben Sie diese ein:</div>
 <div style="margin-left:20%;"><form id="abk" action ="' . $_SERVER['PHP_SELF'] . '">
-<br><label>Ihre HAW-Emailadresse:  </label><input  style="left:400px; width: 500px;" id="email" name="email" type="text" value="' . $_SESSION['user']['email'] . '">
-<br><br><label>Ihre HAW-Kennung (z.B. aaa123):  </label><input  style="left:400px;" id="userID" name="userID" type="text" value="' . $_SESSION['user']['userID'] . '">
+<br><label>Ihre HAW-Emailadresse:               </label><input  style="left:400px; width: 500px;" id="email"  name="email"  type="text" value="' . $_SESSION['user']['email'] . '">
+<br><br><label>Ihre HAW-Kennung (z.B. aaa123):  </label><input  style="left:400px;"               id="userID" name="userID" type="text" value="' . $_SESSION['user']['userID'] . '">
 <br><br><input   id="OK" name="OK" type="submit">
 
 </form></p></div></div></div></main></div>';
   
-$_SESSION[ 'txt' ][ 'head' ] = "<html>
+$_SESSION[ 'txt' ][ 'head' ] = '<html>
 <head>
-<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
-<meta http-equiv=\"cache-control\" content=\"no-cache\">
-<meta http-equiv=\"pragma\" content=\"no-cache\">
-<link rel=\"stylesheet\" type=\"text/css\" href=\"lib/style.css\" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="pragma" content="no-cache">
+<link rel="stylesheet" type="text/css" href="lib/style.css" />
 <title>Koronaklaus</title>
-</head><body>";
+</head><body>';
 
 }
 
