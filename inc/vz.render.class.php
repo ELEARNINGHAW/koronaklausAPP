@@ -5,99 +5,101 @@ class Render
   var $CO = array('0' => '#F08080', '1' => '#fffede', '2' => '#adab61', '8' => '#F08080', '9' => '#E9967A', '10' => '#FA8072', '11' => '#FFA07A', '12' => '#884588', '13' => '#FFA500', '14' => '#FFD700', '15' => '#B8860B', '16' => '#DAA520', '17' => '#EEE8AA', '18' => '#BDB76B', '19' => '#F0E68C', '20' => '#808000', '21' => '#FFFF00' );
   
   function renderKlausurListe( $vorlesungsliste , $I , $changeable = false )
-  { #deb($vorlesungsliste,1);
+  {
     $tab   = null;
     $tabX  = null;
     $tabXX = null;
     $tmp1  = $tmp2 =  $tmpA = '';
+    $ro    = '';
     $i = 0;
-    $headline = " Klausurenübersicht";
     
-    if ( $_SESSION[ 'user' ][ 'ro' ] <= 2 ) { $ed = 'readonly' ; }
-    else                                    { $ed = '';          }
+    $phase = $_SESSION['phase'];
+    
+    $headline = " Klausurenübersicht";
+   
+    if ( $_SESSION[ 'user' ][ 'ro' ] <= 2 ) { $ed = 'readonly' ; $role = 'user' ;  $bo = ' bw '; }
+    else                                    { $ed = ''         ; $role = 'staff';  $bo = ''    ; }
+
+    if ( $_SESSION[ 'phase' ] == 1) { $c7active = ' cA '; } else {  $c7active = '';  }
+    if ( $_SESSION[ 'phase' ] == 2) { $c8active = ' cA '; } else {  $c8active = '';  }
+  
+    if ( $_SESSION[ 'phase' ] == 2 AND $role == 'user'  )   { $ro = 'disabled '; }
+    else                                                    { $ro = '';          }
     
     if( $ed == '' ) $headline .= "<a style=' float:right; width: 18px; display: inline; background-color: #FAFAFA' target=\"help_win\" class=\"modalLink\" href=\"#helpit\" rel=\"modal:open\"  title=\"Weitere Informationen über Koronaklaus\" ><img src=\"../vorlesungs_vz/img/help.svg\"   width=\"18\"  height=\"18\" style= \"padding-right: 2px; margin:0px; margin-bottom:-2px;\"  /></a>";
-    
+   
     $tab .= "<h2 style='position:relative; top: 0px;'>".$headline."</h2>";
     $tab .= "\n\r<form  method='post'  name='beleglisteGesamt' action='".$_SERVER['PHP_SELF']."' >";
     $tab .= "<table  class=\"belegTabelle\">\r\n";
     $tab .= "<thead><tr> ";
-    if( $changeable ) { $tab .= "<th class=\"c0 header\">ID           </th>\r\n ";}
-    if( $changeable ) { $tab .= "<th class=\"c1 header\">Dozierende   </th>\r\n ";}
-    if( $changeable ) { $tab .= "<th class=\"c2 header\">LVA          </th>\r\n ";}
-    if( $changeable ) { $tab .= "<th class=\"c3 header\">Sem          </th>\r\n ";}
-    if( $changeable ) { $tab .= "<th class=\"c4 header\">SG           </th>\r\n ";}
-    if( $changeable ) { $tab .= "<th class=\"c5 header\">Datum        </th>\r\n ";}
-    if( $changeable ) { $tab .= "<th class=\"c6 header\">Zeit         </th>\r\n ";}
-    if( $changeable ) { $tab .= "<th class=\"c7 header\">Studi [1]    </th>\r\n ";}
-    if( $ed=='' )     { $tab .= "<th class=\"c8 header\">Studi [2]    </th>\r\n ";}
-    if( $changeable ) { $tab .= "<th class=\"c9 header\">Bemerkung    </th>\r\n ";}
-    if( $ed == ''   ) { $tab .= "<th class=\"c10\"><a title='Neuer Klausrendatensatz hinzufügen' style='background-color: #0F0F0F' href=\"".$_SERVER['PHP_SELF']."?action=addone&go=1\" ><img  id=\"addone\" src=\"../vorlesungs_vz/img/p.gif\"></a></th>\r\n ";}
-    else              { $tab .= "<th class=\"c10\"></th>\r\n "; }
+    if( $changeable             ) { $tab .= "<th class=\"c0 header\">ID           </th>\r\n ";}
+    if( $changeable             ) { $tab .= "<th class=\"c1 header\">Dozierende   </th>\r\n ";}
+    if( $changeable             ) { $tab .= "<th class=\"c2 header\">LVA          </th>\r\n ";}
+    if( $changeable             ) { $tab .= "<th class=\"c3 header\">Sem          </th>\r\n ";}
+    if( $changeable             ) { $tab .= "<th class=\"c4 header\">SG           </th>\r\n ";}
+    if( $changeable             ) { $tab .= "<th class=\"c5 header\">Datum        </th>\r\n ";}
+    if( $changeable             ) { $tab .= "<th class=\"c6 header\">Zeit         </th>\r\n ";}
+    #if( ( $role=='staff' ) OR ( $role=='user' AND $phase == 1 ) )
+    { $tab .= "<th class=\"c7 " .$c7active." header\">Anz. Studi<br>(1. grob)    </th>\r\n ";}
+    if( ( $role=='staff' ) OR ( $role=='user' AND $phase == 2 ) ) { $tab .= "<th class=\"c8 " .$c8active." header\">Anz. Studi<br>(2. fein)  </th>\r\n ";}
+    if( $changeable             ) { $tab .= "<th class=\"c9 header\">Bemerkung    </th>\r\n ";}
+    if(   $role=='staff'        ) { $tab .= "<th class=\"c10\"><a title='Neuer Klausrendatensatz hinzufügen' style='background-color: #0F0F0F' href=\"".$_SERVER['PHP_SELF']."?action=addone&go=1\" ><img  id=\"addone\" src=\"../vorlesungs_vz/img/p.gif\"></a></th>\r\n ";}
+    else                          { $tab .= "<th class=\"c10\"></th>\r\n "; }
     $tab .= "</tr></thead> \r\n \r\n";
     
     if($vorlesungsliste)
-    {
-      $tab .= "<tbody>\r\n";
+    { $tab .= "<tbody>\r\n";
       
       foreach($vorlesungsliste as $vll )
-      {
-        #if( $vll[ 'ID' ] < 20  AND $vll[ 'ID' ] > 18  )
-        {
-         # $vll = $this -> formatDozLVA( $vll );
-          $tabX= $this -> formatDozLVA( $vll );
-        #  deb($vll,1);
-        /*
-          $tabX[ 'ID'         ]   = $vll[ 'ID'      ];
-          $tabX[ 'dozname'    ]   = $vll[ 'dozname' ];
-          $tabX[ 'LVA'        ]   = $vll[ 'LVA'     ];
-          $tabX[ 'SG'         ]   = $vll[ 'SG'      ];
-          $tabX[ 'date'       ]   = $vll[ 'date'    ];
-          $tabX[ 'time'       ]   = $vll[ 'time'    ];
-          $tabX[ 'sem'        ]   = $vll[ 'sem'     ];
-          $tabX[ 'anzStudis1' ]   = $vll[ 'anzStudis' ][ '1' ];
-          $tabX[ 'anzStudis2' ]   = $vll[ 'anzStudis' ][ '2' ];;
-          $tabX[ 'anote'      ]   = $vll[ 'anote'    ];
-         */
-          $tabXX[]                = $tabX;
-          unset($tabX);
-        }
+      { $tabX= $this -> formatDozLVA( $vll );
+        $tabXX[]                = $tabX;
+        unset($tabX);
       }
       
       if($tabXX)
-      {
-        $i=0;
+      { $i = 0;
         foreach( $tabXX as $tabX )
-        { $i++; # deb($tabX,1);
+        { $i++;
           $tab .= "<tr class='t1'   id=\"row_"  .$tabX[ 'ID' ]. "\">";
           $tab .= "<td class='c0 center'>" .$tabX[ 'ID' ]. "</td>\r\n";
-          $tab .= "<td class='c1' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'dozname'                          ] . "</span><input  $ed  class=\"dozname\"                   id=\"dozname"  .$tabX[ 'ID' ]. "\"   type=\"text\"   value=\"" .$tabX[ 'dozname'   ]        . "\" list=\"doznames\"                                                                    ></div></td>\r\n";
-          $tab .= "<td class='c2' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'LVA'                              ] . "</span><input  $ed  class=\"LVA\"                       id=\"LVA"      .$tabX[ 'ID' ]. "\"   type=\"text\"   value=\"" .$tabX[ 'LVA'       ]        . "\" list=\"LVA\"                                                                         /></div></td>\r\n";
-          $tab .= "<td class='c3' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'sem'                              ] . "</span><input  $ed  class=\"sem\"                       id=\"sem"      .$tabX[ 'ID' ]. "\"   type=\"number\" value=\"" .$tabX[ 'sem'       ]        . "\" min=\"0\"  max=\"20\" maxlength=\"2\" required size=\"10\"                           /></div></td>\r\n";
-          $tab .= "<td class='c4' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'SG'                               ] . "</span><input  $ed  class=\"SG\"                        id=\"SG"       .$tabX[ 'ID' ]. "\"   type=\"text\"   value=\"" .$tabX[ 'SG'        ]        . "\" list=\"SG\"            maxlength=\"5\"  required size=\"1\" pattern=\"[A-Z]{1,1}\"   /></div></td>\r\n";
-          $tab .= "<td class='c5' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'date'                             ] . "</span><input  $ed  class=\"date\"                      id=\"date"     .$tabX[ 'ID' ]. "\"   type=\"date\"   value=\"" .$tabX[ 'date'      ]        . "\" /></div></td>\r\n";
-          $tab .= "<td class='c6' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'time'                             ] . "</span><input  $ed  class=\"time\"                      id=\"time"     .$tabX[ 'ID' ]. "\"   type=\"time\"   value=\"" .$tabX[ 'time'      ]        . "\"  step=\"1800\"  min=\"6:00\" max=\"0:00\"                                            /></div></td>\r\n";
-          $tab .= "<td class='c7' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'anzStudis'                 ][ '1' ] . "</span><input       class=\"aSt2\"                      id=\"anzStdIn" .$tabX[ 'ID' ]. "_1\" type=\"number\" value=\"" .$tabX[ 'anzStudis' ][ '1' ] . "\"  min=\"0\" max=\"200\"                                                               /></div></td>\r\n";
-          if($ed=='')    $tab .= "<td class='c8'  ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'anzStudis' ][ '2' ] . "</span><input       class=\"aSt2\"                      id=\"anzStdIn" .$tabX[ 'ID' ]. "_2\" type=\"number\" value=\"" .$tabX[ 'anzStudis' ][ '2' ] . "\"  min=\"0\" max=\"200\"                                                               /></div></td>\r\n";
-          $tab .= "<td class='c9'  ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'anote'                           ] . "</span><textarea    wrap=\"hard\"  class=\"anote ta3\"  id=\"anote"    .$tabX[ 'ID' ]. "\"   name=\"anote" .$tabX[ 'ID' ]. "\"  rows=\"".(floor(strlen($tabX[ 'anote'   ]) / 60 )) ."\" cols=\"15\"  wrap=\"on\" style='height:55px; width:100%; ' >" .$tabX[ 'anote'   ] . "</textarea></div></td>\r\n";
-          if ($ed !='' ) $tab .= "<td class='c10' > <div class=\"ui-widget\"></td>\r\n";
-          else           $tab .= "<td class='c10' > <div class=\"ui-widget\"><img  class=\"center\" title='Diesen Klausrendatensatz löschen'    id=\"kill_" .$tabX[ 'ID' ]. "\" src='../vorlesungs_vz/img/m.png'></div></td>\r\n";
-   #    deb($tabX);
-          
+          $tab .= "<td class='c1' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'dozname'                          ] . "</span><input  $ed  class=\"dozname " . $bo . "\" id=\"dozname"  .$tabX[ 'ID' ]. "\"   type=\"text\"   value=\"" .$tabX[ 'dozname'   ]  . "\" list=\"doznames\"                                                                    ></div></td>\r\n";
+          $tab .= "<td class='c2' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'LVA'                              ] . "</span><input  $ed  class=\"LVA "     . $bo . "\" id=\"LVA"      .$tabX[ 'ID' ]. "\"   type=\"text\"   value=\"" .$tabX[ 'LVA'       ]  . "\" list=\"LVA\"                                                                         /></div></td>\r\n";
+          $tab .= "<td class='c3' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'sem'                              ] . "</span><input  $ed  class=\"sem "     . $bo . "\" id=\"sem"      .$tabX[ 'ID' ]. "\"   type=\"number\" value=\"" .$tabX[ 'sem'       ]  . "\" min=\"0\"  max=\"20\" maxlength=\"2\" required size=\"10\"                           /></div></td>\r\n";
+          $tab .= "<td class='c4' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'SG'                               ] . "</span><input  $ed  class=\"SG "      . $bo . "\" id=\"SG"       .$tabX[ 'ID' ]. "\"   type=\"text\"   value=\"" .$tabX[ 'SG'        ]  . "\" list=\"SG\"            maxlength=\"5\"  required size=\"1\" pattern=\"[A-Z]{1,1}\"   /></div></td>\r\n";
+          $tab .= "<td class='c5' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'date'                             ] . "</span><input  $ed  class=\"date "    . $bo . "\" id=\"date"     .$tabX[ 'ID' ]. "\"   type=\"date\"   value=\"" .$tabX[ 'date'      ]  . "\" /></div></td>\r\n";
+          $tab .= "<td class='c6' ><div class=\"ui-widget\"><span class='hidden'>" .$tabX[ 'time'                             ] . "</span><input  $ed  class=\"time "    . $bo . "\" id=\"time"     .$tabX[ 'ID' ]. "\"   type=\"time\"   value=\"" .$tabX[ 'time'      ]  . "\"  step=\"1800\"  min=\"6:00\" max=\"0:00\"                                            /></div></td>\r\n";
+
+        #if(    ( $role=='staff' ) OR ( $role=='user' AND $phase == 1 ) )
+        { $tab .= "<td class='c7  " .$c7active." ' ><div class=\"ui-widget\"><span class='hidden'>" . $tabX[ 'anzStudis' ][ '1' ] . "</span><input    class=\"aSt2\"    " .$ro. "  id=\"anzStdIn" .$tabX[ 'ID' ] . "_1\" type=\"number\" value=\"". $tabX[ 'anzStudis' ][ '1' ] . "\"  min=\"0\" max=\"200\"                                                         /></div></td>\r\n"; }
+       
+        if(    ( $role=='staff' ) OR ( $role=='user' AND $phase == 2 ) )
+        { $tab .= "<td class='c8 " .$c8active." ' ><div class=\"ui-widget\"><span class='hidden'>"  . $tabX[ 'anzStudis' ][ '2' ] . "</span><input       class=\"aSt2\"                      id=\"anzStdIn" . $tabX[ 'ID' ] . "_2\" type=\"number\" value=\"" . $tabX[ 'anzStudis' ][ '2' ] . "\"  min=\"0\" max=\"200\"                                                /></div></td>\r\n"; }
+          $tab .= "<td class='c9' ><div class=\"ui-widget\"><span class='hidden'>" . $tabX['anote']                               . "</span><textarea    wrap=\"hard\"  class=\"anote ta3 ". $bo ."\"  id=\"anote"    . $tabX[ 'ID' ] . "\"   name=\"anote" . $tabX['ID'] . "\"  rows=\"" . (floor(strlen($tabX['anote']) / 60)) . "\" cols=\"15\"  wrap=\"on\" style='height:55px; width:100%; ' >" . $tabX['anote'] . "</textarea></div></td>\r\n";
+       
+        if(     $role=='staff' )
+        { $tab .= "<td class='c10' > <div class=\"ui-widget\"><img  class=\"center\" title='Diesen Klausrendatensatz löschen'   id=\"kill_"    . $tabX[ 'ID' ] . "\"   src='../vorlesungs_vz/img/m.png'></div></td>\r\n"; }
+       
+        else
+        { $tab .= "<td class='c10' > <div class=\"ui-widget\"></div></td>\r\n";}
+        
           $tab .= "</tr>\r\n";
+
           $tmpA .=  '$("#dozname'  .$tabX[ "ID" ].'"  ).on("change",function() { $("#dozname'  .$tabX[ "ID" ].  '" ).css("background-color", "#c2ffc2"); $.ajax({ type: "post", url: "ajax.php?action=changedozn&id='   .$tabX[ "ID" ].'&val="  + this.value } ); } );'."\r\n";
           $tmpA .=  '$("#LVA'      .$tabX[ "ID" ].'"  ).on("change",function() { $("#LVA'      .$tabX[ "ID" ].  '" ).css("background-color", "#c2ffc2"); $.ajax({ type: "post", url: "ajax.php?action=changeLVA&id='    .$tabX[ "ID" ].'&val="  + this.value } ); } );'."\r\n";
           $tmpA .=  '$("#SG'       .$tabX[ "ID" ].'"  ).on("change",function() { $("#SG'       .$tabX[ "ID" ].  '" ).css("background-color", "#c2ffc2"); $.ajax({ type: "post", url: "ajax.php?action=changeSG&id='     .$tabX[ "ID" ].'&val="  + this.value } ); } );'."\r\n";
           $tmpA .=  '$("#sem'      .$tabX[ "ID" ].'"  ).on("change",function() { $("#sem'      .$tabX[ "ID" ].  '" ).css("background-color", "#c2ffc2"); $.ajax({ type: "post", url: "ajax.php?action=changeSem&id='    .$tabX[ "ID" ].'&val="  + this.value } ); } );'."\r\n";
           $tmpA .=  '$("#date'     .$tabX[ "ID" ].'"  ).on("change",function() { $("#date'     .$tabX[ "ID" ].  '" ).css("background-color", "#c2ffc2"); $.ajax({ type: "post", url: "ajax.php?action=changedate&id='   .$tabX[ "ID" ].'&val="  + this.value } ); } );'."\r\n";
           $tmpA .=  '$("#time'     .$tabX[ "ID" ].'"  ).on("change",function() { $("#time'     .$tabX[ "ID" ].  '" ).css("background-color", "#c2ffc2"); $.ajax({ type: "post", url: "ajax.php?action=changetime&id='   .$tabX[ "ID" ].'&val="  + this.value } ); } );'."\r\n";
-          $tmpA .=  '$("#anzStdIn' .$tabX[ "ID" ].'_1").on("change",function() { $("#anzStdIn' .$tabX[ "ID" ].'_1" ).css("background-color", "#c2ffc2"); $.ajax({ type: "post", url: "ajax.php?action=changeSAnz1&id='  .$tabX[ "ID" ].'&val="  + this.value } ); } );'."\r\n";
-          if($ed=='')    $tmpA .=  '$("#anzStdIn' .$tabX[ "ID" ].'_2").on("change",function() { $("#anzStdIn' .$tabX[ "ID" ].'_2" ).css("background-color", "#c2ffc2"); $.ajax({ type: "POST", url: "ajax.php?action=changeSAnz2&id='  .$tabX[ "ID" ].'&val="  + this.value } ); } );'."\r\n";
+
+        if(     ( $role=='staff' ) OR ( $role=='user' AND $phase == 1 ) )
+        { $tmpA .= '$("#anzStdIn' . $tabX["ID"] . '_1").on("change",function() { $("#anzStdIn' . $tabX["ID"] . '_1" ).css("background-color", "#c2ffc2"); $.ajax({ type: "post", url: "ajax.php?action=changeSAnz1&id=' . $tabX["ID"] . '&val="  + this.value } ); } );' . "\r\n"; }
+
+        if(     ( $role=='staff' ) OR ( $role=='user' AND $phase == 2 ) )
+        { $tmpA .= '$("#anzStdIn'  .$tabX[ "ID" ].'_2").on("change",function() { $("#anzStdIn' .$tabX[ "ID" ].'_2" ).css("background-color", "#c2ffc2"); $.ajax({ type: "POST", url: "ajax.php?action=changeSAnz2&id='  .$tabX[ "ID" ].'&val="  + this.value } ); } );'."\r\n"; }
           $tmpA .=  '$("#anote'    .$tabX[ "ID" ].'"  ).on("change",function() { $("#anote'    .$tabX[ "ID" ].  '" ).css("background-color", "#c2ffc2"); $.ajax({ type: "post",   data: { val : this.value },  url: "ajax.php?action=changeanote&id='   .$tabX[ "ID" ].'&val="  + this.value } ); } );'."\r\n";
           $tmpA .=  '$("#kill_'    .$tabX[ "ID" ].'"  ).on("click" ,function() { $.ajax({ type: "post", url: "ajax.php?action=deleterow&id='    .$tabX[ "ID" ].'&val="  + 0 } ); $( "#row_'.$tabX[ "ID" ].'" ).hide();} );'."\r\n";
         }
       }
-      
       $tab .= "</tbody>\r\n";
     }
     
@@ -109,8 +111,7 @@ class Render
     
     $datalist_doz = '<datalist id="doznames">'."\r\n";
     foreach ( $I['alldozenten'] as $doz )
-    {
-      if ( $doz[ 'firstname' ] != '' ) $firstname = ", ".  $doz[ 'firstname' ];
+    { if ( $doz[ 'firstname' ] != '' ) $firstname = ", ".  $doz[ 'firstname' ];
       else                             $firstname = '';
       $datalist_doz  .=  '<option value="' .  $doz[ 'lastname' ].  $firstname   .  ' / ' . $doz[ 'abk' ].'">'."\r\n" ;
     }
@@ -124,9 +125,8 @@ class Render
     
     $datalist_SG = '<datalist id="SG">'."\r\n";
     foreach ( $I['allSG'] as $SG )
-    {
-      if ($SG[ 'abk2' ] != '')
-        $datalist_SG  .=  '<option value="' .  $SG[ 'abk2' ].  '">'."\r\n" ;
+    { if ($SG[ 'abk2' ] != '')
+      $datalist_SG  .=  '<option value="' .  $SG[ 'abk2' ].  '">'."\r\n" ;
     }
     $datalist_SG .= '</datalist>'."\r\n";
     
@@ -141,8 +141,7 @@ class Render
   
 
   function renderExtKlausurListe( $vorlesungsliste ,    $db, $changeable = false )
-  {
-    $i = 0;
+  { $i = 0;
     $tab   = null;
     $tabX  = null;
     $tabXX = null;
@@ -153,7 +152,6 @@ class Render
     
     $JSb2   = "";
     
-    # $JSTS   = "; let TS = [";
     $KL     = "; let KL = [";
     $KLI    = "; let KLI = [";
     $ajax1  = '';
@@ -165,13 +163,11 @@ class Render
     $JQBut = '';
     
     foreach ($db -> getTimeslots() as $id => $val)    ## ALLE bisher als "OK"/"Nicht OK" geklickten Timeslots
-    {
-      $xTS[$id] = $val ;
+    { $xTS[$id] = $val ;
     }
     
     if( $vorlesungsliste )
-    {
-      ### Datenstruktur für Timeslots erstellen
+    { ### Datenstruktur für Timeslots erstellen
       foreach( $vorlesungsliste as $datum => $listOfKL)
       { $SLkIDList = '';
         foreach ( $listOfKL as $slot => $vor )
@@ -208,10 +204,7 @@ class Render
           $WT = $this->WT[array_pop($tmpV)['WD']];
           $i++;
           
-          ##########################
-          
           $JSb2 .= "$( \"#". $SLOKID  ."\" ).click(function() { setIsOkButton( '". $SLID  ."' ) ;  saveIsOk( '". $SLID  ."' );  });"."\r\n";
-          #####  $JSisObserver .= "let observer".$i."  = new IntersectionObserver( ISOhandler, options ); observer".$i.".observe(document.getElementById( \"SL".$slotName."\"))\r\n";
           ##########################
           $tabH  = "<div   id=\"".$SLID."\" class='slot'><div class='headline widget'>
                     <input class=\"LVA\"  id=\"".$SLOKID."\"        style='width:175px; height: 40px;'  type=\"button\" value=\"\"    />\r\n";
@@ -230,8 +223,7 @@ class Render
           $tabH .= "</tr>\r\n \r\n";
           $tab .= $tabH;
           foreach ( $vor as $kl )
-          {
-            if ( $kl[ 'WD'   ] == null ) { $t[ $kl[ 'ID' ]][ 'WD'   ] = 7;     }  # uninitialisierte Wochentag wird auf 7 gesetzt
+          { if ( $kl[ 'WD'   ] == null ) { $t[ $kl[ 'ID' ]][ 'WD'   ] = 7;     }  # uninitialisierte Wochentag wird auf 7 gesetzt
             if ( $kl[ 'date' ] == null ) { $t[ $kl[ 'ID' ]][ 'date' ] = 0;     }  # uninitialisierte Wochentag wird auf 7 gesetzt
             
             $KL .= "\"".$kl[ 'ID'   ]."\",";
@@ -239,24 +231,17 @@ class Render
             $bg1 = "style='background-color: " .$this -> CO[ $slot ]."'";
             $i++;
             $tab .= "<tr id=\"row_" .$kl[ 'ID'   ]."\">\r\n";
-            $tab .= "<td class = 'b1_0'  $bg1><div class=\"ui-widget\"><input  $ed  class=\"LVA\"  id=\"time"      .$kl[ 'ID'        ]. "\"   type=\"text\"   value=\"" .$kl[ 'time'       ] . "\"  step=\"1800\"  min=\"6:00\" max=\"0:00\"     /></div></td>\r\n";
-            $tab .= "<td class = 'b1_1' >     <div class=\"ui-widget\"                               ><input  $ed  class=\"LVA\"  id=\"LVA"            .$kl[ 'dozname'   ] . " / "      .$kl[ 'ID' ]. "\"   type=\"text\"   value=\"ID:".$kl[ 'ID' ]." /  "  .$kl[ 'dozname'   ] . " / " .$kl[ 'LVA'        ] .  " / " .$kl[ 'semSG'  ] . "\"  list=\"LVA\"                                                                         /></div></td>\r\n";
+            $tab .= "<td class = 'b1_0'  $bg1><div class=\"ui-widget\"><input $ed class=\"LVA\" id=\"time" .$kl[ 'ID' ]. "\" type=\"text\"   value=\"" .$kl[ 'time'    ] . "\"  step=\"1800\"  min=\"6:00\" max=\"0:00\"     /></div></td>\r\n";
+            $tab .= "<td class = 'b1_1' >     <div class=\"ui-widget\"                               ><input  $ed  class=\"LVA\"  id=\"LVA"            .$kl[ 'dozname' ] . " / "      .$kl[ 'ID' ]. "\"   type=\"text\"   value=\"ID:".$kl[ 'ID' ]." /  "  .$kl[ 'dozname'   ] . " / " .$kl[ 'LVA'        ] .  " / " .$kl[ 'semSG'  ] . "\"  list=\"LVA\"                                                                         /></div></td>\r\n";
             $tab .= "<td class = 'b1_2' >     <div class=\"ui-widget\"                               ><input       class=\"LVB\"  id=\"anzstudi"       .$kl[ 'ID' ]. "_1\" type=\"text\" value=\"" .$kl[ 'anzstudi1'  ] . " / " .$kl[ 'anzstudi2'  ] .  "\"  min=\"0\" max=\"200\"                                                               /></div></td>\r\n";
             $tab .= "<td class = 'b1_3' >     <div class=\"ui-widget\"                               ><textarea    class=\"LVA ta2\"  id=\"bemerkung"  .$kl[ 'ID' ]. "\"   name=\"bemerkung"         .$kl[ 'ID'         ] . "\" wrap=\"on\"   rows=\"3\"   cols=\"15\"  >" .$kl[ 'bemerkung'      ] . "</textarea></div></td>\r\n";
             $tab .= "<td class = 'b1_4' >     <div class=\"ui-widget\" style='display: none;'        ><textarea    class=\"LVA ta1\"  id=\"KL"         .$kl[ 'ID' ]. "\"   name=\"KL".$kl[ 'ID' ]."\"  rows=\"3\" cols=\"6\"  wrap=\"on\" >" .$kl[ 'raum'  ] . "</textarea></div></td>\r\n";
             $tab .= "<td class = 'b1_5' >     <div class=\"ui-widget\"                               ><textarea    class=\"LVA ta2\"  id=\"sav"        .$kl[ 'ID' ]. "\"   name=\"sav".$kl[ 'ID' ]."\"  rows=\"3\" cols=\"6\"  wrap=\"on\" >" .$kl[ 'save'  ] . "</textarea></div></td>\r\n";
-            $tab .= "<td class = 'b1_6' >     <div class=\"ui-widget\"                               ><input       class=\"LVB\"  id=\"SX"              .$kl[ 'ID' ]. "\"   type=\"text\" value=\"" .$kl[ 'studr'  ] . "\"  min=\"0\" max=\"200\"                                                               /></div></td>\r\n";
-            $tab .= "<td class = 'b1_7'  id=\"b" .$kl[ 'ID' ]. "\"   ><div class=\"ui-widget\"       ><input       class=\"LVB\"  id=\"button"    .$kl[ 'ID' ]. "\"   style='width:100%; height: 60px;'    type=\"button\" value=\"".$kl[ 'anzstudi1'  ] ."\"     onclick=\"setCurKL( ".$kl[ 'ID' ].", '".$SLID."' ); \"  /></div></td>\r\n";
+            $tab .= "<td class = 'b1_6' >     <div class=\"ui-widget\"                               ><input       class=\"LVB\"  id=\"SX"             .$kl[ 'ID' ]. "\"   type=\"text\" value=\"" .$kl[ 'studr'  ] . "\"  min=\"0\" max=\"200\"                                                               /></div></td>\r\n";
+            $tab .= "<td class = 'b1_7'  id=\"b" .$kl[ 'ID' ]. "\"   ><div class=\"ui-widget\"       ><input       class=\"LVB\"  id=\"button"         .$kl[ 'ID' ]. "\"   style='width:100%; height: 60px;'    type=\"button\" value=\"".$kl[ 'anzstudi1'  ] ."\"     onclick=\"setCurKL( ".$kl[ 'ID' ].", '".$SLID."' ); \"  /></div></td>\r\n";
             $tab .= "</tr>\r\n";
             
             $ajax1 .= '$("#bemerkung' .$kl[ "ID" ].'" ).on("change",function() { $("#bemerkung' .$kl[ "ID" ].'" ).toggle( "fade" ); $("#bemerkung' .$kl[ "ID" ].'" ).toggle( "fade" ); $.ajax({ type: "post", data: { val : this.value }, url: "ajax.php?action=changeanote&id=' .$kl[ 'ID' ]. '&val=" + this.value } ); } );'."\r\n";
-            
-            
-            #$ajax1 .=  '$("#bemerkung'  .$kl[ "ID" ].'").on("change",function() { updateAnote( '  .$kl[ "ID" ].', this.value )   } );'."\r\n";
-            #$ajax1 .=  '$("#bemerkung'  .$kl[ "ID" ].'").change(function() { updateAnote( '  .$kl[ "ID" ].', this.value )   } );'."\r\n";
-            
-            
-            
           }
           $tab .="</table></div>\r\n";
         }
@@ -264,17 +249,6 @@ class Render
     }
     
     $ajax1 .=  '$("#TSisOK'   . $SLID. '" ).on("click",function() {  $("#TSisOK' .$SLID. '" ).toggle( "fade" );  $("#TSisOK' .$SLID.  '" ).toggle( "fade" );  $.ajax({ type: "post",   data: { val : this.value },  url: "ajax.php?action=changeanote&id='   .$SLID.'&val="  + this.value } ); } );'."\r\n";
-    
-    #   $tmpA .=  '$("#dozname'  .$tabX[ "ID" ].'"  ).on("change",function() { $("#dozname'  .$tabX[ "ID" ].  '" ).css("background-color", "#c2ffc2"); $.ajax({ type: "post", url: "ajax.php?action=changedozn&id='   .$tabX[ "ID" ].'&val="  + this.value } ); } );'."\r\n";
-    #   $tmpA .=  '$("#LVA'      .$tabX[ "ID" ].'"  ).on("change",function() { $("#LVA'      .$tabX[ "ID" ].  '" ).css("background-color", "#c2ffc2"); $.ajax({ type: "post", url: "ajax.php?action=changeLVA&id='    .$tabX[ "ID" ].'&val="  + this.value } ); } );'."\r\n";
-    #   $tmpA .=  '$("#SG'       .$tabX[ "ID" ].'"  ).on("change",function() { $("#SG'       .$tabX[ "ID" ].  '" ).css("background-color", "#c2ffc2"); $.ajax({ type: "post", url: "ajax.php?action=changeSG&id='     .$tabX[ "ID" ].'&val="  + this.value } ); } );'."\r\n";
-    #   $tmpA .=  '$("#sem'      .$tabX[ "ID" ].'"  ).on("change",function() { $("#sem'      .$tabX[ "ID" ].  '" ).css("background-color", "#c2ffc2"); $.ajax({ type: "post", url: "ajax.php?action=changeSem&id='    .$tabX[ "ID" ].'&val="  + this.value } ); } );'."\r\n";
-    #   $tmpA .=  '$("#date'     .$tabX[ "ID" ].'"  ).on("change",function() { $("#date'     .$tabX[ "ID" ].  '" ).css("background-color", "#c2ffc2"); $.ajax({ type: "post", url: "ajax.php?action=changedate&id='   .$tabX[ "ID" ].'&val="  + this.value } ); } );'."\r\n";
-    #   $tmpA .=  '$("#time'     .$tabX[ "ID" ].'"  ).on("change",function() { $("#time'     .$tabX[ "ID" ].  '" ).css("background-color", "#c2ffc2"); $.ajax({ type: "post", url: "ajax.php?action=changetime&id='   .$tabX[ "ID" ].'&val="  + this.value } ); } );'."\r\n";
-    #   $tmpA .=  '$("#anzStdIn' .$tabX[ "ID" ].'_1").on("change",function() { $("#anzStdIn' .$tabX[ "ID" ].'_1" ).css("background-color", "#c2ffc2"); $.ajax({ type: "post", url: "ajax.php?action=changeSAnz1&id='  .$tabX[ "ID" ].'&val="  + this.value } ); } );'."\r\n";
-    #   $tmpA .=  '$("#anzStdIn' .$tabX[ "ID" ].'_2").on("change",function() { $("#anzStdIn' .$tabX[ "ID" ].'_2" ).css("background-color", "#c2ffc2"); $.ajax({ type: "post", url: "ajax.php?action=changeSAnz2&id='  .$tabX[ "ID" ].'&val="  + this.value } ); } );'."\r\n";
-    #    $ajax1 .=  '$("#bemerkung'    .$tabX[ "ID" ].'"  ).on("change",function() { $("#bemerkung'    .$tabX[ "ID" ].  '" ).css("background-color", "#c2ffc2"); $.ajax({ type: "post", url: "ajax.php?action=changeanote&id='   .$tabX[ "ID" ].'&val="  + this.value } ); } );'."\r\n";
-    #   $tmpA .=  '$("#kill_'    .$tabX[ "ID" ].'"  ).on("click" ,function() { $.ajax({ type: "post", url: "ajax.php?action=deleterow&id='    .$tabX[ "ID" ].'&val="  + 0 } ); $( "#row_'.$tabX[ "ID" ].'" ).hide();} );'."\r\n";
     
     $tab .="</form>\r\n";
     
@@ -510,12 +484,12 @@ class Render
 
 # $tab = "<script>" .$JSTS.     "];</script>".$tab;
 # $tab = "<script>" .$KL.       "];</script>".$tab;
-    $tab = "<script>" .$slotlist. "; </script>".$tab;
-    
-    $tab .= '<script	src="lib/korokonst.js" type="text/javascript"></script>';
-    $tab .= '<script	src="lib/koroklaus.js" type="text/javascript"></script>';
-    $tab .="<script>" .$JSisObserver. ";</script>";
-    $tab .="<script>
+$tab = "<script>" .$slotlist. "; </script>".$tab;
+
+$tab .= '<script	src="lib/korokonst.js" type="text/javascript"></script>';
+$tab .= '<script	src="lib/koroklaus.js" type="text/javascript"></script>';
+$tab .="<script>" .$JSisObserver. ";</script>";
+$tab .="<script>
  
  // - Raum ID wird zu Raumnamen ----------
  
@@ -526,7 +500,7 @@ for ( const [ key, value ] of Object.entries( SLO ) )  { value.KL.forEach( ID2na
 // - Raum ID wird zu Raumnamen ----------
 </script>";
     
-    $tab .= "<script>".$JSb2."; </script>\r\n";
+$tab .= "<script>".$JSb2."; </script>\r\n";
 
 # $tab .= "<script>
     /*
@@ -539,9 +513,6 @@ for ( const [ key, value ] of Object.entries( SLO ) )  { value.KL.forEach( ID2na
         console.log( value.KL);
     }
     */
-
-
-
 #</script>\r\n";   ##  OK Button werden (beim Aufruf der Seite) initialisiert
     
     $tab .= "<script> for (const [key, value] of Object.entries(SLO))  {   setIsOkButton( value.ID );  }  </script>\r\n";   ##  OK Button werden (beim Aufruf der Seite) initialisiert

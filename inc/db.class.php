@@ -3,12 +3,8 @@
 
 class DB
 { var $conn;
-  #var $dbL;
-
 	function __construct(  )
-	{ #if ($dbL) { $this -> dbL = $dbL;  }
-  
-    require( "ini/db.ini.php" );
+	{ require( "ini/db.ini.php" );
     $this -> conn  = mysqli_connect( $server, $user, $pass );
   	if( $this->conn ) {	mysqli_select_db( $this -> conn, $dbase  );	}
    	else              { echo( "<b>Verbindung zur IDM-DB konnte nicht hergestellt werden </b>" ); 	}
@@ -38,8 +34,7 @@ class DB
   }
   
   function getExtendedKlausurenTable($row)
-  {
-    if ($row)
+  { if ($row)
     { $row[ 'rInfo' ] = '';
       $row[ 'rI'    ] = '';
         
@@ -64,8 +59,7 @@ class DB
   }
   
   function getRauminfoByID( $raumID )
-  {
-    $rauminfo = null;
+  { $rauminfo = null;
     $sql_1 = "SELECT `raum`, `eingang`,`laufweg`,`aufzug`,`personen` FROM `raum` WHERE `ID` =  $raumID";
 
     $result_1 = mysqli_query (  $this->conn, $sql_1  );
@@ -78,8 +72,7 @@ class DB
   }
 
 function getStudiengang( $studiengangID )
-{
-  $studiengang = null;
+{ $studiengang = null;
   $sql_1 = "SELECT * FROM `mdl_haw_studiengaenge` WHERE  `ID` =   $studiengangID";
 	$result_1 = mysqli_query (  $this->conn, $sql_1  );
 	if ( $result_1 )
@@ -105,8 +98,7 @@ function getVeranstaltung( $LVAabk ) // zB Mat1
 }
 
 function getVorlesungsVerzeichnis()
-{  	
-	$id = 0;
+{ $id = 0;
 	$sql_1 = "SELECT  * FROM `klausuren` ORDER BY `dozabk`";
 	$result_1 = mysqli_query (  $this->conn, $sql_1  );
 	if ( $result_1 )
@@ -134,8 +126,7 @@ function getVorlesungsVerzeichnis()
 }
 
 function getAllDozent()
-{  	
-	$sql_1 = "SELECT * FROM `dozenten` ";
+{	$sql_1 = "SELECT * FROM `dozenten` ";
 	$result_1 = mysqli_query (  $this -> conn, $sql_1  );
   $dozent = null;
  
@@ -155,8 +146,7 @@ function getDozentByUserID( $userID )
 }
 
 function getDozentByKurzel( $abk )
-{
-  $sql_1 = "SELECT * FROM `dozenten` WHERE `abk` = '" . $abk ."'";
+{ $sql_1 = "SELECT * FROM `dozenten` WHERE `abk` = '" . $abk ."'";
   $result_1 = mysqli_query (  $this->conn, $sql_1  );
 
   if ( $result_1 )  { $ret = mysqli_fetch_array( $result_1, MYSQLI_ASSOC );  }
@@ -165,18 +155,29 @@ function getDozentByKurzel( $abk )
 }
 
 function getDozentByKennung( $kennung )
-{
-  $sql_1 = "SELECT * FROM `dozenten` WHERE `userID` = '" . $kennung ."'";
+{ $sql_1 = "SELECT * FROM `dozenten` WHERE `userID` = '" . $kennung ."'";
   $result_1 = mysqli_query (  $this->conn, $sql_1  );
 
   if ( $result_1 )  {  $ret = mysqli_fetch_array( $result_1, MYSQLI_ASSOC );   }
   return $ret;
 }
 
+function setPhase($phase)
+{ $sql_1 =  "UPDATE `phasen` SET `phase` = " . $phase ." WHERE `phasen` . `ID` = 0";
+  $result_1 = mysqli_query (  $this->conn, $sql_1  );
+}
+
+
+function getPhase()
+{ $sql_1 =  "SELECT phase FROM `phasen`";
+  $result_1 = mysqli_query (  $this->conn, $sql_1  );
+  
+  if ( $result_1 )  {  $ret = mysqli_fetch_array( $result_1, MYSQLI_ASSOC );   }
+  return $ret['phase'];
+}
 
 function setKoordinator(  $name )
-{
-  $name[ 'lastname'  ] = trim ( $name[ 'lastname'  ] ); # lastname
+{ $name[ 'lastname'  ] = trim ( $name[ 'lastname'  ] ); # lastname
   $name[ 'firstname' ] = trim ( $name[ 'firstname' ] ); # firstname
   $name[ 'abk'       ] = trim ( $name[ 'abk'       ] ); # abk
 
@@ -189,37 +190,30 @@ function setKoordinator(  $name )
 
   
 function updateDozent($user)
-{
-  if( ( isset($_SESSION[ 'user' ][ 'email'   ]) AND $_SESSION[ 'user' ][ 'email'  ]) != '' )
-  {
-    $sql_1 = "UPDATE `dozenten`
+{ if( ( isset($_SESSION[ 'user' ][ 'email'   ]) AND $_SESSION[ 'user' ][ 'email'  ]) != '' )
+  { $sql_1 = "UPDATE `dozenten`
            SET `dozenten` .`email` = '". $user['email'] ."'
          WHERE `dozenten` . `abk`   = '". $user['abk']  ."'";
      $result_1 = mysqli_query(  $this->conn, $sql_1  );
   }
  
   if( ( isset($_SESSION[ 'user' ][ 'userID'  ]) AND $_SESSION[ 'user' ][ 'userID' ]) != '' )
-  {
-    $sql_2 = "UPDATE `dozenten`
-           SET `dozenten` .`userID` = '". $user['userID'] ."'
+  { $sql_2 = "UPDATE `dozenten`
+         SET `dozenten` .`userID` = '". $user['userID'] ."'
          WHERE `dozenten` . `abk`   = '". $user['abk']  ."'";
     $result_2 = mysqli_query(  $this->conn, $sql_2  );
   }
-
 }
 
 function updateDozent_abk($user)
-{
-  $sql_1 = "UPDATE `dozenten`
-
+{ $sql_1 = "UPDATE `dozenten`
            SET `dozenten` .  `abk`   = '". $user[ 'abk'   ] ."'
          WHERE `dozenten` .  `email` = '". $user[ 'email' ] ."'";
   $result_1 = mysqli_query(  $this->conn, $sql_1  );
 }
 
 function update2Dozent($user, $usr)
-{
-  $sql_1 = "UPDATE `dozenten` SET `userID` = '". $usr['uusername'] ."', `email` = '". $usr['uemail'] ."' WHERE `dozenten` . `abk` = '". $user['abk']  ."'";
+{ $sql_1 = "UPDATE `dozenten` SET `userID` = '". $usr['uusername'] ."', `email` = '". $usr['uemail'] ."' WHERE `dozenten` . `abk` = '". $user['abk']  ."'";
   $result_1 = mysqli_query(  $this->conn, $sql_1  );
   return ($usr['uusername'] );
 }
@@ -332,17 +326,13 @@ function getVorlesung( $ID = 0 )
 
   
 function getRaum( $raum  = 0 )
-{
-  $raumliste = null;
+{ $raumliste = null;
   $sql_1     = "SELECT * FROM `raum` ";
   $result_1  = mysqli_query (  $this->conn, $sql_1  );
 
   if ( $result_1 )
-  {
-    while ( $row = mysqli_fetch_array( $result_1, MYSQLI_ASSOC ) )
-    {
-       # $ra[ $row[ 'fluegel' ]  ] =  $row;
-       $raumliste[$row[ 'fluegel' ]][$row[ 'raum' ]] = $row;
+  { while ( $row = mysqli_fetch_array( $result_1, MYSQLI_ASSOC ) )
+    { $raumliste[$row[ 'fluegel' ]][$row[ 'raum' ]] = $row;
     }
   }
   return $raumliste;
@@ -354,35 +344,27 @@ function getBelegliste( $matrikelNr, $vl_verzeichnis )
 	  $result_1 = mysqli_query (  $this->conn, $sql_1  );
     $row[ 'veranstaltung' ] = '';
 	if ( $result_1 )
-	{	
-		while ( $row = mysqli_fetch_array( $result_1, MYSQLI_ASSOC ) )
-		{  
-		   
-		  {
-      $row[ 'veranstaltung' ] = $vl_verzeichnis[ $row[ 'veranstaltungID']];
+	{ while ( $row = mysqli_fetch_array( $result_1, MYSQLI_ASSOC ) )
+		{ $row[ 'veranstaltung' ] = $vl_verzeichnis[ $row[ 'veranstaltungID']];
       $belegliste[] = $row;
-      }
 		}
 	}
- 
-  	return $belegliste;
+ 	return $belegliste;
 }
 
-
-	function getPhasen()
-	{
-		$sql_1 = "SELECT * FROM `mdl_haw_phasen` " ;
-		 
-		$result_1 = mysqli_query (  $this->conn, $sql_1  );
-		if ( $result_1 )
-		{
-			while ( $row = mysqli_fetch_array( $result_1, MYSQLI_ASSOC ) )
-			{ $p = $row['phase']; 
-				$phasen[ $p ]  = $row['timestamp']; 
-			}
+function getPhasen()
+{
+  $sql_1 = "SELECT * FROM `mdl_haw_phasen` " ;
+ 
+  $result_1 = mysqli_query (  $this->conn, $sql_1  );
+	if ( $result_1 )
+	{ while ( $row = mysqli_fetch_array( $result_1, MYSQLI_ASSOC ) )
+		{ $p = $row['phase'];
+			$phasen[ $p ]  = $row['timestamp'];
 		}
-		return $phasen;
-	}	
+	}
+	return $phasen;
+}
 
 /*
 
@@ -403,32 +385,23 @@ function getErstsemestermatnr()
 
 */
 function setDB( $param, $IDMuser , $belegliste, $vl_verzeichnis )
-{    
-
-	if( $param[ 'column' ] == "delete" ) 
-	{   
-		$sql_1 = "DELETE FROM `mdl_haw_wunschbelegliste` WHERE `ID` = ". $param[ 'ID' ] .";"; 
+{	if( $param[ 'column' ] == "delete" )
+	{	$sql_1 = "DELETE FROM `mdl_haw_wunschbelegliste` WHERE `ID` = ". $param[ 'ID' ] .";";
 	}	
 
 	else if( $param[ 'column' ] == "neuerBeleglistenEintrag" ) 
-	{   
-          $sql_1 = "INSERT INTO `mdl_haw_wunschbelegliste` ( `studID`,  `veranstaltungID`, `timestamp`, `status`, `checksum`) VALUES ( '".$IDMuser[ 'matrikelnr' ]."', '-1', NOW(), '', '".$IDMuser[ 'matrikelnr' ]."')";
-  
-	}	 
-	
-	
+	{  $sql_1 = "INSERT INTO `mdl_haw_wunschbelegliste` ( `studID`,  `veranstaltungID`, `timestamp`, `status`, `checksum`) VALUES ( '".$IDMuser[ 'matrikelnr' ]."', '-1', NOW(), '', '".$IDMuser[ 'matrikelnr' ]."')";
+  }
+
 	else if( $param[ 'column' ] == "studiengangID" )                                                 	/*Alle Eintr�ge in der Belegliste werden gel�scht wenn das Studiengang ge�ndert wird */
-	{    
-	  $sql_1 = "DELETE FROM `mdl_haw_wunschbelegliste` WHERE `studID` =".$IDMuser[ 'matrikelnr' ];
+	{ $sql_1 = "DELETE FROM `mdl_haw_wunschbelegliste` WHERE `studID` =".$IDMuser[ 'matrikelnr' ];
   }
 	else if( $param[ 'column' ] == "semester" )	                                                      /*Alle Eintr�ge in der Belegliste werden gel�scht wenn das Semester ge�ndert wird */
-	{  
-	  $sql_0 = "DELETE FROM `mdl_haw_wunschbelegliste` WHERE `studID` =".$IDMuser[ 'matrikelnr' ];
+	{ $sql_0 = "DELETE FROM `mdl_haw_wunschbelegliste` WHERE `studID` =".$IDMuser[ 'matrikelnr' ];
 		mysqli_query (  $this->conn, $sql_0  );
 	}
 	else if( $param[ 'column' ] == "update2" )                                                        // Update von Checksumme und Veranstaltungs ID
-	{  
-	    if ( isset( $param[ 'phase' ] ) ) // Argument:Phase nur bei Existenz mit in den SQL Queue 
+	{ if ( isset( $param[ 'phase' ] ) ) // Argument:Phase nur bei Existenz mit in den SQL Queue
 		{  $p = "`phase` =  ".$param[ 'phase' ]. " ,";	}
 		else
 		{  $p = '';	}
@@ -437,31 +410,24 @@ function setDB( $param, $IDMuser , $belegliste, $vl_verzeichnis )
 	 
 		$result_1 = mysqli_query(  $this->conn, $sql_1  );
  
-        if(sizeof($belegliste) > 0)
-		{
-			foreach ( $belegliste as $bl )
-			{
-				if( $bl[ 'ID' ] ==   $param[ 'ID' ]  ) 
-				{
-					$status =  $bl[ 'status' ];
+    if(sizeof($belegliste) > 0)
+		{ foreach ( $belegliste as $bl )
+			{ if( $bl[ 'ID' ] ==   $param[ 'ID' ]  )
+				{ $status =  $bl[ 'status' ];
 				}
 			}
-        }
+    }
 		$sql_1 = "UPDATE `mdl_haw_wunschbelegliste` SET `timestamp` = NOW( ) , `status` = '" .$status. "' WHERE  `ID` = " .$param[ 'ID' ];
- 
- 
+  
 	 	if( $param[ 'value' ] == -1 ) 
-		{
-			$sql_1 = "DELETE FROM `mdl_haw_wunschbelegliste` WHERE `ID` = ". $param[ 'ID' ] .";"; 
+		{	$sql_1 = "DELETE FROM `mdl_haw_wunschbelegliste` WHERE `ID` = ". $param[ 'ID' ] .";";
 		}	
 
 		$result_1 = mysqli_query(  $this->conn, $sql_1  );
-
 	}
+
 	else if( $param[ 'column' ] == "update3" )
-	{  
-		
-		$sql_1 = "INSERT INTO `mdl_haw_wunschbelegliste` ( `studID`,  `veranstaltungID`, `timestamp`, `status`, `checksum`) VALUES ( '".$IDMuser[ 'matrikelnr' ]."', '-1', NOW(), '', '".$IDMuser[ 'matrikelnr' ]."')";
+	{	$sql_1 = "INSERT INTO `mdl_haw_wunschbelegliste` ( `studID`,  `veranstaltungID`, `timestamp`, `status`, `checksum`) VALUES ( '".$IDMuser[ 'matrikelnr' ]."', '-1', NOW(), '', '".$IDMuser[ 'matrikelnr' ]."')";
 		$result_1 = mysqli_query(  $this->conn, $sql_1  );
 		
 		// Update von Checksumme und Veranstaltungs ID
@@ -473,8 +439,7 @@ function setDB( $param, $IDMuser , $belegliste, $vl_verzeichnis )
 	}
 	
 	else
-	{
-		// Update von Checksumme und Veranstaltungs ID
+	{	// Update von Checksumme und Veranstaltungs ID
 		$sql_1 = "UPDATE `mdl_haw_wunschbelegliste` SET `checksum` = '".$param[ 'checksum' ]."',  `phase` =  '".$param[ 'phase' ]."' ,  `".$param[ 'column' ]."` = '".$param[ 'value' ]."' WHERE  `ID` = ".$param[ 'ID' ];
 		
 		$result_1 = mysqli_query(  $this->conn, $sql_1  );
@@ -483,25 +448,21 @@ function setDB( $param, $IDMuser , $belegliste, $vl_verzeichnis )
 	  
 		if( sizeof( $belegliste ) >0 )
 		foreach ( $belegliste as $bl )
-		{
-			if( $bl[ 'ID' ] ==   $param[ 'ID' ] )
-			{
-				$status =  $bl[ 'status' ];
+		{	if( $bl[ 'ID' ] ==   $param[ 'ID' ] )
+			{	$status =  $bl[ 'status' ];
 			}
 		}
 		$sql_1 = "UPDATE `mdl_haw_wunschbelegliste` SET `timestamp` = NOW( ) , `status` = '".$status."' WHERE  `ID` = ".$param[ 'ID' ];
 
 		if( $param[ 'value' ] == -1 ) 
-		{
-			$sql_1 = "DELETE FROM `mdl_haw_wunschbelegliste` WHERE `ID` = ". $param[ 'ID' ] .";"; 
+		{	$sql_1 = "DELETE FROM `mdl_haw_wunschbelegliste` WHERE `ID` = ". $param[ 'ID' ] .";";
 		}	
 		
 		$result_1 = mysqli_query(  $this->conn, $sql_1  );
 	}
 
-	if(! isset($result_1)  )
-	{	
-		$result_1 = mysqli_query(  $this->conn, $sql_1 );
+	if( ! isset($result_1)  )
+	{	$result_1 = mysqli_query(  $this->conn, $sql_1 );
 	}
 	return $belegliste;
 }
@@ -540,208 +501,173 @@ function setWishState( $id, $state )
 }
 */
 
-  function importRow_vlvz( $val )
-  {
-    $SG = null;
+ function importRow_vlvz( $val )
+{ $SG = null;
+  if (strlen($val['semSG']) > 2 )
+  { $sem = substr($val['semSG'], 1, 1);
+    $SG  = substr($val['semSG'], 2);
+  }
+  else
+  { $sem = substr($val['semSG'], 0, 1);
     $SG  = substr($val['semSG'], 1);
-    $sem = substr($val['semSG'], 0, 1);
+  }
+  
+  #if (!is_numeric($sem))   {  $sem = null;   $SG = $val['semSG'];   }
     
-    if (!is_numeric($sem))   {  $sem = null;   $SG = $val['semSG'];   }
+  if ($sem) { $sql__sem = ", `sem` ";  $VAL_sem  =  ", '".$sem."' " ;  }
+  else      { $sql__sem = ""        ;  $VAL_sem  =  "";     }
+  if ($SG)  { $sql__SG = ", `SG` "  ;  $VAL_SG   =  ", '".$SG."' ";    }
+  else      { $sql__SG = ""         ;  $VAL_SG   =  "";     }
     
-    if ($sem) { $sql__sem = ", `sem` ";  $VAL_sem  =  ", '".$sem."' " ;  }
-    else      { $sql__sem = ""        ;  $VAL_sem  =  "";     }
-    if ($SG)  { $sql__SG = ", `SG` "  ;  $VAL_SG   =  ", '".$SG."' ";    }
-    else      { $sql__SG = ""         ;  $VAL_SG   =  "";     }
-    
-    $val[ 'date' ] = " STR_TO_DATE( \"".$val[ 'date' ]."\" , \"%d.%m.%Y\" )";
-    
-    $sql_1 = "INSERT INTO `vl_verzeichnis`
+  $val[ 'date' ] = " STR_TO_DATE( \"".$val[ 'date' ]."\" , \"%d.%m.%Y\" )";
+  
+  $sql_1 = "INSERT INTO `vl_verzeichnis`
      ( `kid`, `dozabk`, `LVAabk`, `semSG` " .$sql__sem.$sql__SG." , `date` , `time`, `bemerkung` ,`anzstudi1` )
      VALUES ( '". $val['kid'] . "' , '" . $val['dozabk'] . "' , '" . $val['LVAabk'] . "'  , '" . $val['semSG'] . "'" .$VAL_sem . $VAL_SG ." , " . $val['date'] . " , '" . $val['time'] . "', '" . $val['bemerkung'] . "', '" . $val['anz1'] . "' );";
- 
      $result_1 = mysqli_query($this->conn, $sql_1);
   }
   
 function importRow_doz($val)
-{
-  $sql_1 = "INSERT INTO `dozenten` ( `abk`, `lastname` )  VALUES ( '". $val['dozabk'] ."' , '". $val['doz'] ."' );";
+{ $sql_1 = "INSERT INTO `dozenten` ( `abk`, `lastname` )  VALUES ( '". $val['dozabk'] ."' , '". $val['doz'] ."' );";
   $result_1 = mysqli_query(  $this->conn, $sql_1  );
 
-  ## ---- import userdata ----
-  #if ($usr = $this->dbL->getUserData( $val['doz'] ))
-  {
-    #$this->update2Dozent($val, $usr);
+  {  #$this->update2Dozent($val, $usr);
   }
   ## ---- import userdata ----
 }
 
-
 function importRow_LVA($val)
-{
-  $sql_1 = "INSERT INTO `lehrveranstaltungen` (`abk`, `name`)   VALUES ( '". $val['LVAabk'] ."' , '". $val['LVA'] ."' );";
+{ $sql_1 = "INSERT INTO `lehrveranstaltungen` (`abk`, `name`)   VALUES ( '". $val['LVAabk'] ."' , '". $val['LVA'] ."' );";
   $result_1 = mysqli_query(  $this->conn, $sql_1  );
 }
-  
-  
-  function deleteRow( $id, $val )
-{
-  $sql_1 = "DELETE FROM `vl_verzeichnis` WHERE `vl_verzeichnis`.`ID` = ".$id;
+
+function deleteRow( $id, $val )
+{ $sql_1 = "DELETE FROM `vl_verzeichnis` WHERE `vl_verzeichnis`.`ID` = ".$id;
   $result_1 = mysqli_query(  $this->conn, $sql_1  );
 }
 
 function addBlankRow()
-{
-  $sql_1 = "INSERT INTO `vl_verzeichnis` (`ID`, `dozabk`, `LVAabk`, `date`, `SG`, `sem`, `anzstudi1`, `anzstudi2`) VALUES (NULL, '', '', '0000-00-00', '', '', '0', '0');  ";
+{ $sql_1 = "INSERT INTO `vl_verzeichnis` (`ID`, `dozabk`, `LVAabk`, `date`, `SG`, `sem`, `anzstudi1`, `anzstudi2`) VALUES (NULL, '', '', '0000-00-00', '', '', '0', '0');  ";
   $result_1 = mysqli_query(  $this->conn, $sql_1  );
 }
-  
 
 function changeDozent( $id, $val )
 { $doz = explode( '/', $val);
   $sql_1 = "UPDATE `vl_verzeichnis` SET `dozabk` = '".$doz[1]."' WHERE `vl_verzeichnis`.`ID` = ".$id;
   $result_1 = mysqli_query(  $this->conn, $sql_1  );
 }
-  
-  
-  function setAnzStudi1( $id, $val )
-{
-  $sql_1 = "UPDATE `vl_verzeichnis` SET `anzstudi1` = '".$val."' WHERE `vl_verzeichnis`.`ID` = ".$id;
+
+function setAnzStudi1( $id, $val )
+{ $sql_1 = "UPDATE `vl_verzeichnis` SET `anzstudi1` = '".$val."' WHERE `vl_verzeichnis`.`ID` = ".$id;
   $result_1 = mysqli_query(  $this->conn, $sql_1  );
 }
   
-  function setAnzStudi2( $id, $val )
-  {
-    $sql_1 = "UPDATE `vl_verzeichnis` SET `anzstudi2` = '".$val."' WHERE `vl_verzeichnis`.`ID` = ".$id;
-    $result_1 = mysqli_query(  $this->conn, $sql_1  );
-  }
+function setAnzStudi2( $id, $val )
+{ $sql_1 = "UPDATE `vl_verzeichnis` SET `anzstudi2` = '".$val."' WHERE `vl_verzeichnis`.`ID` = ".$id;
+  $result_1 = mysqli_query(  $this->conn, $sql_1  );
+}
   
-  function setSG2( $vl )
-  {
-    $sql_1 = "UPDATE `vl_verzeichnis` SET `SG` = '".$vl['3']."',`sem`='".$vl['2']."'    WHERE `LVAabk` = '".$vl['4']."'";
-    $result_1 = mysqli_query(  $this->conn, $sql_1  );
-  }
+function setSG2( $vl )
+{ $sql_1 = "UPDATE `vl_verzeichnis` SET `SG` = '".$vl['3']."',`sem`='".$vl['2']."'    WHERE `LVAabk` = '".$vl['4']."'";
+  $result_1 = mysqli_query(  $this->conn, $sql_1  );
+}
   
-  function setSG( $id, $val )
-  {
-    $sql_1 = "UPDATE `vl_verzeichnis` SET `SG` = '".$val."' WHERE `vl_verzeichnis`.`ID` = ".$id;
-    $result_1 = mysqli_query(  $this->conn, $sql_1  );
-  }
+function setSG( $id, $val )
+{ $sql_1 = "UPDATE `vl_verzeichnis` SET `SG` = '".$val."' WHERE `vl_verzeichnis`.`ID` = ".$id;
+  $result_1 = mysqli_query(  $this->conn, $sql_1  );
+}
   
-  function setsem( $id, $val )
-  {
-    $sql_1 = "UPDATE `vl_verzeichnis` SET `sem` = '".$val."' WHERE `vl_verzeichnis`.`ID` = ".$id;
-    $result_1 = mysqli_query(  $this->conn, $sql_1  );
-  }
+function setsem( $id, $val )
+{ $sql_1 = "UPDATE `vl_verzeichnis` SET `sem` = '".$val."' WHERE `vl_verzeichnis`.`ID` = ".$id;
+  $result_1 = mysqli_query(  $this->conn, $sql_1  );
+}
   
-  function setdate( $id, $val )
-  {
-    $sql_1 = "UPDATE `vl_verzeichnis` SET `date` = '".   $val  ."' WHERE `vl_verzeichnis`.`ID` = ".$id;
+function setdate( $id, $val )
+{ $sql_1 = "UPDATE `vl_verzeichnis` SET `date` = '".   $val  ."' WHERE `vl_verzeichnis`.`ID` = ".$id;
+  $result_1 = mysqli_query(  $this->conn, $sql_1  );
+}
+  
+function settime( $id, $val )
+{ $sql_1 = "UPDATE `vl_verzeichnis` SET `time` = '". $val ."' WHERE `vl_verzeichnis`.`ID` = ".$id;
+$result_1 = mysqli_query(  $this->conn, $sql_1  );
+}
+  
+function setanote( $id, $val )
+{ $val = $this->conn -> real_escape_string($val);
+  $sql_1 = "UPDATE `vl_verzeichnis` SET `bemerkung` = '".$val."' WHERE `vl_verzeichnis`.`ID` = ".$id;
  
-    $result_1 = mysqli_query(  $this->conn, $sql_1  );
-  }
+  $result_1 = mysqli_query(  $this->conn, $sql_1  );
+}
   
-  function settime( $id, $val )
-  {
-    $sql_1 = "UPDATE `vl_verzeichnis` SET `time` = '". $val ."' WHERE `vl_verzeichnis`.`ID` = ".$id;
- 
-    $result_1 = mysqli_query(  $this->conn, $sql_1  );
-  }
+function setRaum( $id, $val )
+{ $sql_1 = "UPDATE `vl_verzeichnis` SET `raum` = '".$val."' WHERE `vl_verzeichnis`.`ID` = \"".$id."\"";
+  $result_1 = mysqli_query(  $this->conn, $sql_1  );
+}
   
-  function setanote( $id, $val )
-  {
-    $val = $this->conn -> real_escape_string($val);
-    $sql_1 = "UPDATE `vl_verzeichnis` SET `bemerkung` = '".$val."' WHERE `vl_verzeichnis`.`ID` = ".$id;
- 
-    $result_1 = mysqli_query(  $this->conn, $sql_1  );
-  }
+function setChecked( $id, $val )
+{ $ret = 0;
+  $sql_1 = "SELECT COUNT(*) FROM `timeslots` WHERE `timeslot` = '".$id."'";
+  $TSexist = mysqli_fetch_assoc( mysqli_query(  $this -> conn, $sql_1 ) )[ 'COUNT(*)' ];
   
-  function setRaum( $id, $val )
-  {
-    #$val = $this->conn -> real_escape_string($val);
-    $sql_1 = "UPDATE `vl_verzeichnis` SET `raum` = '".$val."' WHERE `vl_verzeichnis`.`ID` = \"".$id."\"";
-    $result_1 = mysqli_query(  $this->conn, $sql_1  );
+  if( !$TSexist )  ##  Bisher noch kein Eintrag für diesen Timeslot vorhanden. Eintrag wird gemacht.
+  { $sql_2 = "INSERT INTO `timeslots` (`ID`, `timeslot`, `checked`) VALUES (NULL, '" .$id. "', '" .$val. "')";
+    $result_2 = mysqli_query(  $this->conn, $sql_2  );
   }
-  
-  function setChecked( $id, $val )
-  {
-    $ret = 0;
-    $sql_1 = "SELECT COUNT(*) FROM `timeslots` WHERE `timeslot` = '".$id."'";
-    $TSexist = mysqli_fetch_assoc( mysqli_query(  $this -> conn, $sql_1 ) )[ 'COUNT(*)' ];
-   
-    if( !$TSexist )  ##  Bisher noch kein Eintrag für diesen Timeslot vorhanden. Eintrag wird gemacht.
-    {
-      $sql_2 = "INSERT INTO `timeslots` (`ID`, `timeslot`, `checked`) VALUES (NULL, '" .$id. "', '" .$val. "')";
-      $result_2 = mysqli_query(  $this->conn, $sql_2  );
-    }
     
-    else      ## Timeslot bekommt neuen Status für 'Checked'
-    {
-    $sql_3 = "UPDATE `timeslots` SET `checked` = '".$val."' WHERE `timeslot`  = \"".$id."\"";
+  else      ## Timeslot bekommt neuen Status für 'Checked'
+  { $sql_3 = "UPDATE `timeslots` SET `checked` = '".$val."' WHERE `timeslot`  = \"".$id."\"";
     $result_3 = mysqli_query($this->conn, $sql_3);
-    }
   }
-  
-  
-  function getChecked( $id )
-  {
-     $sql_1 = "SELECT `checked` FROM `timeslots` WHERE `timeslot` = '". $id."'";
-    $result_1 = mysqli_query(  $this->conn, $sql_1  );
-    $ret =  mysqli_fetch_row ( $result_1 );
+}
 
-    return $ret[0];
+function getChecked( $id )
+{ $sql_1 = "SELECT `checked` FROM `timeslots` WHERE `timeslot` = '". $id."'";
+  $result_1 = mysqli_query(  $this->conn, $sql_1  );
+  $ret =  mysqli_fetch_row ( $result_1 );
+  return $ret[0];
+}
+  
+function getTimeslots()
+{ $sql_3 = "SELECT `timeslot`, `checked` FROM `timeslots`";
+  $result_3 = mysqli_query( $this->conn, $sql_3);
+  
+  while ( $row = mysqli_fetch_array( $result_3, MYSQLI_ASSOC ) )
+  { $TS[$row['timeslot']] = $row['checked'];
   }
-  
-  function getTimeslots()
-  {
-    $sql_3 = "SELECT `timeslot`, `checked` FROM `timeslots`";
-    
-    $result_3 = mysqli_query( $this->conn, $sql_3);
-    
-    while ( $row = mysqli_fetch_array( $result_3, MYSQLI_ASSOC ) )
-    {
-      $TS[$row['timeslot']] = $row['checked'];
-    }
-    return $TS;
-  }
-  
-
-
-  
- 
+  return $TS;
+}
 
 function setdozent( $id, $val )
-  { 
-    $abk       = '';
-    $lastname  = '';
-    $firstname = '';
-    $new       = '';
-  
-    $tmp  = explode( ':', $val );
-	
-	  if (strcmp( trim($tmp[0]), 'NEW')  == 0   )
-	  { $new  = 'NEW';
-      $tmp  = explode( '/', $tmp[ 1 ] );
-    }
-    else
-    { $tmp  = explode( '/', $tmp[ 0 ] );
-    }
-	
-    $name = explode( ',', $tmp[ 0 ] );
-  
-    $name[ 'lastname'  ] = trim ( $name[ 0 ] ); # lastname
-    $name[ 'firstname' ] = trim ( $name[ 1 ] ); # firstname
-    $name[ 'abk'       ] = trim ( $tmp[ 1 ]  ); # abk
-    $name[ 'new'       ] = trim ( $new );
+{ $abk       = '';
+  $lastname  = '';
+  $firstname = '';
+  $new       = '';
  
-    if ( $name[ 'abk' ] != '' AND   $name[ 'lastname' ] != '' )
-    { $abk      =  " `dozabk`   = '" . $name[ 'abk'       ]  . "'";
-      $lastname =  " `lastname` = '". $name[ 'lastname' ] ."'";
-      if ( $name[ 'firstname' ] != '' )
-      {
-        $firstname =  ", `firstname` = '". $name[ 'firstname' ] ."'";
-      }
+  $tmp  = explode( ':', $val );
+
+  if (strcmp( trim($tmp[0]), 'NEW')  == 0   )
+  { $new  = 'NEW';
+    $tmp  = explode( '/', $tmp[ 1 ] );
+  }
+  else
+  { $tmp  = explode( '/', $tmp[ 0 ] );
+  }
+
+  $name = explode( ',', $tmp[ 0 ] );
+  
+  $name[ 'lastname'  ] = trim ( $name[ 0 ] ); # lastname
+  $name[ 'firstname' ] = trim ( $name[ 1 ] ); # firstname
+  $name[ 'abk'       ] = trim ( $tmp[ 1 ]  ); # abk
+  $name[ 'new'       ] = trim ( $new );
+
+  if ( $name[ 'abk' ] != '' AND   $name[ 'lastname' ] != '' )
+  { $abk      =  " `dozabk`   = '" . $name[ 'abk'       ]  . "'";
+    $lastname =  " `lastname` = '". $name[ 'lastname' ] ."'";
+    if ( $name[ 'firstname' ] != '' )
+    { $firstname =  ", `firstname` = '". $name[ 'firstname' ] ."'";
+    }
  
-	if (strcmp( $name['new'],  'NEW')  == 0   )    
+  	if (strcmp( $name['new'],  'NEW')  == 0   )
     { $sql_2 = "INSERT INTO `dozenten` ( `abk`) VALUES ( '". $name[ 'abk' ] ."')";
       $result_2 = mysqli_query($this->conn, $sql_2);
       $sql_3 = "UPDATE `dozenten` SET " .$lastname. $firstname ."  WHERE `dozenten`.`abk` = '".$name[ 'abk'       ] ."'";
@@ -751,47 +677,42 @@ function setdozent( $id, $val )
     $sql_1    = "UPDATE `vl_verzeichnis` SET " . $abk . "  WHERE `vl_verzeichnis`.`ID` = " . $id;
  
 	  $result_1 = mysqli_query( $this -> conn, $sql_1 );
-    }
   }
+}
  
-  function setLVA( $id, $val )
-  {
-    $abk       = '';
-    $LVAname   = '';
-    $new       = '';
+function setLVA( $id, $val )
+{ $abk       = '';
+  $LVAname   = '';
+  $new       = '';
   
-    $tmp  = explode( ':', $val );
+  $tmp  = explode( ':', $val );
   
-    if ($tmp[0] == 'NEW')
-    { $new       = 'NEW';
-      $tmp  = explode( '/', $tmp[ 1 ] );
-    }
-    else
+  if ($tmp[0] == 'NEW')
+  { $new       = 'NEW';
+    $tmp  = explode( '/', $tmp[ 1 ] );
+  }
+  else
+  { $tmp  = explode( '/', $tmp[ 0 ] );
+  }
+    
+  $name[ 'name'  ] = trim ( $tmp[ 0 ] ); # lastname
+  $name[ 'abk'   ] = trim ( $tmp[ 1 ]  ); # abk
+  $name[ 'new'   ] = trim ( $new );
+ 
+  if ( $name[ 'abk' ] != '' AND   $name[ 'name' ] != '' )
+  { $LVAabk   =  " `LVAabk`   = '" . $name[ 'abk'  ]  . "'";
+    if( $name[ 'new' ] == 'NEW')
     {
-      $tmp  = explode( '/', $tmp[ 0 ] );
+      $sql_2 = "INSERT INTO `lehrveranstaltungen` (`abk`, `name`) VALUES ( '".$name[ 'abk'  ]."', '".$name[ 'name' ]."');";
+      $result_2 = mysqli_query($this->conn, $sql_2);
     }
     
-    $name[ 'name'  ] = trim ( $tmp[ 0 ] ); # lastname
-    $name[ 'abk'   ] = trim ( $tmp[ 1 ]  ); # abk
-    $name[ 'new'   ] = trim ( $new );
-  
-    if ( $name[ 'abk' ] != '' AND   $name[ 'name' ] != '' )
-    {
-      $LVAabk   =  " `LVAabk`   = '" . $name[ 'abk'  ]  . "'";
-      if( $name[ 'new' ] == 'NEW')
-      {
-        $sql_2 = "INSERT INTO `lehrveranstaltungen` (`abk`, `name`) VALUES ( '".$name[ 'abk'  ]."', '".$name[ 'name' ]."');";
-        $result_2 = mysqli_query($this->conn, $sql_2);
-      }
-    
-      $sql_1 = "UPDATE `vl_verzeichnis` SET  `LVAabk` = '" . $name[ 'abk'  ] . "'  WHERE `vl_verzeichnis`.`ID` = '" . $id."'";
-      $result_1 = mysqli_query( $this -> conn, $sql_1 );
-    }
+    $sql_1 = "UPDATE `vl_verzeichnis` SET  `LVAabk` = '" . $name[ 'abk'  ] . "'  WHERE `vl_verzeichnis`.`ID` = '" . $id."'";
+    $result_1 = mysqli_query( $this -> conn, $sql_1 );
   }
+}
  
-  
  /*
-  
   function getProfAbk( $name )
   {
     $name = explode(',' , $name);
@@ -962,18 +883,12 @@ function getGesamtBelegliste( $sort = "veranstaltung" )
 */
   
   
-  function deb($var)
-  {
-    echo "<pre>";
-    print_r($var);
-    echo "</pre>";
-  }
-
-
-
+function deb($var)
+{ echo "<pre>";
+  print_r($var);
+  echo "</pre>";
 }
 
-
-
+}
 
 ?>

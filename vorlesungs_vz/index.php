@@ -7,8 +7,13 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Pragma: no-cache");
 header("Cache-Control: post-check=0, pre-check=0", false);
 
+#$_SESSION['phase']  = 1;
+
 require_once( "../inc/db.class.php" );
 $db                     = new DB();
+
+if ( isset ( $_GET[ 'p'      ] ) ) { $_SESSION['phase'] = $_GET[ 'p' ] ; $db ->setPhase($_SESSION['phase']); }
+
 $_SESSION[ 'type' ]     = 'EMIL';
 
 if ( isset( $_GET[ 'un' ] ) )  # Nutzerdaten von moodle übernehmen
@@ -61,20 +66,33 @@ if(  $_SESSION[ 'type' ] == 'STALONE' )
   unset ($_SESSION['GET']);
 }
 
+
+
+$phase = $db -> getPhase();
+
+
 setTxt(); echo $_SESSION[ 'txt' ][ 'head' ];
 
 if ($_SESSION['user']['showContent'] == true )
 {
-	$con = '';
+  if ($phase == 1) { $s1 = ' buttonActive';} else {  $s1 = ''; }
+  if ($phase == 2) { $s2 = ' buttonActive';} else {  $s2 = ''; }
+ 
+  $con = '';
 	if ($_SESSION['user']['ro'] >= 3) $con .= '<a class="reiter2" href="belegliste.php?go=1"                     target="content"  title="Klausurenübersicht" 	>Klausurenübersicht</a>';
   if ($_SESSION['user']['ro'] >= 3) $con .= '<a class="reiter2" href="belegliste.php?go=2"                     target="content"  title="Klausuren Sortiert"  >Klausuren Sortiert</a>';
 	if ($_SESSION['user']['ro'] >= 3) $con .= '<a class="reiter2" href="basistables/mdl_haw_veranstaltungen.php" target="content"  title="Veranstaltungen"	    >DB: Veranstaltungen</a>';
 	if ($_SESSION['user']['ro'] >= 3) $con .= '<a class="reiter2" href="basistables/mdl_haw_studiengaenge.php"   target="content"  title="Studiengaenge"	      >DB: Studiengänge</a>';
 	if ($_SESSION['user']['ro'] >= 3) $con .= '<a class="reiter2" href="basistables/mdl_haw_professoren.php"     target="content"  title="Professoren" 		    >DB: Lehrende</a>';
-	if ($_SESSION['user']['ro'] >= 3) $con .= '<a class="reiter2" href="../inc/Excel-to-MySQL/"	                target="content"  title="EXCEL IM/EXPORT"     >EXCEL IM/EXPORT</a>';
+	if ($_SESSION['user']['ro'] >= 3) $con .= '<a class="reiter2" href="../inc/Excel-to-MySQL/"	                 target="content"  title="EXCEL IM/EXPORT"     >EXCEL IM/EXPORT</a>';
+  if ($_SESSION['user']['ro'] >= 3) $con .= '<a class="'. $s1 .' reiter2 " href="?go=1&p=1"                    target="_self"    title="1"     >1 </a>';
+  if ($_SESSION['user']['ro'] >= 3) $con .= '<a class="'. $s2 .' reiter2 " href="?go=1&p=2"                    target="_self"    title="2"     >2 </a>';
   if ($_SESSION['user']['ro'] >= 2) $con .= '<br><iframe style="position: absolute; top:24px; border: none"  name="content" src="belegliste.php?go=1"></iframe>';
   echo $con;
 }
+
+
+
 
 function checkRequiredValues()
 {

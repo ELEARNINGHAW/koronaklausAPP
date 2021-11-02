@@ -5,9 +5,6 @@ error_reporting(E_ALL);
 $_SESSION[ 'where' ] = '';
 $go = 0;
 
-if ( isset ( $_GET[ 'action' ] ) ) { require_once( "ajax.php" ); }
-if ( isset ( $_GET[ 'go'     ] ) ) { $go = $_GET[ 'go' ] ;       }
-
 if (($_SESSION[ 'user' ][ 'ro' ] ) >= 2 )
 { require_once( "../inc/belegliste.class.php"  );
   require_once( "../inc/db.class.php"          );
@@ -22,7 +19,13 @@ if (($_SESSION[ 'user' ][ 'ro' ] ) >= 2 )
   $bl                     = new Belegliste( $db );
   $data                   = new Data();
   $render                 = new Render();
-
+  
+  if ( isset ( $_GET[ 'action' ] ) ) { require_once( "ajax.php" ); }
+  if ( isset ( $_GET[ 'go'     ] ) ) { $go = $_GET[ 'go' ] ;       }
+  
+  $_SESSION['phase'] = $phase = $db->getPhase();
+ # deb($_SESSION['phase'] );
+  
   if ( $go == 3 ) ## ---- import userdata ----
   { $alleDozenten = $db -> getAllDozent();
     #foreach ( $alleDozenten as $doz )

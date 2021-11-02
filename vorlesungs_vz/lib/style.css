@@ -63,6 +63,11 @@ td, th
 .c9  { width: 20%; }
 .c10 { width: 3% ; }
 
+.cA  { border: 2px solid #111; }
+
+input.bw  { border: 2px solid #FFF; }
+
+
 .aSt2 { width: 75px; }
 
 col.m04 { visibility: collapse } /* Spalte Email wird in der Semestertabelle ausgeblendet */
@@ -567,6 +572,14 @@ html
 h1
 { border: 0px solid black;
 }
+
+a.buttonActive
+{
+  background: black;
+  color: white;
+}
+
+
 /*
 .butOK     {background:  #00FF00;  border: solid 2px #5c5c5c ; color: #DFDFDF;  }
 .butNOTOK  {background:  #00FF00;  border: solid 2px #5c5c5c ; color: #DFDFDF;  }
