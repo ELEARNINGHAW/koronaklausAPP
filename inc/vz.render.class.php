@@ -214,7 +214,7 @@ class Render
           $tabH .= "<tr class=\"t1\">";
           if ($changeable) { $tabH .= "<td  class=\"b1_0  header\">Zeit                                   </td>\r\n "; }
           if ($changeable) { $tabH .= "<td  class=\"b1_1  header\">Lehrveranstaltung / Dozierende / SemSG </td>\r\n "; }
-          if ($changeable) { $tabH .= "<td  class=\"b1_2  header\">Studis Anz                             </td>\r\n "; }
+          #if ($changeable) { $tabH .= "<td  class=\"b1_2  header\">Studis Anz                             </td>\r\n "; }
           if ($changeable) { $tabH .= "<td  class=\"b1_3  header\">Bemerkung                              </td>\r\n "; }
           if ($changeable) { $tabH .= "<td  class=\"b1_4  header\">                                       </td>\r\n "; }
           if ($changeable) { $tabH .= "<td  class=\"b1_5  header\">Raum                                   </td>\r\n "; }
@@ -233,12 +233,12 @@ class Render
             $tab .= "<tr id=\"row_" .$kl[ 'ID'   ]."\">\r\n";
             $tab .= "<td class = 'b1_0'  $bg1><div class=\"ui-widget\"><input $ed class=\"LVA\" id=\"time" .$kl[ 'ID' ]. "\" type=\"text\"   value=\"" .$kl[ 'time'    ] . "\"  step=\"1800\"  min=\"6:00\" max=\"0:00\"     /></div></td>\r\n";
             $tab .= "<td class = 'b1_1' >     <div class=\"ui-widget\"                               ><input  $ed  class=\"LVA\"  id=\"LVA"            .$kl[ 'dozname' ] . " / "      .$kl[ 'ID' ]. "\"   type=\"text\"   value=\"ID:".$kl[ 'ID' ]." /  "  .$kl[ 'dozname'   ] . " / " .$kl[ 'LVA'        ] .  " / " .$kl[ 'semSG'  ] . "\"  list=\"LVA\"                                                                         /></div></td>\r\n";
-            $tab .= "<td class = 'b1_2' >     <div class=\"ui-widget\"                               ><input       class=\"LVB\"  id=\"anzstudi"       .$kl[ 'ID' ]. "_1\" type=\"text\" value=\"" .$kl[ 'anzstudi1'  ] . " / " .$kl[ 'anzstudi2'  ] .  "\"  min=\"0\" max=\"200\"                                                               /></div></td>\r\n";
+            #$tab .= "<td class = 'b1_2' >     <div class=\"ui-widget\"                               ><input       class=\"LVB\"  id=\"anzstudi"       .$kl[ 'ID' ]. "_1\" type=\"text\" value=\"" .$kl[ 'anzstudi1'  ] . " / " .$kl[ 'anzstudi2'  ] .  "\"  min=\"0\" max=\"200\"                                                               /></div></td>\r\n";
             $tab .= "<td class = 'b1_3' >     <div class=\"ui-widget\"                               ><textarea    class=\"LVA ta2\"  id=\"bemerkung"  .$kl[ 'ID' ]. "\"   name=\"bemerkung"         .$kl[ 'ID'         ] . "\" wrap=\"on\"   rows=\"3\"   cols=\"15\"  >" .$kl[ 'bemerkung'      ] . "</textarea></div></td>\r\n";
             $tab .= "<td class = 'b1_4' >     <div class=\"ui-widget\" style='display: none;'        ><textarea    class=\"LVA ta1\"  id=\"KL"         .$kl[ 'ID' ]. "\"   name=\"KL".$kl[ 'ID' ]."\"  rows=\"3\" cols=\"6\"  wrap=\"on\" >" .$kl[ 'raum'  ] . "</textarea></div></td>\r\n";
             $tab .= "<td class = 'b1_5' >     <div class=\"ui-widget\"                               ><textarea    class=\"LVA ta2\"  id=\"sav"        .$kl[ 'ID' ]. "\"   name=\"sav".$kl[ 'ID' ]."\"  rows=\"3\" cols=\"6\"  wrap=\"on\" >" .$kl[ 'save'  ] . "</textarea></div></td>\r\n";
             $tab .= "<td class = 'b1_6' >     <div class=\"ui-widget\"                               ><input       class=\"LVB\"  id=\"SX"             .$kl[ 'ID' ]. "\"   type=\"text\" value=\"" .$kl[ 'studr'  ] . "\"  min=\"0\" max=\"200\"                                                               /></div></td>\r\n";
-            $tab .= "<td class = 'b1_7'  id=\"b" .$kl[ 'ID' ]. "\"   ><div class=\"ui-widget\"       ><input       class=\"LVB\"  id=\"button"         .$kl[ 'ID' ]. "\"   style='width:100%; height: 60px;'    type=\"button\" value=\"".$kl[ 'anzstudi1'  ] ."\"     onclick=\"setCurKL( ".$kl[ 'ID' ].", '".$SLID."' ); \"  /></div></td>\r\n";
+            $tab .= "<td class = 'b1_7'  id=\"b" .$kl[ 'ID' ]. "\"   ><div class=\"ui-widget\"       ><input       class=\"LVB\"  id=\"button"         .$kl[ 'ID' ]. "\"   style='width:100%; height: 60px;'    type=\"button\" value=\"" .$kl[ 'anzstudi1'  ] . "/" .$kl[ 'anzstudi2'  ] .  "\"     onclick=\"setCurKL( ".$kl[ 'ID' ].", '".$SLID."' ); \"  /></div></td>\r\n";
             $tab .= "</tr>\r\n";
             
             $ajax1 .= '$("#bemerkung' .$kl[ "ID" ].'" ).on("change",function() { $("#bemerkung' .$kl[ "ID" ].'" ).toggle( "fade" ); $("#bemerkung' .$kl[ "ID" ].'" ).toggle( "fade" ); $.ajax({ type: "post", data: { val : this.value }, url: "ajax.php?action=changeanote&id=' .$kl[ 'ID' ]. '&val=" + this.value } ); } );'."\r\n";
