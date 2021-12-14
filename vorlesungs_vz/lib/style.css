@@ -116,6 +116,11 @@ xi { font-size:10pt; color:#281751; font-family:verdana, arial, helvetica }
 { padding: 0px;
   font-size:10pt;
   border: 2px solid #DDDDDD;
+  -ms-user-select: None;
+  -moz-user-select: None;
+  -webkit-user-select: None;
+  user-select: None;
+
 }
 
 

@@ -146,6 +146,10 @@ class Render
     $tabX  = null;
     $tabXX = null;
     
+    $r = $_SESSION[ 'liste' ]['raum'];
+      
+    foreach ($_SESSION[ 'liste' ]['raum'] as $raum )  { $rx[ $raum['shortname'] ]  =   $raum['roomID'];  }
+  
     $slotlist = "var SLO = new Object();";
     
     $JSisObserver   = "; let options = {  root: document.getElementById('viewport2'),     rootMargin: '0px',  threshold: 0 }; ";
@@ -255,7 +259,7 @@ class Render
     $ajax1 .=  '$("#TSisOK'   . $SLID. '" ).on("click",function() {  $("#TSisOK' .$SLID. '" ).toggle( "fade" );  $("#TSisOK' .$SLID.  '" ).toggle( "fade" );  $.ajax({ type: "post",   data: { val : this.value },  url: "ajax.php?action=changeanote&id='   .$SLID.'&val="  + this.value } ); } );'."\r\n";
     
     $tab .="</form>\r\n";
-    
+   
     $tab .= "
 <div style=\"position:fixed ; top:0px; right:5px;\">
 <table width=\"295\" cellpadding=\"2\" cellspacing=\"0\" class=\"roompicker\">
@@ -268,223 +272,465 @@ class Render
     <td class='pickTD'> FL </td>
     <td class='pickTD'> EI </td>
   </tr>
-  <tr>
+  <tr><!-- 1029 = S407 -->
     <td class='pickTD' rowspan=\"13\"> UL </td>
-    <td class='pickTD'> S4.07 </td>
-    <td class='pickTD' id=\"S407\"  > 100 </td>
-    <td class='pickTD' id=\"C08\"> 100 </td>
-    <td class='pickTD' id=\"grun1\" rowspan=\"5\"> 454 </td>
-    <td class='pickTD' id=\"ULS\" rowspan=\"6\"> 558  </td>
-    <td class='pickTD' id=\"UL\"  rowspan=\"13\"> 1347 </td>
+    <td class='pickTD'> ". $r[ $rx['S407']]['name'] ." </td>
+    <td class='pickTD' id=\"". $r[ $rx['S407'] ]['shortname'] ."\"  >". $r[ $rx['S407'] ]['maxpers'] ." </td>
+    <td class='pickTD' id=\"C08\"> ". $r[ $rx['S407'] ]['maxpers'] ." </td>
+    <td class='pickTD' id=\"grun1\" rowspan=\"5\"> " . ( $r[ $rx['S407'] ]['maxpers'] + $r[ $rx['S40506']]['maxpers'] + $r[ $rx['S308']]['maxpers'] + $r[ $rx['S209']]['maxpers'] + $r[ $rx['S230']]['maxpers'] ). "</td>
+    <td class='pickTD' id=\"ULS\"   rowspan=\"6\"> " . ( $r[ $rx['S407'] ]['maxpers'] + $r[ $rx['S40506']]['maxpers'] + $r[ $rx['S308']]['maxpers'] + $r[ $rx['S209']]['maxpers'] + $r[ $rx['S230']]['maxpers'] +  $r[ $rx['S404']]['maxpers'] ). "  </td>
+    <td class='pickTD' id=\"UL\"    rowspan=\"13\">" . ( $r[ $rx['N41011']]['maxpers'] + $r[ $rx['N412']]['maxpers'] + $r[ $rx['N224']]['maxpers'] + $r[ $rx['N230']]['maxpers'] + $r[ $rx['N205']]['maxpers'] + $r[ $rx['043']]['maxpers'] + $r[ $rx['FoyG']]['maxpers'] + $r[ $rx['S407'] ]['maxpers'] + $r[ $rx['S40506']]['maxpers'] + $r[ $rx['S308']]['maxpers'] + $r[ $rx['S209']]['maxpers'] + $r[ $rx['S230']]['maxpers'] +  $r[ $rx['S404']]['maxpers'] )."</td>
   </tr>
-  <tr>
-    <td class='pickTD' height=\"20\"> S4.05-06 </td>
-    <td class='pickTD grey1' id=\"S40506\"> 100 </td>
-    <td class='pickTD grey1' id=\"C07\" > 100 </td>
+  
+  <tr><!-- 1028 = S40506 -->
+    <td class='pickTD'> ". $r[ $rx['S40506']]['name'] ." </td>
+    <td class='pickTD grey1' id=\"". $r[ $rx['S40506']]['shortname'] ."\"  >". $r[ $rx['S40506']]['maxpers'] ." </td>
+    <td class='pickTD grey1' id=\"C07\" > ". $r[ $rx['S40506']]['maxpers'] ." </td>
   </tr>
-  <tr>
-    <td class='pickTD'> S3.08 </td>
-    <td class='pickTD' id=\"S308\"  > 100 </td>
-    <td class='pickTD' id=\"C06\"> 100 </td>
+  
+  <tr> <!-- 1027 = S308 -->
+    <td class='pickTD'> ". $r[ $rx['S308']]['name'] ." </td>
+    <td class='pickTD' id=\"". $r[ $rx['S308']]['shortname'] ."\"  >". $r[ $rx['S308']]['maxpers'] ." </td>
+    <td class='pickTD' id=\"C06\"> ". $r[ $rx['S308']]['maxpers'] ." </td>
   </tr>
-  <tr>
-    <td class='pickTD'> S2.09 </td>
-    <td class='pickTD' id=\"S209\"  > 54 </td>
-    <td class='pickTD' id=\"C21\"> 54 </td>
-  </tr>
-  <tr>
-    <td class='pickTD'> S2.30 </td>
-    <td class='pickTD' id=\"S230\"> 100 </td>
-    <td class='pickTD' id=\"C20\"> 100 </td>
-  </tr>
-  <tr>
-    <td class='pickTD' height=\"25\"> S4.04 </td>
-    <td class='pickTD grey1' id=\"S404\" > 104 </td>
-    <td class='pickTD grey1' id=\"C05\"  > 104 </td>
-    <td class='pickTD' id=\"lila\"   > 104 </td>
-  </tr>
-  <tr>
-    <td class='pickTD'> N4.10-11 </td>
-    <td class='pickTD' id=\"N41011\"> 100 </td>
-    <td class='pickTD' id=\"C12\"      rowspan=\"2\"> 200 </td>
-    <td class='pickTD' id=\"rot1\"     rowspan=\"5\"> 454</td>
-    <td class='pickTD' id=\"ULN\"       rowspan=\"7\"> 789</td>
+  
+   <tr><!-- 1035 = S2.09 -->
+    <td class='pickTD'> ". $r[ $rx['S209']]['name'] ." </td>
+    <td class='pickTD grey1' id=\"". $r[ $rx['S209']]['shortname'] ."\"  >". $r[ $rx['S209']]['maxpers'] ." </td>
+    <td class='pickTD grey1' id=\"C21\" > ". $r[ $rx['S209']]['maxpers'] ." </td>
   </tr>
 
-  <tr>
-    <td class='pickTD'> N4.12 </td>
-    <td class='pickTD' id=\"N412\"  > 100 </td>
-  </tr>
-<!--
-  <tr>
-    <td class='pickTD' class='bg3'>(L) N2.27 </td>
-    <td class='pickTD' id=\"N227\"   class=\"grey1\"> 7 </td>
-    <td class='pickTD' id=\"C18\" class=\"grey1\" rowspan=\"2\"> 16 </td>
+  <tr> <!-- 1036 = S230 -->
+    <td class='pickTD'> ". $r[ $rx['S230']]['name'] ." </td>
+    <td class='pickTD' id=\"". $r[ $rx['S230']]['shortname'] ."\"  >". $r[ $rx['S230']]['maxpers'] ." </td>
+    <td class='pickTD' id=\"C20\"> ". $r[ $rx['S230']]['maxpers'] ." </td>
   </tr>
 
-  <tr>
-    <td class='pickTD' class='bg3'>(L) N2.25 </td>
-    <td class='pickTD' id=\"N225\"   class=\"grey1\"> 9 </td>
+   <tr><!-- 1026 = S4.04 -->
+    <td class='pickTD'> ". $r[ $rx['S404']]['name'] ." </td>
+    <td class='pickTD grey1' id=\"". $r[ $rx['S404']]['shortname'] ."\"  >". $r[ $rx['S404']]['maxpers'] ." </td>
+    <td class='pickTD grey1' id=\"C05\" > ". $r[ $rx['S404']]['maxpers'] ." </td>
+    <td class='pickTD' id=\"lila\"   > ". $r[ $rx['S404']]['maxpers'] ." </td>
   </tr>
--->
-  <tr>
-    <td class='pickTD' class='bg1'>N2.24</td>
-    <td class='pickTD grey0' id=\"N224\"> 142 </td>
-    <td class='pickTD grey0' id=\"C22\"> 142 </td>
+ 
+   <tr><!-- 1025 = N4.10-11 -->
+   <td class='pickTD'> ". $r[ $rx['N41011']]['name'] ."</td>
+    <td class='pickTD' id=\"". $r[ $rx['N41011']]['shortname'] ."\"> ". $r[ $rx['N41011']]['maxpers'] ." </td>
+    <td class='pickTD' id=\"C12\"      rowspan=\"2\"> " . ( $r[ $rx['N41011']]['maxpers'] + $r[ $rx['N412']]['maxpers'] ) . "  </td>
+    <td class='pickTD' id=\"rot1\"     rowspan=\"5\"> " . ( $r[ $rx['N41011']]['maxpers'] + $r[ $rx['N412']]['maxpers'] + $r[ $rx['N224']]['maxpers'] + $r[ $rx['N230']]['maxpers'] + $r[ $rx['N205']]['maxpers'] ). " </td>
+    <td class='pickTD' id=\"ULN\"      rowspan=\"7\"> " . ( $r[ $rx['N41011']]['maxpers'] + $r[ $rx['N412']]['maxpers'] + $r[ $rx['N224']]['maxpers'] + $r[ $rx['N230']]['maxpers'] + $r[ $rx['N205']]['maxpers'] + $r[ $rx['043']]['maxpers'] + $r[ $rx['FoyG']]['maxpers'] ). " </td>
   </tr>
-
-  <tr>
-    <td class='pickTD' class='bg1'>N2.30 </td>
-    <td class='pickTD grey1' id=\"N230\"> 56 </td>
-    <td class='pickTD grey1' id=\"C23\" > 56 </td>
-  </tr>
-
-  <tr>
-    <td class='pickTD' class='bg1'>N2.05 </td>
-    <td class='pickTD grey0' id=\"N205\"> 56 </td>
-    <td class='pickTD grey0' id=\"C24\" > 56 </td>
+ 
+  <tr> <!-- 1024 = N4.12 -->
+    <td class='pickTD'> ". $r[ $rx['N412']]['name'] ." </td>
+    <td class='pickTD' id=\"". $r[ $rx['N412']]['shortname'] ."\"  >". $r[ $rx['N412']]['maxpers'] ." </td>
   </tr>
 
-  <tr>
-    <td class='pickTD'> 0.43 </td>
-    <td class='pickTD grey1' id=\"043\" > 261 </td>
-    <td class='pickTD grey1' id=\"C25\" > 261  </td>
-    <td class='pickTD' id=\"ohne\" > 261 </td>
+  <tr><!-- 1034 = N224 -->
+    <td class='pickTD bg1'> ". $r[ $rx['N224']]['name'] ." </td>
+    <td class='pickTD grey0' id=\"". $r[ $rx['N224']]['shortname'] ."\"  >". $r[ $rx['N224']]['maxpers'] ." </td>
+    <td class='pickTD grey0' id=\"C22\" > ". $r[ $rx['N224']]['maxpers'] ." </td>
   </tr>
 
 
-  <tr>
-    <td class='pickTD'> Foyer ges.</td>
-    <td class='pickTD' id=\"FoyG\"  > 74 </td>
-    <td class='pickTD' id=\"C16\"> 74 </td>
-    <td class='pickTD' id=\"blau\"    > 74 </td>
+  <tr> <!-- 1036 = S230 -->
+    <td class='pickTD bg1'> ". $r[ $rx['N230']]['name'] ." </td>
+    <td class='pickTD grey1' id=\"". $r[ $rx['N230']]['shortname'] ."\"  >". $r[ $rx['N230']]['maxpers'] ." </td>
+    <td class='pickTD grey1' id=\"C23\"> ". $r[ $rx['N230']]['maxpers'] ." </td>
+  </tr>
+
+
+ <tr><!-- 1032 = N205 -->
+    <td class='pickTD bg1'> ". $r[ $rx['N205']]['name'] ." </td>
+    <td class='pickTD grey0' id=\"". $r[ $rx['N205']]['shortname'] ."\"  >". $r[ $rx['N205']]['maxpers'] ." </td>
+    <td class='pickTD grey0' id=\"C24\" > ". $r[ $rx['N205']]['maxpers'] ." </td>
+ </tr>
+ 
+ 
+  <tr> <!-- 1030 =  0.43 -->
+    <td class='pickTD bg1'> ". $r[ $rx['043']]['name'] ." </td>
+    <td class='pickTD grey1' id=\"". $r[ $rx['043']]['shortname'] ."\"  >". $r[ $rx['043']]['maxpers'] ." </td>
+    <td class='pickTD grey1' id=\"C25\"> ". $r[ $rx['043']]['maxpers'] ." </td>
+    <td class='pickTD' id=\"ohne\" > ". $r[ $rx['043']]['maxpers'] ."  </td>
+  </tr>
+ 
+
+  <tr><!-- 1021 = Foyer ges -->
+    <td class='pickTD'> ". $r[ $rx['FoyG']]['name'] ." </td>
+    <td class='pickTD grey0' id=\"". $r[ $rx['FoyG']]['shortname'] ."\"  >". $r[ $rx['FoyG']]['maxpers'] ." </td>
+    <td class='pickTD grey0' id=\"C16\" > ". $r[ $rx['FoyG']]['maxpers'] ." </td>
+    <td class='pickTD' id=\"blau\"    > ". $r[ $rx['FoyG']]['maxpers'] ." </td>
   </tr>
 
   <tr>
     <td class='pickTD' rowspan=\"13\"> HO </td>
-    <td class='pickTD'> S4.02 </td>
-    <td class='pickTD grey1' id=\"S402\" >50 </td>
-    <td class='pickTD grey1' id=\"C02\"  rowspan=\"2\"> 150 </td>
-    <td class='pickTD' id=\"grun2\"  rowspan=\"4\"> 300 </td>
-    <td class='pickTD' id=\"HOS\"    rowspan=\"9\"> 600 </td>
-    <td class='pickTD' id=\"HO\"     rowspan=\"13\"> 1027</td>
+    <td class='pickTD'>  ". $r[ $rx['S402'] ]['name'] ." </td>
+    <td class='pickTD grey1' id=\"". $r[ $rx['S402'] ]['shortname'] ."\" >". $r[ $rx['S402'] ]['maxpers'] ."</td>
+    <td class='pickTD grey1' id=\"C02\"  rowspan=\"2\"> ". ( $r[ $rx['S402'] ]['maxpers'] +  $r[ $rx['S401'] ]['maxpers'])." </td>
+    <td class='pickTD' id=\"grun2\"  rowspan=\"4\">  ". ( $r[ $rx['S402'] ]['maxpers'] +  $r[ $rx['S401'] ]['maxpers'] +  $r[ $rx['S302'] ]['maxpers'] +  $r[ $rx['S301'] ]['maxpers'] )." </td>
+    <td class='pickTD' id=\"HOS\"    rowspan=\"9\">  ". ( $r[ $rx['S402'] ]['maxpers'] +  $r[ $rx['S401'] ]['maxpers'] +  $r[ $rx['S302'] ]['maxpers'] +  $r[ $rx['S301'] ]['maxpers'] + $r[ $rx['S403'] ]['maxpers'] + $r[ $rx['S303'] ]['maxpers'] + $r[ $rx['109'] ]['maxpers'] + $r[ $rx['108'] ]['maxpers'] + $r[ $rx['107ab'] ]['maxpers'])."</td>
+    <td class='pickTD' id=\"HO\"     rowspan=\"13\"> ". ( $r[ $rx['S402'] ]['maxpers'] +  $r[ $rx['S401'] ]['maxpers'] +  $r[ $rx['S302'] ]['maxpers'] +  $r[ $rx['S301'] ]['maxpers'] + $r[ $rx['S403'] ]['maxpers'] + $r[ $rx['S303'] ]['maxpers'] + $r[ $rx['109'] ]['maxpers'] + $r[ $rx['108'] ]['maxpers'] + $r[ $rx['107ab'] ]['maxpers'] + $r[ $rx['125'] ]['maxpers'] + $r[ $rx['N409'] ]['maxpers'] + $r[ $rx['FoyO'] ]['maxpers'] + $r[ $rx['045'] ]['maxpers'] ) ."</td>
   </tr>
   <tr>
-    <td class='pickTD'> S4.01 </td>
-    <td class='pickTD grey1' id=\"S401\"> 100 </td>
-  </tr>
-
-  <tr>
-    <td class='pickTD'> S3.02 </td>
-    <td class='pickTD' id=\"S302\"  > 50 </td>
-    <td class='pickTD' id=\"C01\"   rowspan=\"2\"> 150 </td>
+    <td class='pickTD'>  ". $r[ $rx['S401'] ]['name'] ."</td>
+    <td class='pickTD grey1' id=\"". $r[ $rx['S401'] ]['shortname'] ."\" >". $r[ $rx['S401'] ]['maxpers'] ."</td>
   </tr>
 
   <tr>
-    <td class='pickTD'> S3.01 </td>
-    <td class='pickTD' id=\"S301\"  > 100 </td>
+    <td class='pickTD'>   ". $r[ $rx['S302'] ]['name'] ."</td>
+    <td class='pickTD grey1' id=\"". $r[ $rx['S302'] ]['shortname'] ."\" >". $r[ $rx['S302'] ]['maxpers'] ."</td>
+    <td class='pickTD' id=\"C01\"   rowspan=\"2\"> ". ( $r[ $rx['S302'] ]['maxpers'] +  $r[ $rx['S301'] ]['maxpers'])." </td>
   </tr>
 
   <tr>
-    <td class='pickTD'> S4.03 </td>
-    <td class='pickTD grey1' id=\"S403\" > 50 </td>
-    <td class='pickTD grey1' id=\"C04\"  rowspan=\"2\"> 100 </td>
-    <td class='pickTD' id=\"orange\"  rowspan=\"5\"> 300 </td>
+  <td class='pickTD'>   ". $r[ $rx['S301'] ]['name'] ."</td>
+  <td class='pickTD' id=\"". $r[ $rx['S301'] ]['shortname'] ."\" >". $r[ $rx['S301'] ]['maxpers'] ."</td>
   </tr>
 
   <tr>
-    <td class='pickTD'> S3.03 </td>
-    <td class='pickTD grey1' id=\"S303\" > 50 </td>
+   <td class='pickTD'>   ". $r[ $rx['S403'] ]['name'] ."</td>
+   <td class='pickTD grey1' id=\"". $r[ $rx['S403'] ]['shortname'] ."\" >". $r[ $rx['S403'] ]['maxpers'] ."</td>
+   <td class='pickTD grey1' id=\"C04\" rowspan=\"2\"> ". ( $r[ $rx['S403'] ]['maxpers'] + $r[ $rx['S303'] ]['maxpers'])." </td>
+   <td class='pickTD' id=\"orange\"  rowspan=\"5\"> ". ( $r[ $rx['S403'] ]['maxpers'] + $r[ $rx['S303'] ]['maxpers'] + $r[ $rx['109'] ]['maxpers'] + $r[ $rx['108'] ]['maxpers'] + $r[ $rx['107ab'] ]['maxpers'])."  </td>
+  </tr>
+
+
+  <tr>
+  <td class='pickTD'>     ". $r[ $rx['S303'] ]['name'] ."</td>
+  <td class='pickTD grey1' id=\"". $r[ $rx['S303'] ]['shortname'] ."\" >". $r[ $rx['S303'] ]['maxpers'] ."</td>
   </tr>
 
   <tr>
-    <td class='pickTD'> 1.09 </td>
-    <td class='pickTD' id=\"109\"   > 50 </td>
-    <td class='pickTD' id=\"C03\"               rowspan=\"3\"> 200 </td>
+    <td class='pickTD'>   ". $r[ $rx['109'] ]['name'] ."</td>
+    <td class='pickTD' id=\"". $r[ $rx['109'] ]['shortname'] ."\" >". $r[ $rx['109'] ]['maxpers'] ."</td>
+    <td class='pickTD' id=\"C03\"   rowspan=\"3\"> ". ( $r[ $rx['109'] ]['maxpers'] +  $r[ $rx['108'] ]['maxpers'] +  $r[ $rx['107ab'] ]['maxpers'])." </td>
   </tr>
 
   <tr>
-    <td class='pickTD'> 1.08 </td>
-    <td class='pickTD' id=\"108\"   > 50 </td>
+    <td class='pickTD'>     ". $r[ $rx['108'] ]['name'] ."</td>
+    <td class='pickTD' id=\"". $r[ $rx['108'] ]['shortname'] ."\" >". $r[ $rx['108'] ]['maxpers'] ."</td>
   </tr>
   <tr>
-    <td class='pickTD'> 1.07 a-b </td>
-    <td class='pickTD' id=\"107ab\" > 100 </td>
+    <td class='pickTD'>     ". $r[ $rx['107ab'] ]['name'] ."</td>
+    <td class='pickTD' id=\"". $r[ $rx['107ab'] ]['shortname'] ."\" >". $r[ $rx['107ab'] ]['maxpers'] ."</td>
   </tr>
   <tr>
-    <td class='pickTD bg3' >(MP) 1.25 </td>
-    <td class='pickTD grey1' id=\"125\" > 50 </td>
-    <td class='pickTD grey1' id=\"C13\" > 50 </td>
-    <td class='pickTD' id=\"rot2\"      > 50 </td>
-    <td class='pickTD' id=\"HON\" rowspan=\"4\"> 427 </td>
+    <td class='pickTD bg3' >". $r[ $rx['125'] ]['name'] ." </td>
+    <td class='pickTD grey1' id=\"". $r[ $rx['125'] ]['shortname'] ."\" > ". $r[ $rx['125'] ]['maxpers'] ." </td>
+    <td class='pickTD grey1' id=\"C13\" > ". $r[ $rx['125'] ]['maxpers'] ." </td>
+    <td class='pickTD' id=\"rot2\"      > ". $r[ $rx['125'] ]['maxpers'] ." </td>
+    <td class='pickTD' id=\"HON\" rowspan=\"4\"> ". ( $r[ $rx['125'] ]['maxpers'] +  $r[ $rx['N409'] ]['maxpers'] +  $r[ $rx['FoyO'] ]['maxpers']+  $r[ $rx['045'] ]['maxpers'])." </td>
   </tr>
   <tr>
-    <td class='pickTD'> N4.09 </td>
-    <td class='pickTD' id=\"N409\" > 50 </td>
-    <td class='pickTD' id=\"C11\"> 50 </td>
-    <td class='pickTD' id=\"schwarz\" rowspan=\"3\"> 377 </td>
+    <td class='pickTD' >". $r[ $rx['N409'] ]['name'] ." </td>
+    <td class='pickTD' id=\"". $r[ $rx['N409'] ]['shortname'] ."\" > ". $r[ $rx['N409'] ]['maxpers'] ." </td>
+    <td class='pickTD' id=\"C11\" > ". $r[ $rx['N409'] ]['maxpers'] ." </td>
+    <td class='pickTD' id=\"schwarz\" rowspan=\"3\"> ". ( $r[ $rx['N409'] ]['maxpers'] +  $r[ $rx['FoyO'] ]['maxpers'] +  $r[ $rx['045'] ]['maxpers'] )." </td>
   </tr>
   <tr>
-    <td class='pickTD'> Foyer Ost </td>
-    <td class='pickTD grey1' id=\"FoyO\"  > 28 </td>
-    <td class='pickTD grey1' id=\"C14\"  > 28 </td>
+  <td class='pickTD'>     ". $r[ $rx['FoyO'] ]['name'] ."</td>
+  <td class='pickTD grey1' id=\"". $r[ $rx['FoyO'] ]['shortname'] ."\" >". $r[ $rx['FoyO'] ]['maxpers'] ."</td>
+  <td class='pickTD grey1'  id=\"C14\">". $r[ $rx['FoyO'] ]['maxpers'] ."</td>
   </tr>
   
    <tr>
-    <td class='pickTD'> 0.45 </td>
-    <td class='pickTD grey1' id=\"045\" > 299 </td>
-    <td class='pickTD grey1' id=\"C19\" > 299 </td>
+  <td class='pickTD'>     ". $r[ $rx['045'] ]['name'] ."</td>
+  <td class='pickTD grey1' id=\"". $r[ $rx['045'] ]['shortname'] ."\" >". $r[ $rx['045'] ]['maxpers'] ."</td>
+  <td class='pickTD grey1'  id=\"C19\">". $r[ $rx['045'] ]['maxpers'] ."</td>
+  </tr>
+
+ 
+  <tr>
+    <td class='pickTD' rowspan=\"9\"> HW </td>
+    <td class='pickTD'>  ". $r[ $rx['N408'] ]['name'] ." </td>
+    <td class='pickTD' id=\"". $r[ $rx['N408'] ]['shortname'] ."\" >". $r[ $rx['N408'] ]['maxpers'] ."</td>
+    <td class='pickTD' id=\"C10\"  rowspan=\"2\"> ". ( $r[ $rx['N408'] ]['maxpers'] + $r[ $rx['N407'] ]['maxpers'] )." </td>
+    <td class='pickTD' id=\"gelb\" rowspan=\"2\"> ". ( $r[ $rx['N408'] ]['maxpers'] + $r[ $rx['N407'] ]['maxpers'] )." </td>
+    <td class='pickTD' id=\"HWN\"  rowspan=\"9\"> ". ( $r[ $rx['N408'] ]['maxpers'] + $r[ $rx['N407'] ]['maxpers'] +  $r[ $rx['N517'] ]['maxpers'] +  $r[ $rx['N406'] ]['maxpers'] + $r[ $rx['N310'] ]['maxpers'] + $r[ $rx['N219'] ]['maxpers'] + $r[ $rx['N218'] ]['maxpers'] + $r[ $rx['N215'] ]['maxpers'] + $r[ $rx['FoyW'] ]['maxpers'])."</td>
+    <td class='pickTD' id=\"HW\"   rowspan=\"9\"> ". ( $r[ $rx['N408'] ]['maxpers'] + $r[ $rx['N407'] ]['maxpers'] +  $r[ $rx['N517'] ]['maxpers'] +  $r[ $rx['N406'] ]['maxpers'] + $r[ $rx['N310'] ]['maxpers'] + $r[ $rx['N219'] ]['maxpers'] + $r[ $rx['N218'] ]['maxpers'] + $r[ $rx['N215'] ]['maxpers'] + $r[ $rx['FoyW'] ]['maxpers']) ."</tr>
+  <tr>
+    <td class='pickTD'>     ". $r[ $rx['N407'] ]['name'] ."</td>
+    <td class='pickTD' id=\"". $r[ $rx['N407'] ]['shortname'] ."\" >". $r[ $rx['N407'] ]['maxpers'] ."</td>
   </tr>
   
   <tr>
-    <td class='pickTD' rowspan=\"9\"> HW </td>
-    <td class='pickTD'> N4.08 </td>
-    <td class='pickTD' id=\"N408\"  > 50 </td>
-    <td class='pickTD' id=\"C10\"               rowspan=\"2\"> 100 </td>
-    <td class='pickTD' id=\"gelb\"    rowspan=\"2\"> 100 </td>
-    <td class='pickTD' id=\"HWN\" rowspan=\"9\"> 314 </td>
-    <td class='pickTD' id=\"HW\" rowspan=\"9\"> 314 </td>
+   <td class='pickTD'>   ". $r[ $rx['N517'] ]['name'] ."</td>
+   <td class='pickTD grey1' id=\"". $r[ $rx['N517'] ]['shortname'] ."\" >". $r[ $rx['N517'] ]['maxpers'] ."</td>
+   <td class='pickTD grey1' id=\"C09\" rowspan=\"2\"> ". ( $r[ $rx['N517'] ]['maxpers'] + $r[ $rx['N406'] ]['maxpers'])." </td>
+   <td class='pickTD' id=\"pink\"  rowspan=\"6\"> ". ( $r[ $rx['N517'] ]['maxpers'] + $r[ $rx['N406'] ]['maxpers'] + $r[ $rx['N310'] ]['maxpers'] + $r[ $rx['N219'] ]['maxpers'] + $r[ $rx['N218'] ]['maxpers']+ $r[ $rx['N215'] ]['maxpers'])."  </td>
   </tr>
   <tr>
-    <td class='pickTD'> N4.07 </td>
-    <td class='pickTD' id=\"N407\"  > 50 </td>
+    <td class='pickTD'>     ". $r[ $rx['N406'] ]['name'] ."</td>
+    <td class='pickTD' id=\"". $r[ $rx['N406'] ]['shortname'] ."\" >". $r[ $rx['N406'] ]['maxpers'] ."</td>
   </tr>
   <tr>
-    <td class='pickTD'> N5.17 </td>
-    <td class='pickTD grey1' id=\"N517\" > 100 </td>
-    <td class='pickTD grey1' id=\"C09\"  rowspan=\"2\"> 150 </td>
-    <td class='pickTD' id=\"pink\"       rowspan=\"6\"> 214 </td>
+   
+   <td class='pickTD bg3'>   ". $r[ $rx['N310'] ]['name'] ."</td>
+   <td class='pickTD' id=\"". $r[ $rx['N310'] ]['shortname'] ."\" >". $r[ $rx['N310'] ]['maxpers'] ."</td>
+   <td class='pickTD' id=\"C17\" rowspan=\"4\"> ". ( $r[ $rx['N310'] ]['maxpers'] + $r[ $rx['N219'] ]['maxpers'] + $r[ $rx['N218'] ]['maxpers'] + $r[ $rx['N215'] ]['maxpers'])." </td>
+   
   </tr>
   <tr>
-    <td class='pickTD'> N4.06 </td>
-    <td class='pickTD grey1' id=\"N406\"   > 50 </td>
+    <td class='pickTD bg3'>     ". $r[ $rx['N219'] ]['name'] ."</td>
+    <td class='pickTD' id=\"". $r[ $rx['N219'] ]['shortname'] ."\" >". $r[ $rx['N219'] ]['maxpers'] ."</td>
   </tr>
   <tr>
-    <td class='pickTD bg3' >(RZ) N3.10 </td>
-    <td class='pickTD' id=\"N310\"  > 16 </td>
-    <td class='pickTD' id=\"C17\"               rowspan=\"4\"> 64 </td>
+    <td class='pickTD bg3'>     ". $r[ $rx['N218'] ]['name'] ."</td>
+    <td class='pickTD' id=\"". $r[ $rx['N218'] ]['shortname'] ."\" >". $r[ $rx['N218'] ]['maxpers'] ."</td>
   </tr>
   <tr>
-    <td class='pickTD bg3' >(RZ) N2.19 </td>
-    <td class='pickTD' id=\"N219\"  > 16 </td>
+    <td class='pickTD bg3'>     ". $r[ $rx['N215'] ]['name'] ."</td>
+    <td class='pickTD' id=\"". $r[ $rx['N215'] ]['shortname'] ."\" >". $r[ $rx['N215'] ]['maxpers'] ."</td>
   </tr>
   <tr>
-    <td class='pickTD bg3'  >(RZ) N2.18 </td>
-    <td class='pickTD' id=\"N218\"  > 16 </td>
-  </tr>
-  <tr>
-    <td class='pickTD bg3'  >(RZ) N2.15 </td>
-    <td class='pickTD' id=\"N215\"  > 16 </td>
-  </tr>
-  <tr>
-    <td class='pickTD' >Foyer W</td>
-    <td class='pickTD grey1' id=\"FoyW\" > 73 </td>
-    <td class='pickTD grey1' id=\"C15\" > 73 </td>
-    <td class='pickTD' id=\"grau\"    > 73</td>
+    <td class='pickTD bg1'> ". $r[ $rx['FoyW']]['name'] ." </td>
+    <td class='pickTD grey1' id=\"". $r[ $rx['FoyW']]['shortname'] ."\"  >". $r[ $rx['FoyW']]['maxpers'] ." </td>
+    <td class='pickTD grey1' id=\"C15\"> ". $r[ $rx['FoyW']]['maxpers'] ." </td>
+    <td class='pickTD' id=\"grau\" > ". $r[ $rx['FoyW']]['maxpers'] ."  </td>
+    
   </tr>
 </table>
 </div>
 ";
+
+    /**
+
+
+
+$tab .= "
+<div style=\"position:fixed ; top:0px; right:5px;\">
+<table width=\"295\" cellpadding=\"2\" cellspacing=\"0\" class=\"roompicker\">
+<tr>
+<td class='pickTD'> EI </td>
+<td class='pickTD'> Raum </td>
+<td class='pickTD'> Pers </td>
+<td class='pickTD'> CL </td>
+<td class='pickTD'> LW </td>
+<td class='pickTD'> FL </td>
+<td class='pickTD'> EI </td>
+</tr>
+<tr>
+<td class='pickTD' rowspan=\"13\"> UL </td>
+<td class='pickTD'> S4.07 </td>
+<td class='pickTD' id=\"S407\"  > 100 </td>
+<td class='pickTD' id=\"C08\"> 100 </td>
+<td class='pickTD' id=\"grun1\" rowspan=\"5\"> 454 </td>
+<td class='pickTD' id=\"ULS\" rowspan=\"6\"> 558  </td>
+<td class='pickTD' id=\"UL\"  rowspan=\"13\"> 1347 </td>
+</tr>
+<tr>
+<td class='pickTD' height=\"20\"> S4.05-06 </td>
+<td class='pickTD grey1' id=\"S40506\"> 100 </td>
+<td class='pickTD grey1' id=\"C07\" > 100 </td>
+</tr>
+<tr>
+<td class='pickTD'> S3.08 </td>
+<td class='pickTD' id=\"S308\"  > 100 </td>
+<td class='pickTD' id=\"C06\"> 100 </td>
+</tr>
+<tr>
+<td class='pickTD'> S2.09 </td>
+<td class='pickTD' id=\"S209\"  > 54 </td>
+<td class='pickTD' id=\"C21\"> 54 </td>
+</tr>
+<tr>
+<td class='pickTD'> S2.30 </td>
+<td class='pickTD' id=\"S230\"> 100 </td>
+<td class='pickTD' id=\"C20\"> 100 </td>
+</tr>
+<tr>
+<td class='pickTD' height=\"25\"> S4.04 </td>
+<td class='pickTD grey1' id=\"S404\" > 104 </td>
+<td class='pickTD grey1' id=\"C05\"  > 104 </td>
+<td class='pickTD' id=\"lila\"   > 104 </td>
+</tr>
+<tr>
+<td class='pickTD'> N4.10-11 </td>
+<td class='pickTD' id=\"N41011\"> 100 </td>
+<td class='pickTD' id=\"C12\"      rowspan=\"2\"> 200 </td>
+<td class='pickTD' id=\"rot1\"     rowspan=\"5\"> 454</td>
+<td class='pickTD' id=\"ULN\"       rowspan=\"7\"> 789</td>
+</tr>
+
+<tr>
+<td class='pickTD'> N4.12 </td>
+<td class='pickTD' id=\"N412\"  > 100 </td>
+</tr>
+<!--
+<tr>
+<td class='pickTD' class='bg3'>(L) N2.27 </td>
+<td class='pickTD' id=\"N227\"   class=\"grey1\"> 7 </td>
+<td class='pickTD' id=\"C18\" class=\"grey1\" rowspan=\"2\"> 16 </td>
+</tr>
+
+<tr>
+<td class='pickTD' class='bg3'>(L) N2.25 </td>
+<td class='pickTD' id=\"N225\"   class=\"grey1\"> 9 </td>
+</tr>
+-->
+<tr>
+<td class='pickTD' class='bg1'>N2.24</td>
+<td class='pickTD grey0' id=\"N224\"> 142 </td>
+<td class='pickTD grey0' id=\"C22\"> 142 </td>
+</tr>
+
+<tr>
+<td class='pickTD' class='bg1'>N2.30 </td>
+<td class='pickTD grey1' id=\"N230\"> 56 </td>
+<td class='pickTD grey1' id=\"C23\" > 56 </td>
+</tr>
+
+<tr>
+<td class='pickTD' class='bg1'>N2.05 </td>
+<td class='pickTD grey0' id=\"N205\"> 56 </td>
+<td class='pickTD grey0' id=\"C24\" > 56 </td>
+</tr>
+
+<tr>
+<td class='pickTD'> 0.43 </td>
+<td class='pickTD grey1' id=\"043\" > 261 </td>
+<td class='pickTD grey1' id=\"C25\" > 261  </td>
+<td class='pickTD' id=\"ohne\" > 261 </td>
+</tr>
+
+
+<tr>
+<td class='pickTD'> Foyer ges.</td>
+<td class='pickTD' id=\"FoyG\"  > 74 </td>
+<td class='pickTD' id=\"C16\"> 74 </td>
+<td class='pickTD' id=\"blau\"    > 74 </td>
+</tr>
+
+<tr>
+<td class='pickTD' rowspan=\"13\"> HO </td>
+<td class='pickTD'> S4.02 </td>
+<td class='pickTD grey1' id=\"S402\" >50 </td>
+<td class='pickTD grey1' id=\"C02\"  rowspan=\"2\"> 150 </td>
+<td class='pickTD' id=\"grun2\"  rowspan=\"4\"> 300 </td>
+<td class='pickTD' id=\"HOS\"    rowspan=\"9\"> 600 </td>
+<td class='pickTD' id=\"HO\"     rowspan=\"13\"> 1027</td>
+</tr>
+<tr>
+<td class='pickTD'> S4.01 </td>
+<td class='pickTD grey1' id=\"S401\"> 100 </td>
+</tr>
+
+<tr>
+<td class='pickTD'> S3.02 </td>
+<td class='pickTD' id=\"S302\"  > 50 </td>
+<td class='pickTD' id=\"C01\"   rowspan=\"2\"> 150 </td>
+</tr>
+
+<tr>
+<td class='pickTD'> S3.01 </td>
+<td class='pickTD' id=\"S301\"  > 100 </td>
+</tr>
+
+<tr>
+<td class='pickTD'> S4.03 </td>
+<td class='pickTD grey1' id=\"S403\" > 50 </td>
+<td class='pickTD grey1' id=\"C04\"  rowspan=\"2\"> 100 </td>
+<td class='pickTD' id=\"orange\"  rowspan=\"5\"> 300 </td>
+</tr>
+
+<tr>
+<td class='pickTD'> S3.03 </td>
+<td class='pickTD grey1' id=\"S303\" > 50 </td>
+</tr>
+
+<tr>
+<td class='pickTD'> 1.09 </td>
+<td class='pickTD' id=\"109\"   > 50 </td>
+<td class='pickTD' id=\"C03\"               rowspan=\"3\"> 200 </td>
+</tr>
+
+<tr>
+<td class='pickTD'> 1.08 </td>
+<td class='pickTD' id=\"108\"   > 50 </td>
+</tr>
+<tr>
+<td class='pickTD'> 1.07 a-b </td>
+<td class='pickTD' id=\"107ab\" > 100 </td>
+</tr>
+<tr>
+<td class='pickTD bg3' >(MP) 1.25 </td>
+<td class='pickTD grey1' id=\"125\" > 50 </td>
+<td class='pickTD grey1' id=\"C13\" > 50 </td>
+<td class='pickTD' id=\"rot2\"      > 50 </td>
+<td class='pickTD' id=\"HON\" rowspan=\"4\"> 427 </td>
+</tr>
+<tr>
+<td class='pickTD'> N4.09 </td>
+<td class='pickTD' id=\"N409\" > 50 </td>
+<td class='pickTD' id=\"C11\"> 50 </td>
+<td class='pickTD' id=\"schwarz\" rowspan=\"3\"> 377 </td>
+</tr>
+<tr>
+<td class='pickTD'> Foyer Ost </td>
+<td class='pickTD grey1' id=\"FoyO\"  > 28 </td>
+<td class='pickTD grey1' id=\"C14\"  > 28 </td>
+</tr>
+
+<tr>
+<td class='pickTD'> 0.45 </td>
+<td class='pickTD grey1' id=\"045\" > 299 </td>
+<td class='pickTD grey1' id=\"C19\" > 299 </td>
+</tr>
+
+<tr>
+<td class='pickTD' rowspan=\"9\"> HW </td>
+<td class='pickTD'> N4.08 </td>
+<td class='pickTD' id=\"N408\"  > 50 </td>
+<td class='pickTD' id=\"C10\"               rowspan=\"2\"> 100 </td>
+<td class='pickTD' id=\"gelb\"    rowspan=\"2\"> 100 </td>
+<td class='pickTD' id=\"HWN\" rowspan=\"9\"> 314 </td>
+<td class='pickTD' id=\"HW\" rowspan=\"9\"> 314 </td>
+</tr>
+<tr>
+<td class='pickTD'> N4.07 </td>
+<td class='pickTD' id=\"N407\"  > 50 </td>
+</tr>
+<tr>
+<td class='pickTD'> N5.17 </td>
+<td class='pickTD grey1' id=\"N517\" > 100 </td>
+<td class='pickTD grey1' id=\"C09\"  rowspan=\"2\"> 150 </td>
+<td class='pickTD' id=\"pink\"       rowspan=\"6\"> 214 </td>
+</tr>
+<tr>
+<td class='pickTD'> N4.06 </td>
+<td class='pickTD grey1' id=\"N406\"   > 50 </td>
+</tr>
+<tr>
+<td class='pickTD bg3' >(RZ) N3.10 </td>
+<td class='pickTD' id=\"N310\"  > 16 </td>
+<td class='pickTD' id=\"C17\"               rowspan=\"4\"> 64 </td>
+</tr>
+<tr>
+<td class='pickTD bg3' >(RZ) N2.19 </td>
+<td class='pickTD' id=\"N219\"  > 16 </td>
+</tr>
+<tr>
+<td class='pickTD bg3'  >(RZ) N2.18 </td>
+<td class='pickTD' id=\"N218\"  > 16 </td>
+</tr>
+<tr>
+<td class='pickTD bg3'  >(RZ) N2.15 </td>
+<td class='pickTD' id=\"N215\"  > 16 </td>
+</tr>
+<tr>
+<td class='pickTD' >Foyer W</td>
+<td class='pickTD grey1' id=\"FoyW\" > 73 </td>
+<td class='pickTD grey1' id=\"C15\" > 73 </td>
+<td class='pickTD' id=\"grau\"    > 73</td>
+</tr>
+</table>
+</div>
+";
+
+
+**/
+
+
 
 $js = 'let  statusBox  = document.getElementById("statusBox" );
 let  statusText = document.getElementById("statusText");
@@ -501,7 +747,7 @@ foreach( $_SESSION[ 'liste' ][ 'raum' ] as $r)
   "R[ \"" .$r[ 'shortname' ] ."\"  ][ 'pers'  ] = "       .$r[ 'maxpers'  ]. ";\r\n"     .
   "R[ \"" .$r[ 'shortname' ] ."\"  ][ 'jq'    ] = $( \"#" .$r[ 'shortname']. "\" );\r\n" .
   "R[ \"" .$r[ 'shortname' ] ."\"  ][ 'state' ] = 0;\r\n\r\n";
-  $REH .= "$( \"#". $r['shortname'] . "\" ).on( \"click\", function( event ) {  updIt0(\"".$r['shortname']."\"  ,null, true, 1); });\r\n";
+  $REH .= "$( \"#". $r['shortname'] . "\" ).on( \"click\", function( event ) { this.blur();  updIt0(\"".$r['shortname']."\"  ,null, true, 1); });\r\n";
 }
 
 $CEH = '';
