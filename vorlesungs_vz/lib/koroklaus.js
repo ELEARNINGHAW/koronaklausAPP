@@ -6,7 +6,7 @@ function updIt0( rID, state = null, save = true , color = 0  )
 {  console.log('rID: ' + rID + ' state: ' + state );
   if (state == null) {   R[rID].state = ++R[rID].state % 2;  }
   else               {   R[rID].state = state;  }
-
+   //console.log('STATE: ' +  R[rID].state + ' state: ' + state + ' color: ' + color );
   setIt( R[ rID ], R[ rID ].state, save, color  );
 }
 
@@ -54,7 +54,7 @@ function updIt3( fID  , state = null, save = true, color = 0, recursiv = true )
 }
 
 function updIt4( eID  , state = null, save = true, color = 0, recursiv = true )
-{   //console.log('eID: ' + eID );
+{   console.log('eID: ' + eID );
     if (state == null)  {  E[ eID ].state =  ++E[ eID ].state%2; }
     else                {  E[ eID ].state =  state; }
 
@@ -80,10 +80,10 @@ function getPers(str)
 }
 
 function setIt( x, STATE , save = false , color = 0 )
-{
-    if ( STATE ) { x.jq.addClass( "ram"+color ); }
+{   console.log(`CO ` +  color + ' -- '+ x.name  + ' jg ' + x)
+    if ( STATE ) { x.jq.addClass( "ram"+color );   console.log(`2`) }
     else
-    {
+    {   console.log(`1`)
         x.jq.removeClass( "ram0" );
         x.jq.removeClass( "ram1" );
         x.jq.removeClass( "ram2" );
@@ -171,6 +171,9 @@ function deactivateKL(klausID)
 
 function setCurKL( kl, sl )
 {
+  //kl = 234
+  //sl = SL202108181
+
   curKL = kl; // -- set globale Variable
 
   for ( const [ key, value ] of Object.entries( SLO ) )  { value.KL.forEach( deactivateKL ) ; }

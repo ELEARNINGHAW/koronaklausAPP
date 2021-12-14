@@ -9,12 +9,31 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 
 #$_SESSION['phase']  = 1;
 
+if (isset($_SESSION[ 'liste' ][ 'alleraume' ]))
+{
+$r = $_SESSION[ 'liste' ][ 'alleraume' ];
+
+$gr[] =  sizeof($r);
+
+foreach ( $r as $eingang )
+{
+  #$e[ $eing['name'] ] = $eing;
+  foreach ( $eingang[ 'fluegel' ]  as $fluegel )
+  { # deb(  sizeof($f['laufweg']) );
+ #    deb($fluegel);
+    #$gr[][] =  sizeof($f['laufweg']);
+  }
+}
+}
+
 require_once( "../inc/db.class.php" );
 $db                     = new DB();
 
-if ( isset ( $_GET[ 'p'      ] ) ) { $_SESSION['phase'] = $_GET[ 'p' ] ; $db ->setPhase($_SESSION['phase']); }
+if ( isset ( $_GET[ 'p' ] ) ) { $_SESSION[ 'phase' ] = $_GET[ 'p' ] ; $db -> setPhase( $_SESSION[ 'phase' ] ); }
 
 $_SESSION[ 'type' ]     = 'EMIL';
+
+
 
 if ( isset( $_GET[ 'un' ] ) )  # Nutzerdaten von moodle übernehmen
 { $_SESSION[ 'user' ] = decodeUserData( $_GET );
@@ -24,6 +43,7 @@ if ( isset( $_GET[ 'un' ] ) )  # Nutzerdaten von moodle übernehmen
   { $_SESSION[ 'user' ][ 'abk' ] = $u[ 'abk' ];
     $db->setKoordinator( $_SESSION[ 'user' ] );
   }
+ getRooms($db)  ;
 }
 
 if(  $_SESSION[ 'type' ] == 'EMIL' )
@@ -66,10 +86,7 @@ if(  $_SESSION[ 'type' ] == 'STALONE' )
   unset ($_SESSION['GET']);
 }
 
-
-
 $phase = $db -> getPhase();
-
 
 setTxt(); echo $_SESSION[ 'txt' ][ 'head' ];
 
@@ -84,6 +101,7 @@ if ($_SESSION['user']['showContent'] == true )
 	if ($_SESSION['user']['ro'] >= 3) $con .= '<a class="reiter2" href="basistables/mdl_haw_veranstaltungen.php" target="content"  title="Veranstaltungen"	    >DB: Veranstaltungen</a>';
 	if ($_SESSION['user']['ro'] >= 3) $con .= '<a class="reiter2" href="basistables/mdl_haw_studiengaenge.php"   target="content"  title="Studiengaenge"	      >DB: Studiengänge</a>';
 	if ($_SESSION['user']['ro'] >= 3) $con .= '<a class="reiter2" href="basistables/mdl_haw_professoren.php"     target="content"  title="Professoren" 		    >DB: Lehrende</a>';
+  if ($_SESSION['user']['ro'] >= 3) $con .= '<a class="reiter2" href="basistables/mdl_haw_raum.php"            target="content"  title="Raum"         		    >DB: Raum</a>';
 	if ($_SESSION['user']['ro'] >= 3) $con .= '<a class="reiter2" href="../inc/Excel-to-MySQL/"	                 target="content"  title="EXCEL IM/EXPORT"     >EXCEL IM/EXPORT</a>';
   if ($_SESSION['user']['ro'] >= 3) $con .= '<a class="'. $s1 .' reiter2 " href="?go=1&p=1"                    target="_self"    title="1"     >1 </a>';
   if ($_SESSION['user']['ro'] >= 3) $con .= '<a class="'. $s2 .' reiter2 " href="?go=1&p=2"                    target="_self"    title="2"     >2 </a>';
@@ -183,4 +201,68 @@ function deb($var, $die = false )
   print_r($var);
   echo "</pre>";
   if ($die) {die();}
+}
+
+function getRooms($db)
+{
+ 
+  $_SESSION[ 'liste' ][ 'raum'    ] = $db -> getRaumListe();
+  $_SESSION[ 'liste' ][ 'cluster' ] = $db -> getClusterListe();
+  $_SESSION[ 'liste' ][ 'laufweg' ] = $db -> getLaufwegListe();
+  $_SESSION[ 'liste' ][ 'fluegel' ] = $db -> getFluegelListe();
+  $_SESSION[ 'liste' ][ 'eingang' ] = $db -> getEingangListe();
+  
+  foreach ( $_SESSION[ 'liste' ][ 'eingang' ] as $eingang )
+  { $LS[ $eingang[ 'name' ] ] = $eingang;
+    foreach ( explode(',', $LS[ $eingang[ 'name' ]][ 'fluegel' ] ) as $fluegelname )
+    
+    { foreach ( $_SESSION[ 'liste' ][ 'fluegel' ] as $fluegel )
+    { if( $fluegel[ 'name' ]  == $fluegelname )
+    { $LS[ $eingang[ 'name' ] ][ 'fl' ][ $fluegelname ] = $fluegel;
+      foreach ( explode(',', $LS[ $eingang[ 'name' ] ][ 'fl' ][ $fluegelname ][ 'laufweg' ] ) as $laufwegname )
+      
+      { foreach ($_SESSION[ 'liste' ][ 'laufweg' ] as $laufweg)
+      { if ( $laufweg['name'] == $laufwegname )
+      { $LS[ $eingang[ 'name' ] ][ 'fl' ][ $fluegelname ]['lw'][$laufwegname] = $laufweg;
+        foreach ( explode(',', $laufweg['cluster'] ) as $clustername )
+        
+        { foreach ($_SESSION[ 'liste' ][ 'cluster' ] as $cluster )
+        { if ( $cluster[ 'name' ] == $clustername )
+        { $LS[ $eingang[ 'name' ] ][ 'fl' ][ $fluegelname ][ 'lw' ][ $laufwegname ][ 'cl' ][$clustername] = $cluster;
+          foreach ( explode(',', $cluster[ 'raum' ] ) as $raumname )
+          
+          { foreach ($_SESSION['liste']['raum'] as $raum)
+          {
+            if ( $raum[ 'shortname' ] == $raumname )
+            { $LS[ $eingang[ 'name' ] ][ 'fl' ][ $fluegelname ][ 'lw' ][ $laufwegname ][ 'cl' ][$clustername]['rn'] [$raumname] = $raum;
+            }
+          }
+          }
+          $LS[ $eingang[ 'name' ] ] [ 'fl' ][ $fluegelname ][ 'lw' ][ $laufwegname ][ 'cl' ][$clustername]['raum'] =
+            $LS[ $eingang[ 'name' ] ][ 'fl' ][ $fluegelname ][ 'lw' ][ $laufwegname ][ 'cl' ][$clustername]['rn'] ;
+          unset(  $LS[ $eingang[ 'name' ] ][ 'fl' ][ $fluegelname ][ 'lw' ][ $laufwegname ][ 'cl' ][$clustername]['rn']);
+        }
+        }
+        }
+        $LS[ $eingang[ 'name' ] ] [ 'fl' ][ $fluegelname ]['lw'][ $laufwegname ]['cluster'] =
+          $LS[ $eingang[ 'name' ] ] [ 'fl' ][ $fluegelname ]['lw'][ $laufwegname ]['cl'] ;
+        unset($LS[ $eingang[ 'name' ] ] [ 'fl' ][ $fluegelname ]['lw'][ $laufwegname ]['cl']);
+      }
+      }
+      }
+      $LS[ $eingang[ 'name' ] ] [ 'fl' ] [ $fluegelname ] [ 'laufweg' ]  =
+        $LS[ $eingang[ 'name' ] ] [ 'fl' ] [ $fluegelname ] [ 'lw'      ];
+      unset($LS[ $eingang[ 'name' ] ] [ 'fl' ] [ $fluegelname ] [ 'lw'      ]);
+    }
+    }
+    }
+    $LS[ $eingang[ 'name' ] ] [ 'fluegel' ] =
+      $LS[ $eingang[ 'name' ] ][ 'fl' ];
+    unset($LS[ $eingang[ 'name' ] ][ 'fl' ]);
+    
+  }
+ 
+  $_SESSION[ 'liste' ][ 'alleraume' ] = $LS;
+  return $LS;
+  
 }

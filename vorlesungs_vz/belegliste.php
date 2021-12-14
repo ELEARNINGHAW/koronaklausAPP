@@ -1,9 +1,11 @@
 <?php
 session_start();
 error_reporting(E_ALL);
+error_reporting(0);
 
 $_SESSION[ 'where' ] = '';
 $go = 0;
+$html = '';
 
 if (($_SESSION[ 'user' ][ 'ro' ] ) >= 2 )
 { require_once( "../inc/belegliste.class.php"  );
@@ -24,7 +26,11 @@ if (($_SESSION[ 'user' ][ 'ro' ] ) >= 2 )
   if ( isset ( $_GET[ 'go'     ] ) ) { $go = $_GET[ 'go' ] ;       }
   
   $_SESSION['phase'] = $phase = $db->getPhase();
- # deb($_SESSION['phase'] );
+  
+  $I[ 'alldozenten' ] = $db -> getAllDozent(); #
+  $I[ 'allLVA'      ] = $db -> getLehrveranstaltung();
+  $I[ 'allSG'       ] = $db -> getStudiengaenge();
+  
   
   if ( $go == 3 ) ## ---- import userdata ----
   { $alleDozenten = $db -> getAllDozent();
@@ -36,14 +42,12 @@ if (($_SESSION[ 'user' ][ 'ro' ] ) >= 2 )
 
   if ( $go == 2 )
   { $extVorlesungsliste = $db -> getExtKlausurplan(0 );
-    $html .= $render -> renderExtKlausurListe( $extVorlesungsliste, $db,  $can_edit );
+  
+    $html .= $render -> renderExtKlausurListe( $extVorlesungsliste , $I, $db,  $can_edit );
   }
   
   if ( $go == 1 )
   { $vorlesungsliste    = $db -> getVorlesung(0 );        # aktueller Veranstalungsplan: Studigengang - Semester - Professor
-    $I[ 'alldozenten' ] = $db -> getAllDozent(); #
-    $I[ 'allLVA'      ] = $db -> getLehrveranstaltung();
-    $I[ 'allSG'       ] = $db -> getStudiengaenge();
 
     $html .= $render->renderKlausurListe( $vorlesungsliste, $I,  $can_edit  );
   }

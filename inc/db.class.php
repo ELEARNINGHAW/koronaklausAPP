@@ -9,7 +9,45 @@ class DB
   	if( $this->conn ) {	mysqli_select_db( $this -> conn, $dbase  );	}
    	else              { echo( "<b>Verbindung zur IDM-DB konnte nicht hergestellt werden </b>" ); 	}
   }
-
+  
+  function getRaumListe()
+  { $sql_1 = "SELECT * FROM `raum`";
+    $result_1 = mysqli_query (  $this->conn, $sql_1  );
+    if ( $result_1 )   	{	while ( $row = mysqli_fetch_array( $result_1, MYSQLI_ASSOC ) ) { $raum[$row['roomID']] = $row; }	}
+    return $raum;
+  }
+  
+  function getClusterListe()
+  {  $sql_1 = "SELECT * FROM `cluster`";
+    $result_1 = mysqli_query (  $this->conn, $sql_1  );
+    if ( $result_1 )   	{	while ( $row = mysqli_fetch_array( $result_1, MYSQLI_ASSOC ) ) { $cluster[$row['clusterID']] = $row; }	}
+    return $cluster;
+  }
+  
+  function getLaufwegListe()
+  {  $sql_1 = "SELECT * FROM `laufweg`";
+    $result_1 = mysqli_query (  $this->conn, $sql_1  );
+    if ( $result_1 )   	{	while ( $row = mysqli_fetch_array( $result_1, MYSQLI_ASSOC ) ) { $laufweg[$row['laufwegID']] = $row; }	}
+    return $laufweg;
+  }
+  
+  function getFluegelListe()
+  {  $sql_1 = "SELECT * FROM `fluegel`";
+    $result_1 = mysqli_query (  $this->conn, $sql_1  );
+    if ( $result_1 )   	{	while ( $row = mysqli_fetch_array( $result_1, MYSQLI_ASSOC ) ) { $fluegel[$row['fluegelID']] = $row; }	}
+    return $fluegel;
+  }
+  
+  function getEingangListe()
+  {  $sql_1 = "SELECT * FROM `eingang`";
+    $result_1 = mysqli_query (  $this->conn, $sql_1  );
+    if ( $result_1 )   	{	while ( $row = mysqli_fetch_array( $result_1, MYSQLI_ASSOC ) ) { $eingang[$row['eingangID']] = $row; }	}
+    return $eingang;
+  }
+  
+  
+  
+  
   function getProfessor( $dozabk )
   {  $sql_1 = "SELECT * FROM `dozenten` WHERE  `abk` = \"". trim($dozabk) ."\"";
   
@@ -268,11 +306,40 @@ function getAnzStudisInVeranstaltung( $veranstaltungID )
 }
   
 function getExtKlausurplan( $ID )
-{	$extKlausurplan = null;
-  if ( $ID != 0 )  { $whereclausel = 'AND `ID` = $ID';   }
-  else             { $whereclausel = '';                   }
-  $sql_1 = "SELECT `vl_verzeichnis`.ID as ID, `lehrveranstaltungen`.`name` as LVA, dozabk,`dozenten`.`lastname` as dozname, LVAabk, semSG, date , time, WEEKDAY(`date`) as WD, DAYOFYEAR(`date`) as DOY, DAYNAME(`date`) as DN, HOUR(`time`) as H, anzstudi1 , anzstudi2, bemerkung, raum,  save, studr, checked   FROM `vl_verzeichnis`,`dozenten`,  `lehrveranstaltungen` WHERE `lehrveranstaltungen`.`abk` = `vl_verzeichnis`.`LVAabk` AND `dozenten`.`abk` =  `vl_verzeichnis`.`dozabk` " . $whereclausel ." ORDER BY date ASC, H ASC, dozname DESC ";
+{
+  $extKlausurplan = null;
 
+  if ( $ID != 0 )  { $whereclausel = 'AND `ID` = $ID';   }
+  else             { $whereclausel = ' 1 = 1 ';          }
+  
+  #$LVAListe[]['']
+  $sql_1 = "SELECT *, WEEKDAY(`date`) as WD, DAYOFYEAR(`date`) as DOY, DAYNAME(`date`) as DN, HOUR(`time`) as H FROM `vl_verzeichnis`  WHERE ". $whereclausel ." ORDER BY date ASC, H ASC, dozabk DESC ";
+ 
+  /*
+  $sql_1 = "SELECT `vl_verzeichnis`.ID as ID,
+       `lehrveranstaltungen`.`name` as LVA,
+       dozabk,
+       `dozenten`.`lastname` as dozname,
+       LVAabk,
+       semSG,
+       date ,
+       time,
+       WEEKDAY(`date`) as WD,
+       DAYOFYEAR(`date`) as DOY,
+       DAYNAME(`date`) as DN,
+       HOUR(`time`) as H,
+       anzstudi1 ,
+       anzstudi2,
+       bemerkung,
+       raum,
+       save,
+       studr,
+       checked
+    FROM `vl_verzeichnis`,`dozenten`,  `lehrveranstaltungen` WHERE `lehrveranstaltungen`.`abk` = `vl_verzeichnis`.`LVAabk` AND `dozenten`.`abk` =  `vl_verzeichnis`.`dozabk` " . $whereclausel ." ORDER BY date ASC, H ASC, dozname DESC ";
+ 
+  */
+  # deb($sql_1,1);
+  
   $result_1 =  mysqli_query (  $this -> conn, $sql_1  );
   
   if ( $result_1 )
@@ -286,8 +353,30 @@ function getExtKlausurplan( $ID )
       
       $extKlausurplan[ $row[ 'date' ] ][ $row[ 'H' ] ][ $row[ 'ID' ] ] = $row;
     }
-  }
-  return $extKlausurplan;
+  } #deb($extKlausurplan,1);
+  
+  /*
+  $sql_1 = "SELECT `vl_verzeichnis`.ID as ID, `lehrveranstaltungen`.`name` as LVA, dozabk,`dozenten`.`lastname` as dozname, LVAabk, semSG, date , time, WEEKDAY(`date`) as WD, DAYOFYEAR(`date`) as DOY, DAYNAME(`date`) as DN, HOUR(`time`) as H, anzstudi1 , anzstudi2, bemerkung, raum,  save, studr, checked   FROM `vl_verzeichnis`,`dozenten`,  `lehrveranstaltungen` WHERE `lehrveranstaltungen`.`abk` = `vl_verzeichnis`.`LVAabk` AND `dozenten`.`abk` =  `vl_verzeichnis`.`dozabk` " . $whereclausel ." ORDER BY date ASC, H ASC, dozname DESC ";
+  
+  deb($sql_1,1);
+  
+  $result_1 =  mysqli_query (  $this -> conn, $sql_1  );
+  
+  if ( $result_1 )
+  {
+    while ( $row = mysqli_fetch_array( $result_1, MYSQLI_ASSOC ) )
+    {
+      if ($row[ 'DOY' ] == '' ) { $row[ 'DOY' ] = '0' ;}
+      if ($row[ 'H'   ] == '' ) { $row[ 'H'   ] = '0' ;}
+      if ($row[ 'H'   ] <= 12 ) { $row[ 'H'   ] = '1' ;}
+      else                      { $row[ 'H'   ] = '2' ;}
+      
+      $extKlausurplan[ $row[ 'date' ] ][ $row[ 'H' ] ][ $row[ 'ID' ] ] = $row;
+    }
+  }#deb($extKlausurplan,1);
+  
+*/
+return $extKlausurplan;
 }
 
 function getVorlesung( $ID = 0 )

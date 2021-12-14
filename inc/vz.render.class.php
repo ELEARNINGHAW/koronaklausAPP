@@ -11,9 +11,9 @@ class Render
     $tabXX = null;
     $tmp1  = $tmp2 =  $tmpA = '';
     $ro    = '';
-    $i = 0;
+    $i     = 0;
     
-    $phase = $_SESSION['phase'];
+    $phase = $_SESSION[ 'phase' ];
     
     $headline = " Klausurenübersicht";
    
@@ -140,7 +140,7 @@ class Render
   }
   
 
-  function renderExtKlausurListe( $vorlesungsliste ,    $db, $changeable = false )
+  function renderExtKlausurListe( $vorlesungsliste , $I, $db, $changeable = false )
   { $i = 0;
     $tab   = null;
     $tabX  = null;
@@ -222,9 +222,13 @@ class Render
           if ($changeable) { $tabH .= "<td  class=\"b1_7  header\">SOLL                                   </td>\r\n "; }
           $tabH .= "</tr>\r\n \r\n";
           $tab .= $tabH;
+          
           foreach ( $vor as $kl )
           { if ( $kl[ 'WD'   ] == null ) { $t[ $kl[ 'ID' ]][ 'WD'   ] = 7;     }  # uninitialisierte Wochentag wird auf 7 gesetzt
             if ( $kl[ 'date' ] == null ) { $t[ $kl[ 'ID' ]][ 'date' ] = 0;     }  # uninitialisierte Wochentag wird auf 7 gesetzt
+  
+            $kl[ 'dozname' ]  = $I[ 'alldozenten' ][ trim($kl[ 'dozabk' ]) ] [ 'lastname' ];
+            $kl[ 'LVA'     ]  = $I[ 'allLVA' ][ trim($kl[ 'LVAabk' ]) ] [ 'name' ];
             
             $KL .= "\"".$kl[ 'ID'   ]."\",";
             
@@ -256,27 +260,27 @@ class Render
 <div style=\"position:fixed ; top:0px; right:5px;\">
 <table width=\"295\" cellpadding=\"2\" cellspacing=\"0\" class=\"roompicker\">
   <tr>
-    <td class='pickTD' width=\"34\"> EI </td>
-    <td class='pickTD' width=\"82\"> Raum </td>
-    <td class='pickTD' width=\"32\"> Pers </td>
-    <td class='pickTD' width=\"23\"> CL </td>
-    <td class='pickTD' width=\"27\"> LW </td>
-    <td class='pickTD' width=\"32\"> FL </td>
-    <td class='pickTD' width=\"35\"> EI </td>
+    <td class='pickTD'> EI </td>
+    <td class='pickTD'> Raum </td>
+    <td class='pickTD'> Pers </td>
+    <td class='pickTD'> CL </td>
+    <td class='pickTD'> LW </td>
+    <td class='pickTD'> FL </td>
+    <td class='pickTD'> EI </td>
   </tr>
   <tr>
     <td class='pickTD' rowspan=\"13\"> UL </td>
-    <td class='pickTD' class='pickTD'> S4.07 </td>
+    <td class='pickTD'> S4.07 </td>
     <td class='pickTD' id=\"S407\"  > 100 </td>
     <td class='pickTD' id=\"C08\"> 100 </td>
-    <td class='pickTD' id=\"grun1\"   rowspan=\"5\"> 454 </td>
+    <td class='pickTD' id=\"grun1\" rowspan=\"5\"> 454 </td>
     <td class='pickTD' id=\"ULS\" rowspan=\"6\"> 558  </td>
-    <td class='pickTD' id=\"UL\" rowspan=\"13\"> 1347 </td>
+    <td class='pickTD' id=\"UL\"  rowspan=\"13\"> 1347 </td>
   </tr>
   <tr>
     <td class='pickTD' height=\"20\"> S4.05-06 </td>
-    <td class='pickTD' id=\"S40506\" class=\"grey1\"> 100 </td>
-    <td class='pickTD' id=\"C07\" class=\"grey1\" > 100 </td>
+    <td class='pickTD grey1' id=\"S40506\"> 100 </td>
+    <td class='pickTD grey1' id=\"C07\" > 100 </td>
   </tr>
   <tr>
     <td class='pickTD'> S3.08 </td>
@@ -295,9 +299,9 @@ class Render
   </tr>
   <tr>
     <td class='pickTD' height=\"25\"> S4.04 </td>
-    <td class='pickTD' id=\"S404\"   class=\"grey1\"> 104 </td>
-    <td class='pickTD' id=\"C05\" class=\"grey1\"> 104 </td>
-    <td class='pickTD' id=\"lila\"    > 104 </td>
+    <td class='pickTD grey1' id=\"S404\" > 104 </td>
+    <td class='pickTD grey1' id=\"C05\"  > 104 </td>
+    <td class='pickTD' id=\"lila\"   > 104 </td>
   </tr>
   <tr>
     <td class='pickTD'> N4.10-11 </td>
@@ -325,26 +329,26 @@ class Render
 -->
   <tr>
     <td class='pickTD' class='bg1'>N2.24</td>
-    <td class='pickTD' id=\"N224\"   class=\"grey0\"> 142 </td>
-    <td class='pickTD' id=\"C22\" class=\"grey0\"> 142 </td>
+    <td class='pickTD grey0' id=\"N224\"> 142 </td>
+    <td class='pickTD grey0' id=\"C22\"> 142 </td>
   </tr>
 
   <tr>
     <td class='pickTD' class='bg1'>N2.30 </td>
-    <td class='pickTD' id=\"N230\" class=\"grey1\"> 56 </td>
-    <td class='pickTD' id=\"C23\" class=\"grey1\"> 56 </td>
+    <td class='pickTD grey1' id=\"N230\"> 56 </td>
+    <td class='pickTD grey1' id=\"C23\" > 56 </td>
   </tr>
 
   <tr>
     <td class='pickTD' class='bg1'>N2.05 </td>
-    <td class='pickTD' id=\"N205\"   class=\"grey0\"> 56 </td>
-    <td class='pickTD' id=\"C24\" class=\"grey0\"> 56 </td>
+    <td class='pickTD grey0' id=\"N205\"> 56 </td>
+    <td class='pickTD grey0' id=\"C24\" > 56 </td>
   </tr>
 
   <tr>
     <td class='pickTD'> 0.43 </td>
-    <td class='pickTD' id=\"043\" class=\"grey1\" > 261 </td>
-    <td class='pickTD' id=\"C25\" class=\"grey1\"> 261  </td>
+    <td class='pickTD grey1' id=\"043\" > 261 </td>
+    <td class='pickTD grey1' id=\"C25\" > 261  </td>
     <td class='pickTD' id=\"ohne\" > 261 </td>
   </tr>
 
@@ -359,21 +363,21 @@ class Render
   <tr>
     <td class='pickTD' rowspan=\"13\"> HO </td>
     <td class='pickTD'> S4.02 </td>
-    <td class='pickTD' id=\"S402\"   class=\"grey1\">50 </td>
-    <td class='pickTD' id=\"C02\" class=\"grey1\" rowspan=\"2\"> 150 </td>
-    <td class='pickTD' id=\"grun2\"   rowspan=\"4\"> 300 </td>
-    <td class='pickTD' id=\"HOS\" rowspan=\"9\"> 600 </td>
-    <td class='pickTD' id=\"HO\" rowspan=\"13\"> 1027</td>
+    <td class='pickTD grey1' id=\"S402\" >50 </td>
+    <td class='pickTD grey1' id=\"C02\"  rowspan=\"2\"> 150 </td>
+    <td class='pickTD' id=\"grun2\"  rowspan=\"4\"> 300 </td>
+    <td class='pickTD' id=\"HOS\"    rowspan=\"9\"> 600 </td>
+    <td class='pickTD' id=\"HO\"     rowspan=\"13\"> 1027</td>
   </tr>
   <tr>
     <td class='pickTD'> S4.01 </td>
-    <td class='pickTD' id=\"S401\"   class=\"grey1\"> 100 </td>
+    <td class='pickTD grey1' id=\"S401\"> 100 </td>
   </tr>
 
   <tr>
     <td class='pickTD'> S3.02 </td>
     <td class='pickTD' id=\"S302\"  > 50 </td>
-    <td class='pickTD' id=\"C01\"               rowspan=\"2\"> 150 </td>
+    <td class='pickTD' id=\"C01\"   rowspan=\"2\"> 150 </td>
   </tr>
 
   <tr>
@@ -383,14 +387,14 @@ class Render
 
   <tr>
     <td class='pickTD'> S4.03 </td>
-    <td class='pickTD' id=\"S403\"   class=\"grey1\"> 50 </td>
-    <td class='pickTD' id=\"C04\" class=\"grey1\" rowspan=\"2\"> 100 </td>
+    <td class='pickTD grey1' id=\"S403\" > 50 </td>
+    <td class='pickTD grey1' id=\"C04\"  rowspan=\"2\"> 100 </td>
     <td class='pickTD' id=\"orange\"  rowspan=\"5\"> 300 </td>
   </tr>
 
   <tr>
     <td class='pickTD'> S3.03 </td>
-    <td class='pickTD' id=\"S303\"   class=\"grey1\"> 50 </td>
+    <td class='pickTD grey1' id=\"S303\" > 50 </td>
   </tr>
 
   <tr>
@@ -408,28 +412,28 @@ class Render
     <td class='pickTD' id=\"107ab\" > 100 </td>
   </tr>
   <tr>
-    <td class='pickTD' class='bg3'>(MP) 1.25 </td>
-    <td class='pickTD' id=\"125\"    class=\"grey1\"> 50 </td>
-    <td class='pickTD' id=\"C13\" class=\"grey1\"> 50 </td>
-    <td class='pickTD' id=\"rot2\"     > 50 </td>
+    <td class='pickTD bg3' >(MP) 1.25 </td>
+    <td class='pickTD grey1' id=\"125\" > 50 </td>
+    <td class='pickTD grey1' id=\"C13\" > 50 </td>
+    <td class='pickTD' id=\"rot2\"      > 50 </td>
     <td class='pickTD' id=\"HON\" rowspan=\"4\"> 427 </td>
   </tr>
   <tr>
     <td class='pickTD'> N4.09 </td>
-    <td class='pickTD' id=\"N409\"  > 50 </td>
+    <td class='pickTD' id=\"N409\" > 50 </td>
     <td class='pickTD' id=\"C11\"> 50 </td>
     <td class='pickTD' id=\"schwarz\" rowspan=\"3\"> 377 </td>
   </tr>
   <tr>
     <td class='pickTD'> Foyer Ost </td>
-    <td class='pickTD' id=\"FoyO\"   class=\"grey1\"> 28 </td>
-    <td class='pickTD' id=\"C14\" class=\"grey1\"> 28 </td>
+    <td class='pickTD grey1' id=\"FoyO\"  > 28 </td>
+    <td class='pickTD grey1' id=\"C14\"  > 28 </td>
   </tr>
   
    <tr>
     <td class='pickTD'> 0.45 </td>
-    <td class='pickTD' id=\"045\"   class=\"grey1\"> 299 </td>
-    <td class='pickTD' id=\"C19\" class=\"grey1\"> 299 </td>
+    <td class='pickTD grey1' id=\"045\" > 299 </td>
+    <td class='pickTD grey1' id=\"C19\" > 299 </td>
   </tr>
   
   <tr>
@@ -447,46 +451,121 @@ class Render
   </tr>
   <tr>
     <td class='pickTD'> N5.17 </td>
-    <td class='pickTD' id=\"N517\"   class=\"grey1\"> 100 </td>
-    <td class='pickTD' id=\"C09\" class=\"grey1\" rowspan=\"2\"> 150 </td>
-    <td class='pickTD' id=\"pink\"    rowspan=\"6\"> 214 </td>
+    <td class='pickTD grey1' id=\"N517\" > 100 </td>
+    <td class='pickTD grey1' id=\"C09\"  rowspan=\"2\"> 150 </td>
+    <td class='pickTD' id=\"pink\"       rowspan=\"6\"> 214 </td>
   </tr>
   <tr>
     <td class='pickTD'> N4.06 </td>
-    <td class='pickTD' id=\"N406\"   class=\"grey1\"> 50 </td>
+    <td class='pickTD grey1' id=\"N406\"   > 50 </td>
   </tr>
   <tr>
-    <td class='pickTD' class='bg3'>(RZ) N3.10 </td>
+    <td class='pickTD bg3' >(RZ) N3.10 </td>
     <td class='pickTD' id=\"N310\"  > 16 </td>
     <td class='pickTD' id=\"C17\"               rowspan=\"4\"> 64 </td>
   </tr>
   <tr>
-    <td class='pickTD' class='bg3'>(RZ) N2.19 </td>
+    <td class='pickTD bg3' >(RZ) N2.19 </td>
     <td class='pickTD' id=\"N219\"  > 16 </td>
   </tr>
   <tr>
-    <td class='pickTD' class='bg3'>(RZ) N2.18 </td>
+    <td class='pickTD bg3'  >(RZ) N2.18 </td>
     <td class='pickTD' id=\"N218\"  > 16 </td>
   </tr>
   <tr>
-    <td class='pickTD' class='bg3'>(RZ) N2.15 </td>
+    <td class='pickTD bg3'  >(RZ) N2.15 </td>
     <td class='pickTD' id=\"N215\"  > 16 </td>
   </tr>
   <tr>
     <td class='pickTD' >Foyer W</td>
-    <td class='pickTD' id=\"FoyW\"   class=\"grey1\"> 73 </td>
-    <td class='pickTD' id=\"C15\" class=\"grey1\"> 73 </td>
+    <td class='pickTD grey1' id=\"FoyW\" > 73 </td>
+    <td class='pickTD grey1' id=\"C15\" > 73 </td>
     <td class='pickTD' id=\"grau\"    > 73</td>
   </tr>
 </table>
 </div>
 ";
 
+$js = 'let  statusBox  = document.getElementById("statusBox" );
+let  statusText = document.getElementById("statusText");
+$("#bemerkung89").on("change",function() { updateAnote( 89, this.value )   } );'. "\r\n";
+
+
+$REH = '';
+$raum ="let R = new Array();\r\n";
+foreach( $_SESSION[ 'liste' ][ 'raum' ] as $r)
+{ $raum .=
+  "R[ \"" .$r[ 'shortname' ]. "\"  ] = new Object();\r\n".
+  "R[ \"" .$r[ 'shortname' ] ."\"  ][ 'ID'    ] = \""     .$r[ 'roomID'   ]. "\";\r\n"   .
+  "R[ \"" .$r[ 'shortname' ] ."\"  ][ 'name'  ] = \""     .$r[ 'name'     ]. "\";\r\n"   .
+  "R[ \"" .$r[ 'shortname' ] ."\"  ][ 'pers'  ] = "       .$r[ 'maxpers'  ]. ";\r\n"     .
+  "R[ \"" .$r[ 'shortname' ] ."\"  ][ 'jq'    ] = $( \"#" .$r[ 'shortname']. "\" );\r\n" .
+  "R[ \"" .$r[ 'shortname' ] ."\"  ][ 'state' ] = 0;\r\n\r\n";
+  $REH .= "$( \"#". $r['shortname'] . "\" ).on( \"click\", function( event ) {  updIt0(\"".$r['shortname']."\"  ,null, true, 1); });\r\n";
+}
+
+$CEH = '';
+$cluster = "let C = new Array();\r\n";
+foreach( $_SESSION[ 'liste' ][ 'cluster' ] as $c)
+{ $c[ 'r' ] = str_replace( ',', '","', $c[ 'raum' ] );
+  $cluster .=
+  "C[ \"" .$c[ 'name' ]. "\"  ] = new Object();\r\n".
+  "C[ \"" .$c[ 'name' ] ."\"  ][ 'ID'    ] = \""            .$c[ 'clusterID' ]. "\";\r\n"   .
+  "C[ \"" .$c[ 'name' ] ."\"  ][ 'name'  ] = \""            .$c[ 'name'      ]. "\";\r\n"   .
+  "C[ \"" .$c[ 'name' ] ."\"  ][ 'R'     ] = new Array( \"" .$c[ 'r'         ]. "\" );\r\n" .
+  "C[ \"" .$c[ 'name' ] ."\"  ][ 'jq'    ] = $( \"#"        .$c[ 'name'      ]. "\" );\r\n" .
+  "C[ \"" .$c[ 'name' ] ."\"  ][ 'state' ] = 0;\r\n\r\n";
+  $CEH .= "$( \"#". $c['name'] . "\" ).on( \"click\", function( event ) {  updIt1(\"".$c['name']."\"  ,null, true, 1,1); });\r\n";
+}
+
+$LEH  = '';
+$laufweg = "let L = new Array();\r\n";
+foreach( $_SESSION[ 'liste' ][ 'laufweg' ] as $l )
+{ $l[ 'c' ] = str_replace( ',', '","', $l[ 'cluster' ] );
+  $laufweg .=
+    "L[ \"" .$l['name']. "\"  ] = new Object();\r\n".
+    "L[ \"" .$l['name'] ."\"  ][ 'ID'    ] = \""            .$l[ 'laufwegID' ]. "\";\r\n"   .
+    "L[ \"" .$l['name'] ."\"  ][ 'name'  ] = \""            .$l[ 'name'      ]. "\";\r\n"   .
+    "L[ \"" .$l['name'] ."\"  ][ 'C'     ] = new Array( \"" .$l[ 'c'         ]."\" ) ;\r\n"     .
+    "L[ \"" .$l['name'] ."\"  ][ 'jq'    ] = $( \"#"        .$l[ 'name'      ]. "\" );\r\n" .
+    "L[ \"" .$l['name'] ."\"  ][ 'state' ] = 0;\r\n\r\n";
+    $LEH .= "$( \"#". $l['name'] . "\" ).on( \"click\", function( event ) {  updIt2(\"".$l['name']."\"  ,null, true, 1,1); });\r\n";
+}
+$FEH = '';
+$fluegel = "let F = new Array();\r\n";
+foreach( $_SESSION[ 'liste' ][ 'fluegel' ] as $f )
+{ $f[ 'l' ] = str_replace( ',', '","', $f[ 'laufweg' ] );
+  $fluegel .=
+    "F[ \"" .$f['name']. "\"  ] = new Object();\r\n".
+    "F[ \"" .$f['name'] ."\"  ][ 'ID'    ] = \""            .$f[ 'fluegelID'  ]. "\";\r\n"    .
+    "F[ \"" .$f['name'] ."\"  ][ 'name'  ] = \""            .$f[ 'name'       ]. "\";\r\n"    .
+    "F[ \"" .$f['name'] ."\"  ][ 'L'     ] = new Array( \"" .$f[ 'l'          ]. "\" );\r\n"  .
+    "F[ \"" .$f['name'] ."\"  ][ 'jq'    ] = $( \"#"        .$f[ 'name'       ]. "\" );\r\n"  .
+    "F[ \"" .$f['name'] ."\"  ][ 'state' ] = 0;\r\n\r\n";
+    $FEH .= "$( \"#". $f['name'] . "\" ).on( \"click\", function( event ) {  updIt3(\"".$f['name']."\"  ,null, true, 1,1); });\r\n";
+}
+
+$EEH = '';
+$eingang = "let E = new Array();\r\n";
+foreach( $_SESSION[ 'liste' ][ 'eingang' ] as $e )
+{ $e[ 'f' ] = str_replace( ',', '","', $e[ 'fluegel' ] );
+  $eingang .=
+    "E[ \"" .$e['name']. "\"  ] = new Object();\r\n".
+    "E[ \"" .$e['name'] ."\"  ][ 'ID'    ] = \""            .$e[ 'eingangID'  ]. "\";\r\n"    .
+    "E[ \"" .$e['name'] ."\"  ][ 'name'  ] = \""            .$e[ 'name'       ]. "\";\r\n"    .
+    "E[ \"" .$e['name'] ."\"  ][ 'F'     ] = new Array( \"" .$e[ 'f'          ]. "\" );\r\n"  .
+    "E[ \"" .$e['name'] ."\"  ][ 'jq'    ] = $( \"#"        .$e[ 'name'       ]. "\" );\r\n"  .
+    "E[ \"" .$e['name'] ."\"  ][ 'state' ] = 0;\r\n\r\n";
+    $EEH .= "$( \"#". $e['name'] . "\" ).on( \"click\", function( event ) {  updIt4(\"".$e['name']."\"  ,null, true, 1,1); });\r\n";
+}
+
+
 # $tab = "<script>" .$JSTS.     "];</script>".$tab;
 # $tab = "<script>" .$KL.       "];</script>".$tab;
 $tab = "<script>" .$slotlist. "; </script>".$tab;
-
-$tab .= '<script	src="lib/korokonst.js" type="text/javascript"></script>';
+$tab .= "<script>" .$js .$raum . $cluster . $laufweg . $fluegel . $eingang. "</script>";
+$tab .= "<script>" .$REH . $CEH . $LEH . $FEH . $EEH. "</script>";
+#$tab .= '<script	src="lib/korokonst.js" type="text/javascript"></script>';
 $tab .= '<script	src="lib/koroklaus.js" type="text/javascript"></script>';
 $tab .="<script>" .$JSisObserver. ";</script>";
 $tab .="<script>

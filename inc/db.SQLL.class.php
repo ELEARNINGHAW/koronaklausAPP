@@ -119,8 +119,7 @@ class SQLL_DB
         $URL .= "&collection_id=" . base64_encode($LR['cshortname']);
         $URL .= "&mode=" . sha1(base64_encode($LR['cshortname']) . $this->salt);
 
-        #deb($URL);
-        #deb($SESS);
+ 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $URL);
         curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -140,11 +139,7 @@ WHERE  cshortname  = 	\"" . $LR[ 'cshortname' ] . "\" " ;
 
      $logEntry = " -update status- , " . $US[ 'ufirstname' ] . " " . $US[ 'ulastname' ] . " , " . date( "d.m.Y" ) . " , " . date( "H:i:s" ) . " , " . $this->status[ $LR [ 'state' ] ][ 'msg' ] . " , " . $LR[ 'cshortname' ] . "\r\n" ;
       fwrite( $this->log , $logEntry ) ;
-      
-
-     # deb($SQL);
-#      die ( $LR [ 'state' ]);
-
+ 
       return $this->db->exec( $SQL ) ;
   }
 
@@ -188,9 +183,9 @@ WHERE  cshortname  = 	\"" . $LR[ 'cshortname' ] . "\" " ;
 		SELECT uusername FROM LR_Anfrage 
 		WHERE uusername =='" . $US[ 'uusername' ] . "'" ;
 
-    $result = $this->db->query( $SQL ) ;
+    $result = $this -> db -> query( $SQL ) ;
 
-    while ( $LRoq = $result->fetchArray() )          // Daten zeilenweise in Array speichern  
+    while ( $LRoq = $result -> fetchArray() )          // Daten zeilenweise in Array speichern
     {
       $r[] = $LRoq ;
     }
