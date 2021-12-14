@@ -41,7 +41,9 @@ if (($_SESSION[ 'user' ][ 'ro' ] ) >= 2 )
   $can_edit               = $bl -> isChangeable();              # Bei Nutzer, die Umbuchungen vornehmen dürfen.
 
   if ( $go == 2 )
-  { $extVorlesungsliste = $db -> getExtKlausurplan(0 );
+  {
+    $db ->getRooms();
+    $extVorlesungsliste = $db -> getExtKlausurplan(0 );
   
     $html .= $render -> renderExtKlausurListe( $extVorlesungsliste , $I, $db,  $can_edit );
   }
